@@ -13,13 +13,15 @@ import { ErrorState } from "../../components/errorState/errorState";
  */
 export function SavedPage() {
   const { savedItemIds } = useContext(SavedPageContext);
-  if (!savedItemIds.length) {
-    <ErrorState message="You have no saved Gifs"></ErrorState>;
+  if (!savedItemIds) {
+    return <ErrorState message="You have no saved Gifs"></ErrorState>;
   }
 
   const { data, loading, error } = useSavedGifs({ gifIds: savedItemIds });
   if (!!error) {
-    <ErrorState message="Oops Something went wrong, please try again later"></ErrorState>;
+    return (
+      <ErrorState message="Oops Something went wrong, please try again later"></ErrorState>
+    );
   }
 
   return <GifGrid gifData={data.data} loading={loading}></GifGrid>;

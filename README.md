@@ -4,9 +4,12 @@
 
 ## Instructions
 
-1. Check out the 'GiphyBrowser' repo
-2. Run `>>> npm i`
-3. Run `>>> npm run dev`
+1. Have NodeJs 20.17 installed
+2. Check out the 'GiphyBrowser' repo
+3. run `>>> cd GiphyBrowser`
+4. Run `>>> npm i`
+5. Run `>>> npm run dev`
+6. Access the App at `http://localhost:5173`
 
 For unit tests
 
