@@ -66,13 +66,13 @@ function App() {
   );
 
   return (
-    <TrendingPaginationContext.Provider
-      value={{ trendingPagination, setTrendingPagination }}
-    >
-      <TrendingItemsContext.Provider
-        value={{ trendingItems, setTrendingItems }}
+    <SearchContext.Provider value={{ searchTerm, setSearchTerm }}>
+      <TrendingPaginationContext.Provider
+        value={{ trendingPagination, setTrendingPagination }}
       >
-        <SearchContext.Provider value={{ searchTerm, setSearchTerm }}>
+        <TrendingItemsContext.Provider
+          value={{ trendingItems, setTrendingItems }}
+        >
           <SearchItemsContext.Provider value={{ searchItems, setSearchItems }}>
             <SearchPaginationContext.Provider
               value={{ searchPagination, setSearchPagination }}
@@ -96,9 +96,9 @@ function App() {
               </SavedPageContext.Provider>
             </SearchPaginationContext.Provider>
           </SearchItemsContext.Provider>
-        </SearchContext.Provider>
-      </TrendingItemsContext.Provider>
-    </TrendingPaginationContext.Provider>
+        </TrendingItemsContext.Provider>
+      </TrendingPaginationContext.Provider>
+    </SearchContext.Provider>
   );
 }
 

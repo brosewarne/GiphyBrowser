@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Box, InputAdornment, TextField } from "@mui/material";
@@ -12,9 +12,12 @@ import { Search } from "@mui/icons-material";
  *  is redirected to the search page where they can see their results
  */
 export function SearchBar() {
-  const [textFieldContent, setTextFieldContent] = useState("");
+  const { searchTerm, setSearchTerm } = useContext(SearchContext);
+  const [textFieldContent, setTextFieldContent] = useState(searchTerm);
+  useEffect(() => {
+    setTextFieldContent(searchTerm);
+  }, [searchTerm]);
 
-  const { setSearchTerm } = useContext(SearchContext);
   const navigate = useNavigate();
 
   return (

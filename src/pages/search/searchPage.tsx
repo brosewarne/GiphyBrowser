@@ -1,5 +1,5 @@
 import React from "react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   TextField,
   FormControl,
@@ -33,6 +33,10 @@ export function SearchPage() {
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
 
   const [textFieldContent, setTextFieldContent] = useState(searchTerm);
+  useEffect(() => {
+    setTextFieldContent(searchTerm);
+  }, [searchTerm]);
+
   const { searchPagination, setSearchPagination } = useContext(
     SearchPaginationContext,
   );
@@ -62,7 +66,7 @@ export function SearchPage() {
     );
   }
 
-  if (!searchItems.length && !!searchTerm) {
+  if (!searchItems.length && !!searchTerm && !loading) {
     return <ErrorState message="No Results"></ErrorState>;
   }
 
