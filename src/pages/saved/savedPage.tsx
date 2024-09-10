@@ -21,6 +21,6 @@ export function SavedPage() {
   if (!!error) {
     <ErrorState message="Oops Something went wrong, please try again later"></ErrorState>;
   }
-  
+
   return <GifGrid gifData={data.data} loading={loading}></GifGrid>;
 }

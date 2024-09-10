@@ -18,7 +18,7 @@ export function GifGrid({
   gifData: GiphyGif[];
   loading: boolean;
 }) {
-  const rows = gifData.map((gif) => {
+  const rows = gifData.map((gif: GiphyGif) => {
     return (
       <Grid size={4} columnGap={2} key={`gifGrid_${gif.id}`}>
         <GifTile gifData={gif} key={gif.id}></GifTile>

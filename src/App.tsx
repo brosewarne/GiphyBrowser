@@ -10,20 +10,48 @@ import { SavedPage } from "./pages/saved";
 import "./App.css";
 
 import CssBaseline from "@mui/material/CssBaseline";
+import { GiphyGif, GiphyPagination } from "./models";
 
-export const TrendingItemsContext = createContext<any>(null);
-export const TrendingPaginationContext = createContext<any>(null);
-export const SearchContext = createContext<any>(null);
-export const SearchItemsContext = createContext<any>(null);
-export const SearchPaginationContext = createContext<any>(null);
-export const SavedPageContext = createContext<any>(null);
+export const TrendingItemsContext = createContext<{
+  trendingItems: GiphyGif[];
+  setTrendingItems: React.Dispatch<React.SetStateAction<any>>;
+} | null>(null);
+
+export const TrendingPaginationContext = createContext<{
+  trendingPagination: GiphyPagination;
+  setTrendingPagination: React.Dispatch<React.SetStateAction<any>>;
+} | null>(null);
+
+export const SearchContext = createContext<{
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<any>>;
+} | null>(null);
+
+export const SearchItemsContext = createContext<{
+  searchItems: GiphyGif[];
+  setSearchItems: React.Dispatch<React.SetStateAction<any>>;
+} | null>(null);
+
+export const SearchPaginationContext = createContext<{
+  searchPagination: GiphyPagination;
+  setSearchPagination: React.Dispatch<React.SetStateAction<any>>;
+} | null>(null);
+
+export const SavedPageContext = createContext<{
+  savedItemIds: string;
+  setSavedItemIds: React.Dispatch<React.SetStateAction<any>>;
+} | null>(null);
 
 function App() {
-  const [trendingPagination, setTrendingPagination] = useState({});
+  const [trendingPagination, setTrendingPagination] = useState(
+    {} as GiphyPagination,
+  );
   const [trendingItems, setTrendingItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchItems, setSearchItems] = useState([]);
-  const [searchPagination, setSearchPagination] = useState({});
+  const [searchPagination, setSearchPagination] = useState(
+    {} as GiphyPagination,
+  );
   const [savedItemIds, setSavedItemIds] = useState(
     localStorage.getItem("savedItemIds") ?? "",
   );

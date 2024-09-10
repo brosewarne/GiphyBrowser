@@ -12,11 +12,11 @@ import { ErrorState } from "../../components/errorState/errorState";
 
 /**
  * The Trending Gifs page. Shows the current trending gifs in a Gif Grid
- *  
+ *
  * If there is an error getting the gifs, a simple error state is displayed
- * 
+ *
  * If there are no results for a search term, then a simple empty state is displayed
- * 
+ *
  * There is basic pagination using a 'Show More' button.
  */
 export function TrendingPage() {
@@ -41,7 +41,6 @@ export function TrendingPage() {
     rating: "g",
   });
 
-  console.log("ERROR", error);
   if (!!error) {
     return (
       <ErrorState message="Oops Something went wrong, please try again later"></ErrorState>
