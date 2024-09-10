@@ -5,7 +5,8 @@ import { GiphyGif } from "../../models";
 import { SaveButton } from "../saveButton";
 
 /**
- *  Simple presentational component for showing a loaded Gif in a Card with the title, Gif image and a Save button
+ *  Simple presentational component for showing a loaded Gif in a Card with the title, 
+ *  Gif image and a Save button
  */
 export function GifTile({ gifData }: { gifData: GiphyGif }) {
   const gifUrl =

@@ -40,14 +40,17 @@ describe("GifTile", () => {
     beforeEach(() => {
       render(<GifTile gifData={mockGifData} />, { wrapper: Wrapper });
     });
+
     it("should render the title", () => {
       const title = screen.getByTestId("gif-tile-title");
       expect(title.textContent).toEqual("SomeGif");
     });
+
     it("should render the gif", () => {
       const img = screen.getByRole("img");
       expect(img.getAttribute("src")).toEqual("http://abc.height.com");
     });
+    
     it("should render the save button", () => {
       const saveButton = screen.getByTestId("save-button");
       expect(saveButton).toBeTruthy();

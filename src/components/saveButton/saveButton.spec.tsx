@@ -35,6 +35,7 @@ describe("SaveButton", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
+
   describe("renders the SaveButton component", () => {
     it("should render the SaveButton", () => {
       render(<SaveButton gifId="1234" />, { wrapper: getWrapper("") });
@@ -42,6 +43,7 @@ describe("SaveButton", () => {
       expect(button).toBeTruthy();
     });
   });
+  
   describe("when the SaveButton isClicked", () => {
     describe("when the input gifId is not already saved", () => {
       it("should save the gifId and show the SnackBar", () => {
