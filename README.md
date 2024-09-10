@@ -88,6 +88,8 @@ Working with React in strict was a bit different at first, but it didn't cause a
 
 - The Saved Page is very basic and requests all of the saved gifs when one is removed, when this could be handled with the state setup. The loading state is also shown unnecessarily when removing a saved gif. The hook for requesting the saved gifs is also probably unnecessary.
 
+- There's a flash when navigating back to the Trending Page due to the same gifs being fetched again / pagination resetting. With more time I could have cleaned this up.
+
 - I added tests for the purely presentational components even though this might not be strictly necessary. It was a bit of a learning exercise with trying to learn the current React testing philosophy.
 
 - Given more time, I would have extracted the various mocks and wrappers used in the unit tests to a `testUtils` folder to avoid duplication.
