@@ -83,6 +83,14 @@ I found this a really fun and engaging code challenge. The requirements are real
 
 ## Screenshots
 
-![TrendingPage](https://raw.githubusercontent.com/brosewarne/GiphyBrowser/master/screenshots/trendingPage.png)
-![SearchPage](https://raw.githubusercontent.com/brosewarne/GiphyBrowser/master/screenshots/searchPage.png)
-![SavedPage](https://raw.githubusercontent.com/brosewarne/GiphyBrowser/master/screenshots/savedPage.png)
+#### Trending Page
+
+![TrendingPage](https://raw.githubusercontent.com/brosewarne/GiphyBrowser/master/screenshots/trending-page.png)
+
+#### Search Page
+
+![SearchPage](https://raw.githubusercontent.com/brosewarne/GiphyBrowser/master/screenshots/search-page.png)
+
+#### Saved Page
+
+![SavedPage](https://raw.githubusercontent.com/brosewarne/GiphyBrowser/master/screenshots/saved-page.png)
