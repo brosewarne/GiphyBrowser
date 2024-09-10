@@ -1,6 +1,11 @@
 import React from "react";
 import { useContext, useState } from "react";
-import { TextField, FormControl, InputAdornment } from "@mui/material";
+import {
+  TextField,
+  FormControl,
+  InputAdornment,
+  Typography,
+} from "@mui/material";
 import { Search } from "@mui/icons-material";
 
 import { GifGrid } from "../../components/gifGrid";
@@ -61,6 +66,7 @@ export function SearchPage() {
     return <ErrorState message="No Results"></ErrorState>;
   }
 
+  const { total_count: totalCount, count } = searchPagination;
   return (
     <>
       <form
@@ -96,8 +102,15 @@ export function SearchPage() {
         </FormControl>
       </form>
 
+      {!!searchItems.length && (
+        <Typography variant="h6" sx={{ paddingBottom: "1rem" }}>
+          Showing {count} out of {totalCount} total search results
+        </Typography>
+      )}
       <GifGrid gifData={searchItems} loading={loading}></GifGrid>
-      <ShowMoreButton getNextPage={getNextPage}></ShowMoreButton>
+      {totalCount > count && (
+        <ShowMoreButton getNextPage={getNextPage}></ShowMoreButton>
+      )}
     </>
   );
 }
