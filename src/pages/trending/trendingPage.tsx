@@ -36,7 +36,7 @@ export function TrendingPage() {
 
   const { loading, error } = useTrendingGifs({
     resetItems,
-    limit: trendingPagination?.limit || NUMBER_OF_ITEMS,
+    limit: NUMBER_OF_ITEMS,
     offset: trendingPagination?.offset || 0,
     rating: "g",
   });

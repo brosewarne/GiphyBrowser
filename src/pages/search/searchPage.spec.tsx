@@ -12,6 +12,7 @@ import {
 } from "../../App";
 import userEvent from "@testing-library/user-event";
 import { act } from "react";
+import { GiphyGif } from "../../models";
 
 vi.mock("../../hooks/useSearchGifs", async () => {
   const mod = await vi.importActual<typeof import("../../hooks/useSearchGifs")>(
@@ -37,20 +38,22 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <SearchItemsContext.Provider
       value={{
-        searchItems: [{ id: 1234 }, { id: 5678 }],
+        searchItems: [{ id: "1234" }, { id: "5678" }] as GiphyGif[],
         setSearchItems: mockSetSearchItems,
       }}
     >
       <SearchPaginationContext.Provider
         value={{
-          searchPagination: {},
+          searchPagination: { total_count: 0, count: 0, offset: 0 },
           setSearchPagination: mockSetSearchPagination,
         }}
       >
         <SearchContext.Provider
           value={{ searchTerm: "", setSearchTerm: mockSetSearchTerm }}
         >
-          <SavedPageContext.Provider value={{ savedItemIds: "1234,5678" }}>
+          <SavedPageContext.Provider
+            value={{ savedItemIds: "1234,5678", setSavedItemIds: () => {} }}
+          >
             {children}
           </SavedPageContext.Provider>
         </SearchContext.Provider>

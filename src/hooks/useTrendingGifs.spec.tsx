@@ -4,6 +4,7 @@ import { act } from "react";
 
 import { useTrendingGifs } from "./useTrendingGifs";
 import { TrendingItemsContext, TrendingPaginationContext } from "../App";
+import { GiphyGif } from "../models";
 
 vi.mock("./useNetwork", async () => {
   const mod =
@@ -12,7 +13,7 @@ vi.mock("./useNetwork", async () => {
     ...mod,
     useNetwork: () => ({
       data: {
-        data: [{ id: 1234 }, { id: 5678 }],
+        data: [{ id: "1234" }, { id: "5678" }],
         pagination: { total_count: 2, count: 2, offset: 0 },
       },
       loading: false,
@@ -23,7 +24,7 @@ vi.mock("./useNetwork", async () => {
 
 const mockSetTrendingItems = vi.fn();
 const mockSetTrendingPagination = vi.fn();
-const getWrapper = (trendingItems: { id: number }[]) => {
+const getWrapper = (trendingItems: GiphyGif[]) => {
   return ({ children }: { children: React.ReactNode }) => {
     return (
       <TrendingItemsContext.Provider
@@ -31,7 +32,7 @@ const getWrapper = (trendingItems: { id: number }[]) => {
       >
         <TrendingPaginationContext.Provider
           value={{
-            trendingPagination: {},
+            trendingPagination: { total_count: 0, count: 0, offset: 0 },
             setTrendingPagination: mockSetTrendingPagination,
           }}
         >
@@ -52,7 +53,7 @@ describe("useTrendingGifs", () => {
             limit: 9,
             offset: 0,
           },
-          wrapper: getWrapper([{ id: 1111 }, { id: 2222 }]),
+          wrapper: getWrapper([{ id: "1111" }, { id: "2222" }] as GiphyGif[]),
         }),
       );
       expect(result.current).toEqual({
@@ -60,8 +61,8 @@ describe("useTrendingGifs", () => {
         error: null,
       });
       expect(mockSetTrendingItems).toHaveBeenCalledWith([
-        { id: 1234 },
-        { id: 5678 },
+        { id: "1234" },
+        { id: "5678" },
       ]);
       expect(mockSetTrendingPagination).toHaveBeenCalledWith({
         total_count: 2,
@@ -80,7 +81,7 @@ describe("useTrendingGifs", () => {
             limit: 9,
             offset: 0,
           },
-          wrapper: getWrapper([{ id: 1111 }, { id: 2222 }]),
+          wrapper: getWrapper([{ id: "1111" }, { id: "2222" }] as GiphyGif[]),
         }),
       );
       expect(result.current).toEqual({
@@ -88,10 +89,10 @@ describe("useTrendingGifs", () => {
         error: null,
       });
       expect(mockSetTrendingItems).toHaveBeenCalledWith([
-        { id: 1111 },
-        { id: 2222 },
-        { id: 1234 },
-        { id: 5678 },
+        { id: "1111" },
+        { id: "2222" },
+        { id: "1234" },
+        { id: "5678" },
       ]);
     });
   });

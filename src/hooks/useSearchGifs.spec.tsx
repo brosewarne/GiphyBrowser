@@ -4,6 +4,7 @@ import { act } from "react";
 
 import { SearchPaginationContext, SearchItemsContext } from "../App";
 import { useSearchGifs } from "./useSearchGifs";
+import { GiphyGif } from "../models";
 
 vi.mock("./useNetwork", async () => {
   const mod =
@@ -12,7 +13,7 @@ vi.mock("./useNetwork", async () => {
     ...mod,
     useNetwork: () => ({
       data: {
-        data: [{ id: 1234 }, { id: 5678 }],
+        data: [{ id: "1234" }, { id: "5678" }],
         pagination: { total_count: 2, count: 2, offset: 0 },
       },
       loading: false,
@@ -23,7 +24,7 @@ vi.mock("./useNetwork", async () => {
 
 const mockSetSearchItems = vi.fn();
 const mockSetSearchPagination = vi.fn();
-const getWrapper = (searchItems: { id: number }[]) => {
+const getWrapper = (searchItems: GiphyGif[]) => {
   return ({ children }: { children: React.ReactNode }) => {
     return (
       <SearchItemsContext.Provider
@@ -31,7 +32,7 @@ const getWrapper = (searchItems: { id: number }[]) => {
       >
         <SearchPaginationContext.Provider
           value={{
-            searchPagination: {},
+            searchPagination: { total_count: 0, count: 0, offset: 0 },
             setSearchPagination: mockSetSearchPagination,
           }}
         >
@@ -54,7 +55,7 @@ describe("useSearchGifs", () => {
               limit: 9,
               offset: 0,
             },
-            wrapper: getWrapper([{ id: 1111 }, { id: 2222 }]),
+            wrapper: getWrapper([{ id: "1111" }, { id: "2222" }] as GiphyGif[]),
           }),
         );
         expect(result.current).toEqual({
@@ -62,8 +63,8 @@ describe("useSearchGifs", () => {
           error: null,
         });
         expect(mockSetSearchItems).toHaveBeenCalledWith([
-          { id: 1234 },
-          { id: 5678 },
+          { id: "1234" },
+          { id: "5678" },
         ]);
         expect(mockSetSearchPagination).toHaveBeenCalledWith({
           total_count: 2,
@@ -83,7 +84,7 @@ describe("useSearchGifs", () => {
               limit: 9,
               offset: 0,
             },
-            wrapper: getWrapper([{ id: 1111 }, { id: 2222 }]),
+            wrapper: getWrapper([{ id: "1111" }, { id: "2222" }] as GiphyGif[]),
           }),
         );
         expect(result.current).toEqual({
@@ -91,10 +92,10 @@ describe("useSearchGifs", () => {
           error: null,
         });
         expect(mockSetSearchItems).toHaveBeenCalledWith([
-          { id: 1111 },
-          { id: 2222 },
-          { id: 1234 },
-          { id: 5678 },
+          { id: "1111" },
+          { id: "2222" },
+          { id: "1234" },
+          { id: "5678" },
         ]);
       });
     });

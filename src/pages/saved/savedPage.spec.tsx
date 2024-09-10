@@ -24,7 +24,9 @@ vi.mock("../../hooks/useSavedGifs", async () => {
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return (
-    <SavedPageContext.Provider value={{ savedItemIds: "1234,5678" }}>
+    <SavedPageContext.Provider
+      value={{ savedItemIds: "1234,5678", setSavedItemIds: () => {} }}
+    >
       {children}
     </SavedPageContext.Provider>
   );

@@ -23,7 +23,7 @@ vi.mock("react-router-dom", async () => {
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return (
-    <SearchContext.Provider value={{ searchTerm: "" }}>
+    <SearchContext.Provider value={{ searchTerm: "", setSearchTerm: () => {} }}>
       <MemoryRouter initialEntries={["/"]}>{children}</MemoryRouter>
     </SearchContext.Provider>
   );

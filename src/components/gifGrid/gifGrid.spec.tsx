@@ -9,13 +9,15 @@ import { GiphyGif } from "../../models";
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return (
-    <SavedPageContext.Provider value={{ savedItemIds: "" }}>
+    <SavedPageContext.Provider
+      value={{ savedItemIds: "", setSavedItemIds: () => {} }}
+    >
       {children}
     </SavedPageContext.Provider>
   );
 };
 
-const getMockGifData = (): GiphyGif[]  => {
+const getMockGifData = (): GiphyGif[] => {
   const mockGifData = {
     type: "sports",
     id: "1234",

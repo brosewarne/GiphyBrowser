@@ -9,6 +9,7 @@ import {
   TrendingItemsContext,
   TrendingPaginationContext,
 } from "../../App";
+import { GiphyGif } from "../../models";
 
 vi.mock("../../hooks/useSearchGifs", async () => {
   const mod = await vi.importActual<typeof import("../../hooks/useSearchGifs")>(
@@ -33,17 +34,19 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <TrendingItemsContext.Provider
       value={{
-        trendingItems: [{ id: 1234 }, { id: 5678 }],
+        trendingItems: [{ id: "1234" }, { id: "5678" }] as GiphyGif[],
         setTrendingItems: mockSetTrendingItems,
       }}
     >
       <TrendingPaginationContext.Provider
         value={{
-          trendingPagination: {},
+          trendingPagination: { total_count: 0, count: 0, offset: 0 },
           setTrendingPagination: mockSetTrendingPagination,
         }}
       >
-        <SavedPageContext.Provider value={{ savedItemIds: "1234,5678" }}>
+        <SavedPageContext.Provider
+          value={{ savedItemIds: "1234,5678", setSavedItemIds: () => {} }}
+        >
           {children}
         </SavedPageContext.Provider>
       </TrendingPaginationContext.Provider>

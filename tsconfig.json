@@ -15,7 +15,8 @@
     "declaration": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "noUnusedLocals": false
   },
   "include": ["**/*.ts", "**/*.tsx", "./vitest.setup.ts"],
   "exclude": ["node_modules"]

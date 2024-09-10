@@ -37,7 +37,7 @@ export function SearchPage() {
   const { loading, error } = useSearchGifs({
     searchTerm,
     resetItems,
-    limit: searchPagination?.limit || NUMBER_OF_ITEMS,
+    limit: NUMBER_OF_ITEMS,
     offset: searchPagination?.offset || 0,
     rating: "g",
   });

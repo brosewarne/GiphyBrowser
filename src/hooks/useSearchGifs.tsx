@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { apiKey } from "../config/index.js";
-import { useNetwork } from "./useNetwork.js";
+import { APIResponse, useNetwork } from "./useNetwork.js";
 import { SearchGifParams } from "../models/index.js";
 
 import { SearchItemsContext, SearchPaginationContext } from "../App.js";
@@ -28,15 +28,14 @@ export function useSearchGifs({
     ? `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${searchTerm}&limit=${limit}&offset=${offset}&rating=${rating}&bundle=${bundle}`
     : "";
 
-  const { data, loading, error }: { data: any; loading: boolean; error: any } =
-    useNetwork({ url });
+  const { data, loading, error }: APIResponse = useNetwork({ url });
 
   useEffect(() => {
     const newItems = data?.data ?? [];
     setSearchPagination(data.pagination);
     const allItems = resetItems ? newItems : [...searchItems, ...newItems];
     setSearchItems(allItems);
-  }, [setSearchPagination, setSearchItems, data, searchItems]);
+  }, [setSearchPagination, setSearchItems, data]);
 
   return {
     loading,

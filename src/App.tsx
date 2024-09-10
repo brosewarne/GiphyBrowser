@@ -10,37 +10,46 @@ import { SavedPage } from "./pages/saved";
 import "./App.css";
 
 import CssBaseline from "@mui/material/CssBaseline";
-import { GiphyGif, GiphyPagination } from "./models";
+import {
+  GiphyPagination,
+  ISavedPageContext,
+  ISearchContext,
+  ISearchItemsContext,
+  ISearchPaginationContext,
+  ITrendingPageContext,
+  ITrendingPaginationContext,
+} from "./models";
 
-export const TrendingItemsContext = createContext<{
-  trendingItems: GiphyGif[];
-  setTrendingItems: React.Dispatch<React.SetStateAction<any>>;
-} | null>(null);
+export const TrendingItemsContext = createContext<ITrendingPageContext>({
+  trendingItems: [],
+  setTrendingItems: () => {},
+});
 
-export const TrendingPaginationContext = createContext<{
-  trendingPagination: GiphyPagination;
-  setTrendingPagination: React.Dispatch<React.SetStateAction<any>>;
-} | null>(null);
+export const TrendingPaginationContext =
+  createContext<ITrendingPaginationContext>({
+    trendingPagination: { total_count: 0, count: 0, offset: 0 },
+    setTrendingPagination: () => {},
+  });
 
-export const SearchContext = createContext<{
-  searchTerm: string;
-  setSearchTerm: React.Dispatch<React.SetStateAction<any>>;
-} | null>(null);
+export const SearchContext = createContext<ISearchContext>({
+  searchTerm: "",
+  setSearchTerm: () => {},
+});
 
-export const SearchItemsContext = createContext<{
-  searchItems: GiphyGif[];
-  setSearchItems: React.Dispatch<React.SetStateAction<any>>;
-} | null>(null);
+export const SearchItemsContext = createContext<ISearchItemsContext>({
+  searchItems: [],
+  setSearchItems: () => {},
+});
 
-export const SearchPaginationContext = createContext<{
-  searchPagination: GiphyPagination;
-  setSearchPagination: React.Dispatch<React.SetStateAction<any>>;
-} | null>(null);
+export const SearchPaginationContext = createContext<ISearchPaginationContext>({
+  searchPagination: { total_count: 0, count: 0, offset: 0 },
+  setSearchPagination: () => {},
+});
 
-export const SavedPageContext = createContext<{
-  savedItemIds: string;
-  setSavedItemIds: React.Dispatch<React.SetStateAction<any>>;
-} | null>(null);
+export const SavedPageContext = createContext<ISavedPageContext>({
+  savedItemIds: "",
+  setSavedItemIds: () => {},
+});
 
 function App() {
   const [trendingPagination, setTrendingPagination] = useState(

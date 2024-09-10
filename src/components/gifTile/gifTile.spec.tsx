@@ -9,7 +9,9 @@ import { GifTile } from "./gifTile";
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return (
-    <SavedPageContext.Provider value={{ savedItemIds: "" }}>
+    <SavedPageContext.Provider
+      value={{ savedItemIds: "", setSavedItemIds: () => {} }}
+    >
       {children}
     </SavedPageContext.Provider>
   );

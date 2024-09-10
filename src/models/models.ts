@@ -40,9 +40,39 @@ export interface GiphyResponse {
   pagination: GiphyPagination;
 }
 
-
 export interface GiphyPagination {
   total_count: number;
   count: number;
   offset: number;
+}
+
+export interface ITrendingPageContext {
+  trendingItems: GiphyGif[];
+  setTrendingItems: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export interface ITrendingPaginationContext {
+  trendingPagination: GiphyPagination;
+  setTrendingPagination: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export interface ISearchContext {
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export interface ISearchItemsContext {
+  searchItems: GiphyGif[];
+  setSearchItems: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export interface ISearchPaginationContext {
+  searchPagination: GiphyPagination;
+  setSearchPagination: React.Dispatch<React.SetStateAction<any>>;
+}
+
+
+export interface ISavedPageContext {
+  savedItemIds: string;
+  setSavedItemIds: React.Dispatch<React.SetStateAction<any>>;
 }
