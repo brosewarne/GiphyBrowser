@@ -62,7 +62,7 @@ export function SearchPage() {
     );
   }
 
-  if (!searchItems) {
+  if (!searchItems.length && !!searchTerm) {
     return <ErrorState message="No Results"></ErrorState>;
   }
 

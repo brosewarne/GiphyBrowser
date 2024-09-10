@@ -46,17 +46,14 @@ export function TrendingPage() {
       <ErrorState message="Oops Something went wrong, please try again later"></ErrorState>
     );
   }
-
-  if (!trendingItems) {
-    return <ErrorState message="No Trending Gifs"></ErrorState>;
-  }
-
   const { total_count: totalCount, count } = trendingPagination;
 
   return (
     <Box sx={{ marginTop: "16x" }}>
       <GifGrid gifData={trendingItems} loading={loading}></GifGrid>
-      {totalCount > count && <ShowMoreButton getNextPage={getNextPage}></ShowMoreButton>}
+      {totalCount > count && (
+        <ShowMoreButton getNextPage={getNextPage}></ShowMoreButton>
+      )}
     </Box>
   );
 }
