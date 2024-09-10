@@ -1,8 +1,6 @@
 # Giphy Browser - Montu Code Challenge - Ben Rosewarne
 
-### Challenge Details
-
-![ChallengePDF](https://raw.githubusercontent.com/brosewarne/GiphyBrowser/master/docs/Montu-FE-V2)
+#### <a href="docs/Montu-FE-V2.pdf" class="image fit">Code Challenge Details</a>
 
 ## Instructions
 
