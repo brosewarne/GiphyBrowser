@@ -25,12 +25,13 @@ import { ErrorState } from "../../components/errorState/errorState";
  * There is basic pagination using a 'Show More' button.
  */
 export function SearchPage() {
-  const [textFieldContent, setTextFieldContent] = useState("");
+  const { searchTerm, setSearchTerm } = useContext(SearchContext);
+
+  const [textFieldContent, setTextFieldContent] = useState(searchTerm);
   const { searchPagination, setSearchPagination } = useContext(
     SearchPaginationContext,
   );
   const { searchItems } = useContext(SearchItemsContext);
-  const { searchTerm, setSearchTerm } = useContext(SearchContext);
 
   const [resetItems, setResetItems] = useState(true);
 
