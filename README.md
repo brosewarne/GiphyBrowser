@@ -80,7 +80,7 @@ I probably spent a more time than I wanted to on the unit tests. This was a resu
 
 I'm not hugely experienced in writing custom hooks, I'm sure there are things I might have missed / misunderstood? The `useSavedGifs` hook probably isn't needed, but I ran out of time to do any extra refactoring.
 
-Working with React in strict was a bit different at first, but it didn't cause any real issues.
+Working with React in strict mode was a bit different at first, but it didn't cause any real issues.
 
 ### Known Issues / Things I ran out of time to fix / etc
 
