@@ -1,44 +1,40 @@
-import { useContext, useEffect } from "react";
-import { apiKey } from "../config/index.js";
-import { APIResponse, useNetwork } from "./useNetwork.js";
-import { SearchGifParams } from "../models/index.js";
+import { useContext } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { AppStateContext } from "../App.js";
 
-import { SearchItemsContext, SearchPaginationContext } from "../App.js";
+const fetchSearchGifs = async (
+  searchTerm: string,
+  limit: number,
+  offset: number,
+  apiKey: string
+) => {
+  if (!searchTerm) {
+    return { data: [], pagination: { count: 0, total_count: 0, offset: 0 } };
+  }
+  const response = await fetch(
+    `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${searchTerm}&limit=${limit}&offset=${offset}&rating=g&bundle=messaging_non_clips`,
+  );
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return await response.json();
+};
 
-/**
- * Hook for requesting the gifs based on a search term.
- *
- * if resetItems is true, then the returned items will be set as the only items in the context - new search
- * if resetItems is false, then the returned items will be appended to the set of items in the constext - eg pagination
- *
- * The returned data and pagination are set on context, the loading and error object are returned
- */
-export function useSearchGifs({
-  searchTerm,
-  resetItems,
-  limit,
-  offset,
-  rating = "g",
-  bundle = "messaging_non_clips",
-}: SearchGifParams) {
-  const { setSearchPagination } = useContext(SearchPaginationContext);
-  const { searchItems, setSearchItems } = useContext(SearchItemsContext);
+export function useSearchGifs({ searchTerm }: { searchTerm: string }) {
+  const {appState } = useContext(AppStateContext)
+  const { apiKey, numberOfItems} = appState
 
-  const url = searchTerm
-    ? `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${searchTerm}&limit=${limit}&offset=${offset}&rating=${rating}&bundle=${bundle}`
-    : "";
+  return useInfiniteQuery({
+    queryKey: ["searchPage", searchTerm],
+    queryFn: async ({ pageParam }) =>
+      fetchSearchGifs(searchTerm, numberOfItems, pageParam * numberOfItems, apiKey),
 
-  const { data, loading, error }: APIResponse = useNetwork({ url });
-
-  useEffect(() => {
-    const newItems = data?.data ?? [];
-    setSearchPagination(data.pagination);
-    const allItems = resetItems ? newItems : [...searchItems, ...newItems];
-    setSearchItems(allItems);
-  }, [setSearchPagination, setSearchItems, data]);
-
-  return {
-    loading,
-    error,
-  };
+    initialPageParam: 0,
+    getPreviousPageParam: (firstPage) =>
+      firstPage.pagination.offset > 0 ? firstPage.offset - 1 : null,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination.count < lastPage.pagination.total_count
+        ? lastPage.pagination.offset + 1
+        : null,
+  });
 }

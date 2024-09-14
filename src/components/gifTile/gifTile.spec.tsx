@@ -3,19 +3,8 @@ import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 
 import { GiphyGif } from "../../models";
-import { SavedPageContext } from "../../App";
 
 import { GifTile } from "./gifTile";
-
-const Wrapper = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <SavedPageContext.Provider
-      value={{ savedItemIds: "", setSavedItemIds: () => {} }}
-    >
-      {children}
-    </SavedPageContext.Provider>
-  );
-};
 
 describe("GifTile", () => {
   const mockGifData: GiphyGif = {
@@ -38,7 +27,7 @@ describe("GifTile", () => {
 
   describe("renders the GifTile component", () => {
     beforeEach(() => {
-      render(<GifTile gifData={mockGifData} />, { wrapper: Wrapper });
+      render(<GifTile gifData={mockGifData} />);
     });
 
     it("should render the title", () => {

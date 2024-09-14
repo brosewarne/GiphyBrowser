@@ -4,7 +4,7 @@ import { act } from "react";
 import { MemoryRouter } from "react-router";
 
 import { vi } from "vitest";
-import { fireEvent, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { screen } from "@testing-library/dom";
 
@@ -57,8 +57,7 @@ describe("SearchBar", () => {
           async () =>
             await user.type(searchInput as HTMLElement, "search term"),
         );
-        const searchFieldForm = screen.getByTestId("search-bar-form");
-        await act(async () => fireEvent.submit(searchFieldForm));
+        await user.type(searchInput as HTMLElement, "{Enter}");
         expect(mockedUseNavigate.mock.calls[0]).toEqual(["/search"]);
         expect(mockSetSearchTerm).toHaveBeenLastCalledWith("search term");
       });

@@ -1,18 +1,12 @@
 import * as React from "react";
-import { fireEvent, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 import { SearchPage } from "./searchPage";
 import { vi } from "vitest";
 
-import {
-  SavedPageContext,
-  SearchContext,
-  SearchItemsContext,
-  SearchPaginationContext,
-} from "../../App";
+import { SearchContext } from "../../App";
 import userEvent from "@testing-library/user-event";
 import { act } from "react";
-import { GiphyGif } from "../../models";
 
 vi.mock("../../hooks/useSearchGifs", async () => {
   const mod = await vi.importActual<typeof import("../../hooks/useSearchGifs")>(
@@ -22,43 +16,29 @@ vi.mock("../../hooks/useSearchGifs", async () => {
     ...mod,
     useSearchGifs: () => ({
       data: {
-        data: [{ id: 1234 }, { id: 5678 }],
+        pages: [
+          {
+            data: [{ id: 1234 }, { id: 5678 }],
+            pagination: { total_count: 2, count: 2 },
+          },
+        ],
       },
+
       loading: false,
       error: null,
     }),
   };
 });
 
-const mockSetSearchItems = vi.fn();
-const mockSetSearchPagination = vi.fn();
 const mockSetSearchTerm = vi.fn();
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return (
-    <SearchItemsContext.Provider
-      value={{
-        searchItems: [{ id: "1234" }, { id: "5678" }] as GiphyGif[],
-        setSearchItems: mockSetSearchItems,
-      }}
+    <SearchContext.Provider
+      value={{ searchTerm: "", setSearchTerm: mockSetSearchTerm }}
     >
-      <SearchPaginationContext.Provider
-        value={{
-          searchPagination: { total_count: 0, count: 0, offset: 0 },
-          setSearchPagination: mockSetSearchPagination,
-        }}
-      >
-        <SearchContext.Provider
-          value={{ searchTerm: "", setSearchTerm: mockSetSearchTerm }}
-        >
-          <SavedPageContext.Provider
-            value={{ savedItemIds: "1234,5678", setSavedItemIds: () => {} }}
-          >
-            {children}
-          </SavedPageContext.Provider>
-        </SearchContext.Provider>
-      </SearchPaginationContext.Provider>
-    </SearchItemsContext.Provider>
+      {children}
+    </SearchContext.Provider>
   );
 };
 
@@ -84,8 +64,8 @@ describe("SearchPage", () => {
         .querySelector("input");
       expect(input).toBeTruthy();
       await act(async () => await user.type(input as HTMLElement, "hello"));
-      const searchForm = await screen.findByTestId("search-page-form");
-      await act(async () => fireEvent.submit(searchForm));
+      await act(async () => await user.type(input as HTMLElement, "{Enter}"));
+
       expect(mockSetSearchTerm).toHaveBeenLastCalledWith("hello");
     });
   });

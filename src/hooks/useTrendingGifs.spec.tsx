@@ -3,49 +3,29 @@ import { vi } from "vitest";
 import { act } from "react";
 
 import { useTrendingGifs } from "./useTrendingGifs";
-import { TrendingItemsContext, TrendingPaginationContext } from "../App";
-import { GiphyGif } from "../models";
 
-vi.mock("./useNetwork", async () => {
-  const mod =
-    await vi.importActual<typeof import("./useNetwork")>("./useNetwork");
+
+vi.mock("@tanstack/react-query", async () => {
+  const mod = await vi.importActual<typeof import("@tanstack/react-query")>(
+    "@tanstack/react-query",
+  );
   return {
     ...mod,
-    useNetwork: () => ({
+    useInfiniteQuery: () => ({
       data: {
-        data: [{ id: "1234" }, { id: "5678" }],
-        pagination: { total_count: 2, count: 2, offset: 0 },
+        pages: [
+          {
+            data: [{ id: 1234 }, { id: 5678 }],
+            pagination: { total_count: 2, count: 2 },
+          },
+        ],
       },
-      loading: false,
-      error: null,
     }),
   };
 });
 
-const mockSetTrendingItems = vi.fn();
-const mockSetTrendingPagination = vi.fn();
-const getWrapper = (trendingItems: GiphyGif[]) => {
-  return ({ children }: { children: React.ReactNode }) => {
-    return (
-      <TrendingItemsContext.Provider
-        value={{ trendingItems, setTrendingItems: mockSetTrendingItems }}
-      >
-        <TrendingPaginationContext.Provider
-          value={{
-            trendingPagination: { total_count: 0, count: 0, offset: 0 },
-            setTrendingPagination: mockSetTrendingPagination,
-          }}
-        >
-          {children}
-        </TrendingPaginationContext.Provider>
-      </TrendingItemsContext.Provider>
-    );
-  };
-};
-
 describe("useTrendingGifs", () => {
-  describe("when 'reset' is true", () => {
-    it("should get the trending gifs and set them as the only trending items", async () => {
+    it("should get the trending gifs", async () => {
       const { result } = await act(async () =>
         renderHook(useTrendingGifs, {
           initialProps: {
@@ -53,47 +33,29 @@ describe("useTrendingGifs", () => {
             limit: 9,
             offset: 0,
           },
-          wrapper: getWrapper([{ id: "1111" }, { id: "2222" }] as GiphyGif[]),
         }),
       );
       expect(result.current).toEqual({
-        loading: false,
-        error: null,
-      });
-      expect(mockSetTrendingItems).toHaveBeenCalledWith([
-        { id: "1234" },
-        { id: "5678" },
-      ]);
-      expect(mockSetTrendingPagination).toHaveBeenCalledWith({
-        total_count: 2,
-        count: 2,
-        offset: 0,
+        data: {
+          pages: [
+            {
+              data: [
+                {
+                  id: 1234,
+                },
+                {
+                  id: 5678,
+                },
+              ],
+              pagination: {
+                count: 2,
+                total_count: 2,
+              },
+            },
+          ],
+        },
       });
     });
   });
 
-  describe("when 'reset' is false", () => {
-    it("should get the trending gifs and add them to the existing trending items", async () => {
-      const { result } = await act(async () =>
-        renderHook(useTrendingGifs, {
-          initialProps: {
-            resetItems: false,
-            limit: 9,
-            offset: 0,
-          },
-          wrapper: getWrapper([{ id: "1111" }, { id: "2222" }] as GiphyGif[]),
-        }),
-      );
-      expect(result.current).toEqual({
-        loading: false,
-        error: null,
-      });
-      expect(mockSetTrendingItems).toHaveBeenCalledWith([
-        { id: "1111" },
-        { id: "2222" },
-        { id: "1234" },
-        { id: "5678" },
-      ]);
-    });
-  });
-});
+

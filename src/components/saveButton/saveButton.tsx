@@ -1,30 +1,41 @@
-import React, { useContext, useState } from "react";
-
+import React, { useState } from "react";
+import { useLiveQuery } from "dexie-react-hooks";
 import { IconButton, Snackbar } from "@mui/material";
 import { ThumbUp } from "@mui/icons-material";
 
-import { useGifLocalStorage } from "../../hooks";
-import { SavedPageContext } from "../../App";
+import { db } from "../../savedItemsDB";
 
 /**
  *  Save button for saving Gifs to local storage if they are not already saved, or removing them if they are.
  */
 export function SaveButton({ gifId }: { gifId: string }) {
-  const { savedItemIds, setSavedItemIds } = useContext(SavedPageContext);
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
-  const isSaved = savedItemIds.includes(gifId);
+  const savedItems = useLiveQuery(() => db.savedGifs?.toArray() || [])?.map(
+    (item) => item.giphyId,
+  );
+  const isSaved = savedItems?.includes(gifId);
 
-  const updateSavedGifs = () => {
-    const newGifIds = useGifLocalStorage({
-      gifId,
-      save: !isSaved,
-      savedItemIds,
-    });
-    setSavedItemIds(newGifIds);
-    setSnackbarMessage(!isSaved ? "Gif Saved" : "Gif Removed");
-    setShowSnackbar(true);
+  const savedItem = useLiveQuery(async () => {
+    const item = await db.savedGifs.where("giphyId").equals(gifId).toArray();
+    return item ? item[0] : null;
+  }, [gifId]);
+  
+  const updateSavedGifs = async () => {
+    try {
+      if (savedItem) {
+        await db.savedGifs.delete(savedItem.id);
+      } else {
+        await db.savedGifs.add({
+          giphyId: gifId,
+        });
+      }
+      setSnackbarMessage(!isSaved ? "Gif Saved" : "Gif Removed");
+      setShowSnackbar(true);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -35,7 +46,7 @@ export function SaveButton({ gifId }: { gifId: string }) {
 
       <Snackbar
         open={showSnackbar}
-        autoHideDuration={200000}
+        autoHideDuration={2000}
         message={snackbarMessage}
         onClose={() => setShowSnackbar(false)}
         data-testid="save-button-snackbar"

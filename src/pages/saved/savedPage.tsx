@@ -1,8 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useLiveQuery } from "dexie-react-hooks";
 import { useSavedGifs } from "../../hooks";
 import { GifGrid } from "../../components/gifGrid";
-import { SavedPageContext } from "../../App";
 import { ErrorState } from "../../components/errorState/errorState";
+import { db } from "../../savedItemsDB";
+import { LoadingGrid } from "../../components/loadingGrid";
 
 /**
  * The Saved Gifs page. Shows the saved gifs in a simple grid with no pagination.
@@ -12,17 +14,32 @@ import { ErrorState } from "../../components/errorState/errorState";
  * If the user doen't have any saved gifs, then a simple empty state is displayed
  */
 export function SavedPage() {
-  const { savedItemIds } = useContext(SavedPageContext);
-  if (!savedItemIds) {
+  const savedItems =
+    useLiveQuery(() => db.savedGifs?.toArray())?.map((item) => item.giphyId) ||
+    [];
+    
+  const {
+    isPending,
+    isError,
+    error,
+    data: response,
+  } = useSavedGifs({
+    gifIds: savedItems.join(","),
+  });
+
+  if (!savedItems.length) {
     return <ErrorState message="You have no saved Gifs"></ErrorState>;
   }
 
-  const { data, loading, error } = useSavedGifs({ gifIds: savedItemIds });
-  if (!!error) {
-    return (
-      <ErrorState message="Oops Something went wrong, please try again later"></ErrorState>
-    );
+  if (isError) {
+    return <ErrorState message={error.message}></ErrorState>;
   }
 
-  return <GifGrid gifData={data.data} loading={loading}></GifGrid>;
+  const items = response?.data ?? [];
+  return (
+    <>
+      <GifGrid gifData={items}></GifGrid>;
+      {isPending && <LoadingGrid></LoadingGrid>}
+    </>
+  );
 }

@@ -102,6 +102,17 @@ Working with React in strict mode was a bit different at first, but it didn't ca
 
 - I probably should have done more to hide the API key.
 
+## Version 2
+
+- Removed `useNetwork` and replaced it with the `@tanstack/react-query` library
+- This made everything more reliable and removed the cancelled API call when the trending page mounts
+- Replaced localStorage with IndexedDB using the `Dexie` library
+- Removed unnecessary contexts for items and pagination
+- Removed config file and used a simple context to makes these values available within the app
+- Removed all instances of `sx` and replaced with `styled()` or straight style props for layout components like `Box`
+- Removed the form around the search text fields and used a proper `onKeyDown` handler
+- Updated unit tests
+
 ### Feedback
 
 I found this a really fun and engaging code challenge. The requirements are realistic and the extras were simple to add on due to the initial design / implementation.

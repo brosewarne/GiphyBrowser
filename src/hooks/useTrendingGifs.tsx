@@ -1,43 +1,36 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { AppStateContext } from "../App.js";
 
-import { apiKey } from "../config/index.js";
-import { APIResponse, useNetwork } from "./useNetwork.js";
-import { TrendingGifParams } from "../models/index.js";
-import { TrendingItemsContext, TrendingPaginationContext } from "../App.js";
+const fetchTrendingGifs = async (
+  limit: number,
+  offset: number,
+  apiKey: string,
+) => {
+  const response = await fetch(
+    `https://api.giphy.com/v1/gifs/trending?api_key=${apiKey}&limit=${limit}&offset=${offset}&rating=g&bundle="messaging_non_clips"`,
+  );
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return await response.json();
+};
 
-/**
- * Hook for requesting the trending gifs.
- *
- * if resetItems is true, then the returned items will be set as the only items in the context - new search
- * if resetItems is false, then the returned items will be appended to the set of items in the constext - eg pagination
- *
- * The returned data and pagination are set on context, the loading and error object are returned
- */
+export function useTrendingGifs() {
+  const { appState } = useContext(AppStateContext);
+  const { apiKey, numberOfItems } = appState;
 
-export function useTrendingGifs({
-  resetItems,
-  limit,
-  offset,
-  rating = "g",
-  bundle = "messaging_non_clips",
-}: TrendingGifParams) {
-  const { setTrendingPagination } = useContext(TrendingPaginationContext);
-  const { trendingItems, setTrendingItems } = useContext(TrendingItemsContext);
+  return useInfiniteQuery({
+    queryKey: ["trendingPage"],
+    queryFn: async ({ pageParam }) =>
+      fetchTrendingGifs(numberOfItems, pageParam * numberOfItems, apiKey),
 
-  const url = `https://api.giphy.com/v1/gifs/trending?api_key=${apiKey}&limit=${limit}&offset=${offset}&rating=${rating}&bundle=${bundle}`;
-  const { data, loading, error }: APIResponse = useNetwork({
-    url,
+    initialPageParam: 0,
+    getPreviousPageParam: (firstPage) =>
+      firstPage.pagination.offset > 0 ? firstPage.offset - 1 : null,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination.count < lastPage.pagination.total_count
+        ? lastPage.pagination.offset + 1
+        : null,
   });
-
-  useEffect(() => {
-    const newItems = data?.data ?? [];
-    setTrendingPagination(data.pagination);
-    const allItems = resetItems ? newItems : [...trendingItems, ...newItems];
-    setTrendingItems(allItems);
-  }, [setTrendingPagination, setTrendingItems, data]);
-
-  return {
-    loading,
-    error,
-  };
 }

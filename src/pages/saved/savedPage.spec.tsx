@@ -4,7 +4,6 @@ import { screen } from "@testing-library/dom";
 import { SavedPage } from "./savedPage";
 import { vi } from "vitest";
 
-import { SavedPageContext } from "../../App";
 
 vi.mock("../../hooks/useSavedGifs", async () => {
   const mod = await vi.importActual<typeof import("../../hooks/useSavedGifs")>(
@@ -22,20 +21,10 @@ vi.mock("../../hooks/useSavedGifs", async () => {
   };
 });
 
-const Wrapper = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <SavedPageContext.Provider
-      value={{ savedItemIds: "1234,5678", setSavedItemIds: () => {} }}
-    >
-      {children}
-    </SavedPageContext.Provider>
-  );
-};
-
 describe("SavedPage", () => {
   describe("renders the SavedPage component", () => {
     beforeEach(() => {
-      render(<SavedPage />, { wrapper: Wrapper });
+      render(<SavedPage />);
     });
     it("should render the page", () => {
       const gifGrid = screen.getByTestId("gif-grid");

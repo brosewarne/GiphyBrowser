@@ -1,11 +1,27 @@
 import React from "react";
-import { Box, Card, CardActions, CardContent, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  styled,
+  Typography,
+} from "@mui/material";
 
 import { GiphyGif } from "../../models";
 import { SaveButton } from "../saveButton";
 
+const StyledCard = styled(Card)({
+  flexGrow: 1,
+  height: "100%",
+  display: "flex",
+  alignItems: "center",
+  flexDirection: "column",
+  justifyContent: "space-between",
+});
+
 /**
- *  Simple presentational component for showing a loaded Gif in a Card with the title, 
+ *  Simple presentational component for showing a loaded Gif in a Card with the title,
  *  Gif image and a Save button
  */
 export function GifTile({ gifData }: { gifData: GiphyGif }) {
@@ -13,20 +29,9 @@ export function GifTile({ gifData }: { gifData: GiphyGif }) {
     gifData.images?.fixed_height?.url ?? gifData.images?.fixed_width?.url;
 
   return (
-    <Card
-      variant="outlined"
-      sx={{
-        flexGrow: 1,
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
-        justifyContent: "space-between",
-      }}
-      data-testid="gif-tile"
-    >
+    <StyledCard variant="outlined" data-testid="gif-tile">
       <CardContent key={gifData.id}>
-        <Box sx={{ minHeight: "3.75rem" }}>
+        <Box minHeight="3.75rem">
           <Typography
             gutterBottom
             variant="subtitle1"
@@ -45,6 +50,6 @@ export function GifTile({ gifData }: { gifData: GiphyGif }) {
       <CardActions>
         <SaveButton gifId={gifData.id}></SaveButton>
       </CardActions>
-    </Card>
+    </StyledCard>
   );
 }

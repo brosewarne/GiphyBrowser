@@ -1,15 +1,30 @@
-import { apiKey } from "../config/index.js";
-import { useNetwork } from "./useNetwork.js";
+import { useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { AppStateContext } from "../App.js";
+
+const fetchSavedGifs = async (gifIds: string, apiKey: string) => {
+  if (!gifIds) {
+    return { data: [] };
+  }
+  const response = await fetch(
+    `https://api.giphy.com/v1/gifs?api_key=${apiKey}&ids=${gifIds}&rating=g`,
+  );
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return await response.json();
+};
 
 /**
  * Simple hook for requesting the set of aved gifs from Giphy
  *
- * Note: This probably isn't needed, I wasn't too sure if it would end up with more logic and ran out
- * time to refactor
  */
 export function useSavedGifs({ gifIds }: { gifIds: string }) {
-  const url = `https://api.giphy.com/v1/gifs?api_key=${apiKey}&ids=${gifIds}&rating=g`;
-  return useNetwork({
-    url,
+  const {appState } = useContext(AppStateContext)
+  const { apiKey} = appState
+
+  return useQuery({
+    queryKey: ["savedGifs", gifIds],
+    queryFn: () => fetchSavedGifs(gifIds, apiKey),
   });
 }

@@ -1,11 +1,14 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { AppBar, Toolbar, Typography, Box, Fab } from "@mui/material";
+import { AppBar, Toolbar, Typography, Box, Fab, styled } from "@mui/material";
 
 import { SearchBar } from "../searchBar";
 
+const StyledAppBar = styled(AppBar)({
+  minHeight: "5rem",
+});
 /**
- *  The App header with a title, naviation buttons for the trending, searcvh and saved pages. 
+ *  The App header with a title, naviation buttons for the trending, searcvh and saved pages.
  *  The header also includes a search bar.
  */
 export function Header() {
@@ -13,15 +16,14 @@ export function Header() {
   const { pathname } = useLocation();
 
   return (
-    <Box sx={{ flexGrow: 1, marginBottom: "2rem", alignContent: "center" }} data-testid="header">
-      <AppBar position="static" sx={{ minHeight: "5rem" }}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+    <Box
+      flexGrow={1}
+      marginBottom="2rem"
+      alignContent="center"
+      data-testid="header"
+    >
+      <StyledAppBar position="static">
+        <Box display="flex" justifyContent="space-between" alignItems="center">
           <Toolbar>
             <Typography variant="h6">Giphy Browser</Typography>
           </Toolbar>
@@ -62,7 +64,7 @@ export function Header() {
 
           <SearchBar></SearchBar>
         </Box>
-      </AppBar>
+      </StyledAppBar>
     </Box>
   );
 }

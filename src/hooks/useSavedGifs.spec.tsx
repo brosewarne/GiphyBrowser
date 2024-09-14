@@ -2,12 +2,12 @@ import { renderHook } from "@testing-library/react";
 import { useSavedGifs } from "./useSavedGifs";
 import { vi } from "vitest";
 
-vi.mock("./useNetwork", async () => {
+vi.mock("@tanstack/react-query", async () => {
   const mod =
-    await vi.importActual<typeof import("./useNetwork")>("./useNetwork");
+    await vi.importActual<typeof import("@tanstack/react-query")>("@tanstack/react-query");
   return {
     ...mod,
-    useNetwork: () => ({
+    useQuery: () => ({
       data: {
         data: [{ id: 1234 }, { id: 5678 }],
         pagination: { total_count: 2, count: 2, offset: 0 },
