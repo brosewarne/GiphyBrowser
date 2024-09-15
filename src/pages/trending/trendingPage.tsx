@@ -1,5 +1,4 @@
 import React, { memo, useMemo } from "react";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Box, useTheme } from "@mui/material";
 
 import { GifGrid } from "../../components/gifGrid";
@@ -68,7 +67,6 @@ export const TrendingPage = memo(function TrendingPage() {
           <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
         )}
       </Box>
-      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
 });

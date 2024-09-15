@@ -6,6 +6,7 @@ const fetchSavedGifs = async (gifIds: string): Promise<GiphyResponse> => {
   if (!gifIds) {
     return { data: [], pagination: { offset: 0, count: 0, total_count: 0 } };
   }
+
   const response = await fetch(
     `https://api.giphy.com/v1/gifs?api_key=${GiphyBrowerConfig.apiKey}&ids=${gifIds}&rating=g`,
   );

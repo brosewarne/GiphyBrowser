@@ -1,6 +1,5 @@
 import React, { memo, useCallback, useMemo } from "react";
 import { useContext, useEffect, useState } from "react";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { TextField, InputAdornment, Typography, styled } from "@mui/material";
 import { Search } from "@mui/icons-material";
 
@@ -80,7 +79,7 @@ export const SearchPage = memo(function SearchPage() {
   const lastPage = pages.slice(-1)[0];
   const firstPage = pages[0];
   const countCopy = pages.length
-    ? `Showing ${lastPage.pagination.count} out of ${firstPage.pagination.total_count} total search results`
+    ? `Showing ${lastPage.pagination.offset + lastPage.pagination.count} out of ${firstPage.pagination.total_count} total search results`
     : "";
 
   return (
@@ -105,14 +104,15 @@ export const SearchPage = memo(function SearchPage() {
       ></StyledTextField>
 
       <>
-        {!!items.length && <Typography variant="h6">{countCopy}</Typography>}
-        <GifGrid gifData={items}></GifGrid>
+        <Typography variant="h6">{countCopy}</Typography>
+        <GifGrid gifData={items} key={`gifGrid${pages.length}`}></GifGrid>
       </>
+
       {showPagingLoading && <LoadingGrid></LoadingGrid>}
       {hasNextPage && (
         <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
       )}
-      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
 });
+

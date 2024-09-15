@@ -5,7 +5,6 @@ import { GifGrid } from "../../components/gifGrid";
 import { ErrorState } from "../../components/errorState/errorState";
 import { db } from "../../savedItemsDB";
 import { LoadingGrid } from "../../components/loadingGrid";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 /**
  * The Saved Gifs page. Shows the saved gifs in a simple grid with no pagination.
@@ -41,7 +40,6 @@ export const SavedPage = memo(function SavedPage() {
     <>
       <GifGrid gifData={items}></GifGrid>;
       {isPending && <LoadingGrid></LoadingGrid>}
-      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
 });
