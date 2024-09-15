@@ -1,6 +1,12 @@
 import React, { memo, useCallback, useMemo } from "react";
 import { useContext, useEffect, useState } from "react";
-import { TextField, InputAdornment, Typography, styled } from "@mui/material";
+import {
+  Box,
+  TextField,
+  InputAdornment,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { Search } from "@mui/icons-material";
 
 import { GifGrid } from "../../components/gifGrid";
@@ -11,10 +17,6 @@ import { useSearchGifs } from "../../hooks";
 import { LoadingGrid } from "../../components/loadingGrid";
 import { ErrorState } from "../../components/errorState/errorState";
 import { GiphyGif, GiphyResponse } from "../../models";
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  marginBottom: theme.spacing(2),
-}));
 
 /**
  * The Search Gifs page. Shows a search bar and any search results in a Gif Grid
@@ -28,6 +30,7 @@ export const SearchPage = memo(function SearchPage() {
     setTextFieldContent(searchTerm);
   }, [searchTerm]);
 
+  const theme = useTheme();
   const {
     status,
     data,
@@ -84,24 +87,26 @@ export const SearchPage = memo(function SearchPage() {
 
   return (
     <>
-      <StyledTextField
-        placeholder="Search Giphty"
-        value={textFieldContent}
-        onChange={(event) => {
-          setTextFieldContent(event.target.value);
-        }}
-        onKeyDown={submitOnEnter}
-        slotProps={{
-          input: {
-            startAdornment: (
-              <InputAdornment position="start">
-                <Search />
-              </InputAdornment>
-            ),
-          },
-        }}
-        data-testid="search-page-input"
-      ></StyledTextField>
+      <Box marginBottom={theme.spacing(2)}>
+        <TextField
+          placeholder="Search Giphty"
+          value={textFieldContent}
+          onChange={(event) => {
+            setTextFieldContent(event.target.value);
+          }}
+          onKeyDown={submitOnEnter}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            },
+          }}
+          data-testid="search-page-input"
+        ></TextField>
+      </Box>
 
       <>
         <Typography variant="h6">{countCopy}</Typography>
@@ -109,10 +114,11 @@ export const SearchPage = memo(function SearchPage() {
       </>
 
       {showPagingLoading && <LoadingGrid></LoadingGrid>}
-      {hasNextPage && (
-        <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
-      )}
+      <Box marginTop={theme.spacing(2)}>
+        {hasNextPage && (
+          <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
+        )}
+      </Box>
     </>
   );
 });
-

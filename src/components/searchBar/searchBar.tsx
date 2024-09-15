@@ -1,16 +1,17 @@
 import React, { memo, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Box, InputAdornment, styled, TextField } from "@mui/material";
+import {
+  Box,
+  InputAdornment,
+  TextField,
+  useTheme,
+} from "@mui/material";
 
 import { SearchContext } from "../../App";
 
 import { Search } from "@mui/icons-material";
 
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  maxHeight: theme.spacing(4),
-  marginRight: theme.spacing(4),
-}));
 /**
  *  The SearchBar showin the the header. When a search term is submitted the searchTerm is set and the user
  *  is redirected to the search page where they can see their results
@@ -18,6 +19,8 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 export const SearchBar = memo(function SearchBar() {
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
   const [textFieldContent, setTextFieldContent] = useState(searchTerm);
+  const theme = useTheme();
+
   useEffect(() => {
     setTextFieldContent(searchTerm);
   }, [searchTerm]);
@@ -32,8 +35,8 @@ export const SearchBar = memo(function SearchBar() {
   };
 
   return (
-    <Box display="flex">
-      <StyledTextField
+    <Box display="flex" padding={theme.spacing(4)}>
+      <TextField
         id="serachGiphy"
         value={textFieldContent}
         onChange={(event) => {

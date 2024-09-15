@@ -6,15 +6,10 @@ import {
   Typography,
   Box,
   Fab,
-  styled,
   useTheme,
 } from "@mui/material";
 
 import { SearchBar } from "../searchBar";
-
-const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  minHeight: theme.spacing(10),
-}));
 
 /**
  *  The App header with a title, naviation buttons for the trending, searcvh and saved pages.
@@ -32,7 +27,7 @@ export const Header = memo(function Header() {
       alignContent="center"
       data-testid="header"
     >
-      <StyledAppBar position="static">
+      <AppBar position="static">
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Toolbar>
             <Typography variant="h6">Giphy Browser</Typography>
@@ -74,7 +69,7 @@ export const Header = memo(function Header() {
 
           <SearchBar></SearchBar>
         </Box>
-      </StyledAppBar>
+      </AppBar>
     </Box>
   );
 });

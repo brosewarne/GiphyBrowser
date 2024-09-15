@@ -63,9 +63,11 @@ export const TrendingPage = memo(function TrendingPage() {
       <Box marginTop={theme.spacing(2)}>
         <GifGrid gifData={items}></GifGrid>
         {showPagingLoading && <LoadingGrid></LoadingGrid>}
-        {hasNextPage && (
-          <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
-        )}
+        <Box marginTop={theme.spacing(2)}>
+          {hasNextPage && (
+            <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
+          )}
+        </Box>
       </Box>
     </>
   );
