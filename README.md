@@ -105,12 +105,16 @@ Working with React in strict mode was a bit different at first, but it didn't ca
 ## Version 2
 
 - Removed `useNetwork` and replaced it with the `@tanstack/react-query` library
-- This made everything more reliable and removed the cancelled API call when the trending page mounts
+  - This made everything more reliable and removed the cancelled API call when the trending page mounts
 - Replaced localStorage with IndexedDB using the `Dexie` library
 - Removed unnecessary contexts for items and pagination
 - Removed config file and used a simple context to makes these values available within the app
 - Removed all instances of `sx` and replaced with `styled()` or straight style props for layout components like `Box`
 - Removed the form around the search text fields and used a proper `onKeyDown` handler
+- Removed rems and replaced with spacing units
+- Moved apiKey to an env file
+- Added use of memo, useMemo and useCallback
+- Played around with caching, for now using `staleTime` on react-query queries, I've still got some learning to do here.
 - Updated unit tests
 
 ### Feedback
