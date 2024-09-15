@@ -5,6 +5,7 @@ import { SavedPage } from "./savedPage";
 import { vi } from "vitest";
 import { useSavedGifs } from "../../hooks";
 import { UseQueryResult } from "@tanstack/react-query";
+import { GiphyResponse } from "../../models";
 
 vi.mock("../../hooks/useSavedGifs");
 vi.mock("dexie-react-hooks", async () => {
@@ -27,12 +28,12 @@ describe("SavedPage", () => {
       it("should render the page", () => {
         vi.mocked(useSavedGifs).mockReturnValue({
           data: {
-            data: [{ id: 1234 }, { id: 5678 }],
+            data: [{ id: "1234" }, { id: "5678" }],
             pagination: { total_count: 2, count: 2 },
           },
           status: "success",
           error: null,
-        } as UseQueryResult);
+        } as UseQueryResult<GiphyResponse>);
         render(<SavedPage />);
         const gifGrid = screen.getByTestId("gif-grid");
         expect(gifGrid).toBeTruthy();

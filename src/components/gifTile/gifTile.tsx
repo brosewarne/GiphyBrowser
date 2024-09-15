@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   Box,
   Card,
@@ -21,16 +21,19 @@ const StyledCard = styled(Card)({
   justifyContent: "space-between",
 });
 
-
 /**
  *  Simple presentational component for showing a loaded Gif in a Card with the title,
  *  Gif image and a Save button
  */
-export function GifTile({ gifData }: { gifData: GiphyGif }) {
+export const GifTile = memo(function GifTile({
+  gifData,
+}: {
+  gifData: GiphyGif;
+}) {
   const gifUrl =
     gifData.images?.fixed_height?.url ?? gifData.images?.fixed_width?.url;
 
-  const theme = useTheme()
+  const theme = useTheme();
   return (
     <StyledCard variant="outlined" data-testid="gif-tile">
       <CardContent key={gifData.id}>
@@ -56,4 +59,4 @@ export function GifTile({ gifData }: { gifData: GiphyGif }) {
       </CardActions>
     </StyledCard>
   );
-}
+});

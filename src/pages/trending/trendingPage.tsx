@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useMemo } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Box, useTheme } from "@mui/material";
 
@@ -8,6 +8,7 @@ import { LoadingGrid } from "../../components/loadingGrid";
 import { ShowMoreButton } from "../../components/showMoreButton";
 import { ErrorState } from "../../components/errorState/errorState";
 import { useTrendingGifs } from "../../hooks";
+import { GiphyGif, GiphyResponse } from "../../models";
 
 /**
  * The Trending Gifs page. Shows the current trending gifs in a Gif Grid
@@ -19,10 +20,10 @@ import { useTrendingGifs } from "../../hooks";
  * There is basic pagination using a 'Show More' button.
  */
 
-export function TrendingPage() {
+export const TrendingPage = memo(function TrendingPage() {
   const {
     status,
-    data: response,
+    data,
     error,
     isFetching,
     isFetchingNextPage,
@@ -31,28 +32,43 @@ export function TrendingPage() {
   } = useTrendingGifs();
   const theme = useTheme();
 
+  const response = useMemo(() => data, [data]);
+  const items = useMemo(
+    () =>
+      (response?.pages || []).reduce(
+        (allPages: GiphyGif[], currentPage: GiphyResponse) => {
+          allPages.push(...currentPage.data);
+          return allPages;
+        },
+        [],
+      ),
+    [response],
+  );
+
   if (status === "error") {
     return <ErrorState message={error.message}></ErrorState>;
   }
 
-  if (status === "pending" || isFetchingNextPage || isFetching) {
+  const isLoading = status === "pending" || isFetchingNextPage || isFetching;
+
+  const hasItems = (response?.pages ?? []).length;
+  const showInitialLoading = isLoading && !hasItems;
+  const showPagingLoading = isLoading && hasItems;
+
+  if (showInitialLoading) {
     return <LoadingGrid></LoadingGrid>;
   }
-
-  const items = response.pages.reduce((allPages, currentPage) => {
-    allPages.push(...currentPage.data);
-    return allPages;
-  }, []);
 
   return (
     <>
       <Box marginTop={theme.spacing(2)}>
         <GifGrid gifData={items}></GifGrid>
+        {showPagingLoading && <LoadingGrid></LoadingGrid>}
         {hasNextPage && (
           <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
         )}
       </Box>
-      <ReactQueryDevtools initialIsOpen />
+      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
-}
+});

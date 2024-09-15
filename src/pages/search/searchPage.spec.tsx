@@ -10,8 +10,12 @@ import { act } from "react";
 import { useSearchGifs } from "../../hooks";
 import {
   InfiniteData,
+  InfiniteQueryObserverLoadingErrorResult,
+  InfiniteQueryObserverPendingResult,
   InfiniteQueryObserverSuccessResult,
+  DefaultError
 } from "@tanstack/react-query";
+import { GiphyResponse } from "../../models";
 
 vi.mock("../../hooks/useSearchGifs");
 
@@ -38,7 +42,7 @@ describe("SearchPage", () => {
           data: {
             pages: [
               {
-                data: [{ id: 1234 }, { id: 5678 }],
+                data: [{ id: "1234" }, { id: "5678" }],
                 pagination: { total_count: 2, count: 2 },
               },
             ],
@@ -46,7 +50,9 @@ describe("SearchPage", () => {
           },
           status: "success",
           error: null,
-        } as InfiniteQueryObserverSuccessResult<InfiniteData<any, unknown>>);
+        } as unknown as InfiniteQueryObserverSuccessResult<
+          InfiniteData<GiphyResponse, unknown>
+        >);
         render(<SearchPage />, { wrapper: Wrapper });
         const gifGrid = screen.getByTestId("gif-grid");
         expect(gifGrid).toBeTruthy();
@@ -62,7 +68,7 @@ describe("SearchPage", () => {
           data: {
             pages: [
               {
-                data: [{ id: 1234 }, { id: 5678 }],
+                data: [{ id: "1234" }, { id: "5678" }],
                 pagination: { total_count: 2, count: 2 },
               },
             ],
@@ -70,8 +76,8 @@ describe("SearchPage", () => {
           },
           status: "pending",
           error: null,
-        } as unknown as InfiniteQueryObserverSuccessResult<
-          InfiniteData<any, unknown>
+        } as unknown as InfiniteQueryObserverPendingResult<
+          InfiniteData<GiphyResponse>, DefaultError
         >);
         render(<SearchPage />, { wrapper: Wrapper });
         const loadingGrid = screen.getByTestId("loading-grid");
@@ -84,7 +90,7 @@ describe("SearchPage", () => {
           data: {
             pages: [
               {
-                data: [{ id: 1234 }, { id: 5678 }],
+                data: [{ id: "1234" }, { id: "5678" }],
                 pagination: { total_count: 2, count: 2 },
               },
             ],
@@ -92,8 +98,9 @@ describe("SearchPage", () => {
           },
           status: "error",
           error: { message: "there was an error" },
-        } as unknown as InfiniteQueryObserverSuccessResult<
-          InfiniteData<any, unknown>
+
+        } as unknown as InfiniteQueryObserverLoadingErrorResult<
+          InfiniteData<GiphyResponse>, DefaultError
         >);
         render(<SearchPage />, { wrapper: Wrapper });
         const errorState = screen.getByTestId("error-state");
@@ -107,15 +114,17 @@ describe("SearchPage", () => {
         data: {
           pages: [
             {
-              data: [{ id: 1234 }, { id: 5678 }],
+              data: [{ id: "1234" }, { id: "5678" }],
               pagination: { total_count: 2, count: 2 },
             },
           ],
-          pageParams: [{}],
+          pageParams: [{pageParam: 1}],
         },
         status: "success",
         error: null,
-      } as InfiniteQueryObserverSuccessResult<InfiniteData<any, unknown>>);
+      } as InfiniteQueryObserverSuccessResult<
+        InfiniteData<GiphyResponse>
+      >);
       render(<SearchPage />, { wrapper: Wrapper });
       const user = userEvent.setup();
       const input = screen

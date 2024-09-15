@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Box, InputAdornment, styled, TextField } from "@mui/material";
@@ -15,7 +15,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
  *  The SearchBar showin the the header. When a search term is submitted the searchTerm is set and the user
  *  is redirected to the search page where they can see their results
  */
-export function SearchBar() {
+export const SearchBar = memo(function SearchBar() {
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
   const [textFieldContent, setTextFieldContent] = useState(searchTerm);
   useEffect(() => {
@@ -55,4 +55,4 @@ export function SearchBar() {
       />
     </Box>
   );
-}
+});

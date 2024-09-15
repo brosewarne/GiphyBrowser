@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   AppBar,
@@ -20,7 +20,7 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
  *  The App header with a title, naviation buttons for the trending, searcvh and saved pages.
  *  The header also includes a search bar.
  */
-export function Header() {
+export const Header = memo(function Header() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -77,4 +77,4 @@ export function Header() {
       </StyledAppBar>
     </Box>
   );
-}
+});

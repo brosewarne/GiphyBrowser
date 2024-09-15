@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { Container, createTheme } from "@mui/material";
@@ -12,20 +12,11 @@ import { SavedPage } from "./pages/saved";
 import "./App.css";
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { ISearchContext, IAppStateContext } from "./models";
+import { ISearchContext } from "./models";
 
-import { GiphyBrowerConfig } from "./config";
 export const SearchContext = createContext<ISearchContext>({
   searchTerm: "",
   setSearchTerm: () => {},
-});
-
-export const AppStateContext = createContext<IAppStateContext>({
-  appState: {
-    apiKey: GiphyBrowerConfig.apiKey,
-    numberOfItems: GiphyBrowerConfig.numberOfItems,
-  },
-  setAppState: () => {},
 });
 
 const theme = createTheme({
@@ -36,46 +27,36 @@ const queryClient = new QueryClient();
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [appState, setAppState] = useState({
-    apiKey: GiphyBrowerConfig.apiKey,
-    numberOfItems: GiphyBrowerConfig.numberOfItems,
-  });
 
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <SearchContext.Provider value={{ searchTerm, setSearchTerm }}>
-          <AppStateContext.Provider value={{ appState, setAppState }}>
-            <CssBaseline />
-            <BrowserRouter>
-              <Container maxWidth="lg">
-                <Header />
-                <Routes>
-                  <Route
-                    path="/"
-                    element={<TrendingPage />}
-                    key="trendingRoute"
-                  />
-                  <Route
-                    path="/trending"
-                    element={<TrendingPage />}
-                    key="searchRoute"
-                  />
-                  <Route
-                    path="/search"
-                    element={<SearchPage />}
-                    key="savedPage"
-                  />
+          <CssBaseline />
+          <BrowserRouter>
+            <Container maxWidth="lg">
+              <Header />
+              <Routes>
+                <Route
+                  path="/"
+                  element={<Navigate replace to="/trending" />}
+                  key="landingPage"
+                />
+                <Route
+                  path="/trending"
+                  element={<TrendingPage />}
+                  key="trendingPage"
+                />
+                <Route
+                  path="/search"
+                  element={<SearchPage />}
+                  key="savedPage"
+                />
 
-                  <Route
-                    path="/saved"
-                    element={<SavedPage />}
-                    key="savedRoute"
-                  />
-                </Routes>
-              </Container>
-            </BrowserRouter>
-          </AppStateContext.Provider>
+                <Route path="/saved" element={<SavedPage />} key="savedRoute" />
+              </Routes>
+            </Container>
+          </BrowserRouter>
         </SearchContext.Provider>
       </QueryClientProvider>
     </ThemeProvider>

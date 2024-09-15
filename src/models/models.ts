@@ -41,10 +41,3 @@ export interface ISearchContext {
   searchTerm: string;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }
-
-export interface IAppStateContext {
-  appState: { apiKey: string; numberOfItems: number };
-  setAppState: React.Dispatch<
-    React.SetStateAction<{ apiKey: string; numberOfItems: number }>
-  >;
-}

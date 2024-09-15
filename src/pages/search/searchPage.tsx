@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import { useContext, useEffect, useState } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { TextField, InputAdornment, Typography, styled } from "@mui/material";
@@ -11,6 +11,7 @@ import { useSearchGifs } from "../../hooks";
 
 import { LoadingGrid } from "../../components/loadingGrid";
 import { ErrorState } from "../../components/errorState/errorState";
+import { GiphyGif, GiphyResponse } from "../../models";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: theme.spacing(2),
@@ -20,7 +21,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
  * The Search Gifs page. Shows a search bar and any search results in a Gif Grid
 
  */
-export function SearchPage() {
+export const SearchPage = memo(function SearchPage() {
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
 
   const [textFieldContent, setTextFieldContent] = useState(searchTerm);
@@ -30,7 +31,7 @@ export function SearchPage() {
 
   const {
     status,
-    data: response,
+    data,
     error,
     isFetching,
     isFetchingNextPage,
@@ -38,11 +39,25 @@ export function SearchPage() {
     hasNextPage,
   } = useSearchGifs({ searchTerm });
 
-  const submitOnEnter = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      setSearchTerm(textFieldContent);
-    }
-  };
+  const response = useMemo(() => data, [data]);
+  const pages = useMemo(() => response?.pages || [], [response]);
+  const items = useMemo(
+    () =>
+      pages.reduce((allPages: GiphyGif[], currentPage: GiphyResponse) => {
+        allPages.push(...currentPage.data);
+        return allPages;
+      }, []) || [],
+    [pages],
+  );
+
+  const submitOnEnter = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter") {
+        setSearchTerm(textFieldContent);
+      }
+    },
+    [setSearchTerm, textFieldContent],
+  );
 
   if (status === "error") {
     return <ErrorState message={error.message}></ErrorState>;
@@ -52,11 +67,21 @@ export function SearchPage() {
     return <ErrorState message="No Results"></ErrorState>;
   }
 
-  const items =
-    response?.pages?.reduce((allPages, currentPage) => {
-      allPages.push(...currentPage.data);
-      return allPages;
-    }, []) || [];
+  const isLoading = status === "pending" || isFetchingNextPage || isFetching;
+
+  const hasItems = (response?.pages ?? []).length;
+  const showInitialLoading = isLoading && !hasItems;
+  const showPagingLoading = isLoading && hasItems;
+
+  if (showInitialLoading) {
+    return <LoadingGrid></LoadingGrid>;
+  }
+
+  const lastPage = pages.slice(-1)[0];
+  const firstPage = pages[0];
+  const countCopy = pages.length
+    ? `Showing ${lastPage.pagination.count} out of ${firstPage.pagination.total_count} total search results`
+    : "";
 
   return (
     <>
@@ -79,23 +104,15 @@ export function SearchPage() {
         data-testid="search-page-input"
       ></StyledTextField>
 
-      {status === "pending" || isFetchingNextPage || isFetching ? (
-        <LoadingGrid></LoadingGrid>
-      ) : (
-        <>
-          {!!items.length && (
-            <Typography variant="h6">
-              Showing {response.pages.slice(-1)[0].pagination.count} out of{" "}
-              {response.pages[0].pagination.total_count} total search results
-            </Typography>
-          )}
-          <GifGrid gifData={items}></GifGrid>
-        </>
-      )}
+      <>
+        {!!items.length && <Typography variant="h6">{countCopy}</Typography>}
+        <GifGrid gifData={items}></GifGrid>
+      </>
+      {showPagingLoading && <LoadingGrid></LoadingGrid>}
       {hasNextPage && (
         <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
       )}
-      <ReactQueryDevtools initialIsOpen />
+      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
-}
+});

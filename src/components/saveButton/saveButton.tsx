@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { IconButton, Snackbar } from "@mui/material";
 import { ThumbUp } from "@mui/icons-material";
@@ -8,7 +8,7 @@ import { db } from "../../savedItemsDB";
 /**
  *  Save button for saving Gifs to local storage if they are not already saved, or removing them if they are.
  */
-export function SaveButton({ gifId }: { gifId: string }) {
+export const SaveButton = memo(function SaveButton({ gifId }: { gifId: string }) {
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
@@ -53,4 +53,4 @@ export function SaveButton({ gifId }: { gifId: string }) {
       />
     </>
   );
-}
+})

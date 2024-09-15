@@ -5,9 +5,13 @@ import { TrendingPage } from "./trendingPage";
 import { vi } from "vitest";
 import { useTrendingGifs } from "../../hooks";
 import {
+  DefaultError,
   InfiniteData,
+  InfiniteQueryObserverLoadingErrorResult,
+  InfiniteQueryObserverPendingResult,
   InfiniteQueryObserverSuccessResult,
 } from "@tanstack/react-query";
+import { GiphyResponse } from "../../models";
 
 vi.mock("../../hooks/useTrendingGifs");
 
@@ -23,7 +27,7 @@ describe("TrendingPage", () => {
           data: {
             pages: [
               {
-                data: [{ id: 1234 }, { id: 5678 }],
+                data: [{ id: "1234" }, { id: "5678" }],
                 pagination: { total_count: 2, count: 2 },
               },
             ],
@@ -31,7 +35,7 @@ describe("TrendingPage", () => {
           },
           status: "success",
           error: null,
-        } as InfiniteQueryObserverSuccessResult<InfiniteData<any, unknown>>);
+        } as InfiniteQueryObserverSuccessResult<InfiniteData<GiphyResponse>>);
 
         render(<TrendingPage />);
         const gifGrid = screen.getByTestId("gif-grid");
@@ -46,7 +50,7 @@ describe("TrendingPage", () => {
           data: {
             pages: [
               {
-                data: [{ id: 1234 }, { id: 5678 }],
+                data: [{ id: "1234" }, { id: "5678" }],
                 pagination: { total_count: 2, count: 2 },
               },
             ],
@@ -54,8 +58,9 @@ describe("TrendingPage", () => {
           },
           status: "pending",
           error: null,
-        } as unknown as InfiniteQueryObserverSuccessResult<
-          InfiniteData<any, unknown>
+        } as unknown as InfiniteQueryObserverPendingResult<
+          InfiniteData<GiphyResponse>,
+          DefaultError
         >);
         render(<TrendingPage />);
         const loadingGrid = screen.getByTestId("loading-grid");
@@ -68,16 +73,17 @@ describe("TrendingPage", () => {
           data: {
             pages: [
               {
-                data: [{ id: 1234 }, { id: 5678 }],
-                pagination: { total_count: 2, count: 2 },
+                data: [{ id: "1234" }, { id: "5678" }],
+                pagination: { total_count: 2, count: 2, offeset: 0 },
               },
             ],
             pageParams: [{}],
           },
           status: "error",
           error: { message: "there was an error" },
-        } as unknown as InfiniteQueryObserverSuccessResult<
-          InfiniteData<any, unknown>
+        } as unknown as InfiniteQueryObserverLoadingErrorResult<
+          InfiniteData<GiphyResponse>,
+          DefaultError
         >);
         render(<TrendingPage />);
         const errorState = screen.getByTestId("error-state");

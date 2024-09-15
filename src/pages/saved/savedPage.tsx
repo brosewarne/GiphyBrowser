@@ -1,10 +1,11 @@
-import React from "react";
+import React, { memo } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useSavedGifs } from "../../hooks";
 import { GifGrid } from "../../components/gifGrid";
 import { ErrorState } from "../../components/errorState/errorState";
 import { db } from "../../savedItemsDB";
 import { LoadingGrid } from "../../components/loadingGrid";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 /**
  * The Saved Gifs page. Shows the saved gifs in a simple grid with no pagination.
@@ -13,11 +14,11 @@ import { LoadingGrid } from "../../components/loadingGrid";
  *
  * If the user doen't have any saved gifs, then a simple empty state is displayed
  */
-export function SavedPage() {
+export const SavedPage = memo(function SavedPage() {
   const savedItems =
     useLiveQuery(() => db.savedGifs?.toArray())?.map((item) => item.giphyId) ||
     [];
-    
+
   const {
     isPending,
     isError,
@@ -40,6 +41,7 @@ export function SavedPage() {
     <>
       <GifGrid gifData={items}></GifGrid>;
       {isPending && <LoadingGrid></LoadingGrid>}
+      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
-}
+});

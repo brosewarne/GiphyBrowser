@@ -1,16 +1,16 @@
-import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { AppStateContext } from "../App.js";
+import { GiphyBrowerConfig } from "../config";
+import { GiphyResponse } from "../models";
 
-const fetchSavedGifs = async (gifIds: string, apiKey: string) => {
+const fetchSavedGifs = async (gifIds: string): Promise<GiphyResponse> => {
   if (!gifIds) {
-    return { data: [] };
+    return { data: [], pagination: { offset: 0, count: 0, total_count: 0 } };
   }
   const response = await fetch(
-    `https://api.giphy.com/v1/gifs?api_key=${apiKey}&ids=${gifIds}&rating=g`,
+    `https://api.giphy.com/v1/gifs?api_key=${GiphyBrowerConfig.apiKey}&ids=${gifIds}&rating=g`,
   );
   if (!response.ok) {
-    throw new Error("Network response was not ok");
+    throw new Error("There was an error fetching the saved gifs");
   }
   return await response.json();
 };
@@ -20,11 +20,9 @@ const fetchSavedGifs = async (gifIds: string, apiKey: string) => {
  *
  */
 export function useSavedGifs({ gifIds }: { gifIds: string }) {
-  const { appState } = useContext(AppStateContext);
-  const { apiKey } = appState;
-
   return useQuery({
     queryKey: ["savedGifs", gifIds],
-    queryFn: () => fetchSavedGifs(gifIds, apiKey),
+    queryFn: (): Promise<GiphyResponse> => fetchSavedGifs(gifIds),
+    retry: false,
   });
 }
