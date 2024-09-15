@@ -1,4 +1,3 @@
-
 export interface TrendingGifParams {
   resetItems: boolean;
   limit: number;
@@ -40,10 +39,12 @@ export interface GiphyPagination {
 
 export interface ISearchContext {
   searchTerm: string;
-  setSearchTerm: React.Dispatch<React.SetStateAction<any>>;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface IAppStateContext {
-  appState: {apiKey: string, numberOfItems: number};
-  setAppState: React.Dispatch<React.SetStateAction<any>>;
+  appState: { apiKey: string; numberOfItems: number };
+  setAppState: React.Dispatch<
+    React.SetStateAction<{ apiKey: string; numberOfItems: number }>
+  >;
 }

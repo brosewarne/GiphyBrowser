@@ -16,12 +16,12 @@ const fetchSavedGifs = async (gifIds: string, apiKey: string) => {
 };
 
 /**
- * Simple hook for requesting the set of aved gifs from Giphy
+ * Simple hook for requesting the set of saved gifs from Giphy
  *
  */
 export function useSavedGifs({ gifIds }: { gifIds: string }) {
-  const {appState } = useContext(AppStateContext)
-  const { apiKey} = appState
+  const { appState } = useContext(AppStateContext);
+  const { apiKey } = appState;
 
   return useQuery({
     queryKey: ["savedGifs", gifIds],

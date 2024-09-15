@@ -1,9 +1,39 @@
 import * as React from "react";
 import { vi } from "vitest";
-import { fireEvent, render } from "@testing-library/react";
+import { act } from "react";
+import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
+import userEvent from "@testing-library/user-event";
 
 import { SaveButton } from "./saveButton";
+
+vi.mock("../../savedItemsDB");
+vi.mock("../../savedItemsDB", async () => {
+  const mod =
+    await vi.importActual<typeof import("../../savedItemsDB")>(
+      "../../savedItemsDB",
+    );
+  return {
+    ...mod,
+    db: {
+      savedGifs: {
+        add: async () => {},
+        delete: async () => {},
+      },
+    },
+  };
+});
+
+vi.mock("dexie-react-hooks", async () => {
+  const mod =
+    await vi.importActual<typeof import("dexie-react-hooks")>(
+      "dexie-react-hooks",
+    );
+  return {
+    ...mod,
+    useLiveQuery: () => [{ giphyId: "1234" }, { giphyId: "5678" }],
+  };
+});
 
 describe("SaveButton", () => {
   afterEach(() => {
@@ -20,10 +50,12 @@ describe("SaveButton", () => {
 
   describe("when the SaveButton isClicked", () => {
     describe("when the input gifId is not already saved", () => {
-      it("should save the gifId and show the SnackBar", () => {
-        render(<SaveButton gifId="1234" />);
+      it("should save the gifId and show the SnackBar", async () => {
+        const user = userEvent.setup();
+        render(<SaveButton gifId="1111" />);
         const button = screen.getByTestId("save-button");
-        fireEvent.click(button);
+        await act(async () => await user.click(button));
+
         const snackbar = screen.getByTestId("save-button-snackbar");
         expect(
           snackbar.querySelector(".MuiSnackbarContent-message")?.textContent,
@@ -32,10 +64,11 @@ describe("SaveButton", () => {
     });
 
     describe("when the input gifId is already saved", () => {
-      it("should remove the gifId and show the SnackBar", () => {
+      it("should remove the gifId and show the SnackBar", async () => {
+        const user = userEvent.setup();
         render(<SaveButton gifId="1234" />);
         const button = screen.getByTestId("save-button");
-        fireEvent.click(button);
+        await act(async () => await user.click(button));
         const snackbar = screen.getByTestId("save-button-snackbar");
         expect(
           snackbar.querySelector(".MuiSnackbarContent-message")?.textContent,

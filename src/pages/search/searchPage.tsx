@@ -12,9 +12,9 @@ import { useSearchGifs } from "../../hooks";
 import { LoadingGrid } from "../../components/loadingGrid";
 import { ErrorState } from "../../components/errorState/errorState";
 
-const StyledTextField = styled(TextField)({
-  marginBottom: "1rem",
-});
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+}));
 
 /**
  * The Search Gifs page. Shows a search bar and any search results in a Gif Grid

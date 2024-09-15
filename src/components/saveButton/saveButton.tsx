@@ -21,7 +21,7 @@ export function SaveButton({ gifId }: { gifId: string }) {
     const item = await db.savedGifs.where("giphyId").equals(gifId).toArray();
     return item ? item[0] : null;
   }, [gifId]);
-  
+
   const updateSavedGifs = async () => {
     try {
       if (savedItem) {

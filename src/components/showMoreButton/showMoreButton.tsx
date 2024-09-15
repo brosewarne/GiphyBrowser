@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, styled } from "@mui/material";
 
-const StyledButton = styled(Button)({
-  marginTop: "1.25rem" 
-})
+const StyledButton = styled(Button)(({ theme }) => ({
+  marginTop: theme.spacing(2.5),
+}));
 /**
  *  Show More button for loading more items.
  */

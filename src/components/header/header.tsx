@@ -1,12 +1,21 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { AppBar, Toolbar, Typography, Box, Fab, styled } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  Fab,
+  styled,
+  useTheme,
+} from "@mui/material";
 
 import { SearchBar } from "../searchBar";
 
-const StyledAppBar = styled(AppBar)({
-  minHeight: "5rem",
-});
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+  minHeight: theme.spacing(10),
+}));
+
 /**
  *  The App header with a title, naviation buttons for the trending, searcvh and saved pages.
  *  The header also includes a search bar.
@@ -15,10 +24,11 @@ export function Header() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
+  const theme = useTheme();
   return (
     <Box
       flexGrow={1}
-      marginBottom="2rem"
+      marginBottom={theme.spacing(4)}
       alignContent="center"
       data-testid="header"
     >

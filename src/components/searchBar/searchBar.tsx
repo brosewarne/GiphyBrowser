@@ -7,10 +7,10 @@ import { SearchContext } from "../../App";
 
 import { Search } from "@mui/icons-material";
 
-const StyledTextField = styled(TextField)({
-  maxHeight: "2rem",
-  marginRight: "2rem",
-});
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  maxHeight: theme.spacing(4),
+  marginRight: theme.spacing(4),
+}));
 /**
  *  The SearchBar showin the the header. When a search term is submitted the searchTerm is set and the user
  *  is redirected to the search page where they can see their results

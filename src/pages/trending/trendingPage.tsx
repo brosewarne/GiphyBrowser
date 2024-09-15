@@ -1,6 +1,6 @@
 import React from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 
 import { GifGrid } from "../../components/gifGrid";
 import { LoadingGrid } from "../../components/loadingGrid";
@@ -29,6 +29,7 @@ export function TrendingPage() {
     fetchNextPage,
     hasNextPage,
   } = useTrendingGifs();
+  const theme = useTheme();
 
   if (status === "error") {
     return <ErrorState message={error.message}></ErrorState>;
@@ -45,7 +46,7 @@ export function TrendingPage() {
 
   return (
     <>
-      <Box marginTop="1rem">
+      <Box marginTop={theme.spacing(2)}>
         <GifGrid gifData={items}></GifGrid>
         {hasNextPage && (
           <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
