@@ -29,6 +29,7 @@ describe("TrendingPage", () => {
               {
                 data: [{ id: "1234" }, { id: "5678" }],
                 pagination: { total_count: 2, count: 2 },
+                meta: { response_id: "1234" },
               },
             ],
             pageParams: [{}],
@@ -44,7 +45,7 @@ describe("TrendingPage", () => {
         expect(gifTiles.length).toEqual(2);
       });
     });
-    describe('when the status is "pending"', () => {
+    describe("when isFetchingNextPage is true", () => {
       it("should show the loading grid", () => {
         vi.mocked(useTrendingGifs).mockReturnValue({
           data: {
@@ -52,11 +53,12 @@ describe("TrendingPage", () => {
               {
                 data: [{ id: "1234" }, { id: "5678" }],
                 pagination: { total_count: 2, count: 2 },
+                meta: { response_id: "1234" },
               },
             ],
             pageParams: [{}],
           },
-          status: "pending",
+          isFetchingNextPage: true,
           error: null,
         } as unknown as InfiniteQueryObserverPendingResult<
           InfiniteData<GiphyResponse>,
@@ -75,6 +77,7 @@ describe("TrendingPage", () => {
               {
                 data: [{ id: "1234" }, { id: "5678" }],
                 pagination: { total_count: 2, count: 2, offeset: 0 },
+                meta: { response_id: "1234" },
               },
             ],
             pageParams: [{}],

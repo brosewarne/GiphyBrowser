@@ -1,10 +1,11 @@
 import React, { memo } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
+
 import { useSavedGifs } from "../../hooks";
-import { GifGrid } from "../../components/gifGrid";
-import { ErrorState } from "../../components/errorState/errorState";
-import { db } from "../../savedItemsDB";
-import { LoadingGrid } from "../../components/loadingGrid";
+import { db } from "../../savedItemsDB.js";
+
+import { ErrorState, GifGrid, LoadingGrid } from "../../components";
+import { BasePage } from "../basePage";
 
 /**
  * The Saved Gifs page. Shows the saved gifs in a simple grid with no pagination.
@@ -14,32 +15,37 @@ import { LoadingGrid } from "../../components/loadingGrid";
  * If the user doen't have any saved gifs, then a simple empty state is displayed
  */
 export const SavedPage = memo(function SavedPage() {
-  const savedItems =
-    useLiveQuery(() => db.savedGifs?.toArray())?.map((item) => item.giphyId) ||
-    [];
+  const [savedItems, loaded] = useLiveQuery(
+    () =>
+      db.savedGifs
+        ?.toArray()
+        .then((items) => [items.map((item) => item.giphyId), true]),
+    [db],
+    [],
+  );
 
   const {
     isPending,
-    isError,
     error,
-    data: response,
+    data: items,
   } = useSavedGifs({
-    gifIds: savedItems.join(","),
+    gifIds: savedItems ? savedItems.join(",") : "",
   });
 
-  if (!savedItems.length) {
-    return <ErrorState message="You have no saved Gifs"></ErrorState>;
+  if (!savedItems && loaded) {
+    return (
+      <ErrorState
+        error={{ message: "You have no saved Gifs", name: "no saved gifs" }}
+      ></ErrorState>
+    );
   }
-
-  if (isError) {
-    return <ErrorState message={error.message}></ErrorState>;
-  }
-
-  const items = response?.data ?? [];
   return (
-    <>
-      <GifGrid gifData={items}></GifGrid>;
-      {isPending && <LoadingGrid></LoadingGrid>}
-    </>
+    <BasePage showInitialLoading={isPending} apiError={error}>
+      {isPending ? (
+        <LoadingGrid></LoadingGrid>
+      ) : (
+        !error && <GifGrid gifData={items}></GifGrid>
+      )}
+    </BasePage>
   );
 });

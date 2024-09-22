@@ -5,7 +5,7 @@ import { SavedPage } from "./savedPage";
 import { vi } from "vitest";
 import { useSavedGifs } from "../../hooks";
 import { UseQueryResult } from "@tanstack/react-query";
-import { GiphyResponse } from "../../models";
+import { GiphyGif } from "../../models";
 
 vi.mock("../../hooks/useSavedGifs");
 vi.mock("dexie-react-hooks", async () => {
@@ -15,7 +15,7 @@ vi.mock("dexie-react-hooks", async () => {
     );
   return {
     ...mod,
-    useLiveQuery: () => ["1234", "5678"],
+    useLiveQuery: () => [["1234", "5678"], true],
   };
 });
 
@@ -27,13 +27,12 @@ describe("SavedPage", () => {
     describe("when there are saved gifs", () => {
       it("should render the page", () => {
         vi.mocked(useSavedGifs).mockReturnValue({
-          data: {
-            data: [{ id: "1234" }, { id: "5678" }],
-            pagination: { total_count: 2, count: 2 },
-          },
+          data: [{ id: "1234" }, { id: "5678" }],
+          pagination: { total_count: 2, count: 2 },
+
           status: "success",
           error: null,
-        } as UseQueryResult<GiphyResponse>);
+        } as unknown as UseQueryResult<GiphyGif[]>);
         render(<SavedPage />);
         const gifGrid = screen.getByTestId("gif-grid");
         expect(gifGrid).toBeTruthy();

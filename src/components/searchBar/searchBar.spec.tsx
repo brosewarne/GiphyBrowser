@@ -8,7 +8,7 @@ import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { screen } from "@testing-library/dom";
 
-import { SearchContext } from "../../App";
+import { SearchContext } from "../../providers";
 import { SearchBar } from "./searchBar";
 
 const mockedUseNavigate = vi.fn();

@@ -1,13 +1,9 @@
 import React, { memo, useMemo } from "react";
-import { Box, useTheme } from "@mui/material";
 
-import { GifGrid } from "../../components/gifGrid";
-import { LoadingGrid } from "../../components/loadingGrid";
+import { GifGrid, LoadingGrid, ShowMoreButton } from "../../components";
 
-import { ShowMoreButton } from "../../components/showMoreButton";
-import { ErrorState } from "../../components/errorState/errorState";
 import { useTrendingGifs } from "../../hooks";
-import { GiphyGif, GiphyResponse } from "../../models";
+import { BasePage } from "../basePage";
 
 /**
  * The Trending Gifs page. Shows the current trending gifs in a Gif Grid
@@ -21,7 +17,6 @@ import { GiphyGif, GiphyResponse } from "../../models";
 
 export const TrendingPage = memo(function TrendingPage() {
   const {
-    status,
     data,
     error,
     isFetching,
@@ -29,46 +24,22 @@ export const TrendingPage = memo(function TrendingPage() {
     fetchNextPage,
     hasNextPage,
   } = useTrendingGifs();
-  const theme = useTheme();
 
-  const response = useMemo(() => data, [data]);
-  const items = useMemo(
-    () =>
-      (response?.pages || []).reduce(
-        (allPages: GiphyGif[], currentPage: GiphyResponse) => {
-          allPages.push(...currentPage.data);
-          return allPages;
-        },
-        [],
-      ),
-    [response],
-  );
 
-  if (status === "error") {
-    return <ErrorState message={error.message}></ErrorState>;
-  }
+  const pages = useMemo(() => data?.pages || [], [data]);
 
-  const isLoading = status === "pending" || isFetchingNextPage || isFetching;
-
-  const hasItems = (response?.pages ?? []).length;
-  const showInitialLoading = isLoading && !hasItems;
-  const showPagingLoading = isLoading && hasItems;
-
-  if (showInitialLoading) {
-    return <LoadingGrid></LoadingGrid>;
-  }
+  const hasItems = (pages ?? []).length;
+  const showInitialLoading = isFetching && !hasItems;
 
   return (
-    <>
-      <Box marginTop={theme.spacing(2)}>
-        <GifGrid gifData={items}></GifGrid>
-        {showPagingLoading && <LoadingGrid></LoadingGrid>}
-        <Box marginTop={theme.spacing(2)}>
-          {hasNextPage && (
-            <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
-          )}
-        </Box>
-      </Box>
-    </>
+    <BasePage showInitialLoading={showInitialLoading} apiError={error}>
+      {pages.map((page) => (
+        <GifGrid gifData={page.data} key={page.meta.response_id}></GifGrid>
+      ))}
+      {isFetchingNextPage && <LoadingGrid></LoadingGrid>}
+      {hasNextPage && (
+        <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
+      )}
+    </BasePage>
   );
 });

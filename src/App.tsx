@@ -1,63 +1,62 @@
-import { createContext, useState } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-import { Container, createTheme } from "@mui/material";
+import {
+  CssBaseline,
+  ThemeProvider,
+  Box,
+  Container,
+  createTheme,
+} from "@mui/material";
 
 import { Header } from "./components/header";
+import { TrendingPage, SavedPage, SearchPage, PageTabs } from "./pages";
 
-import { TrendingPage } from "./pages/trending";
-import { SearchPage } from "./pages/search";
-import { SavedPage } from "./pages/saved";
-import "./App.css";
-
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { ISearchContext } from "./models";
-
-export const SearchContext = createContext<ISearchContext>({
-  searchTerm: "",
-  setSearchTerm: () => {},
-});
+import { SearchTermProvider } from "./providers/searchTermProvider";
 
 const theme = createTheme({
   spacing: 8,
 });
 
-const queryClient = new QueryClient();
-
 function App() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const queryClient = new QueryClient();
 
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <SearchContext.Provider value={{ searchTerm, setSearchTerm }}>
+        <SearchTermProvider>
           <CssBaseline />
           <BrowserRouter>
             <Container maxWidth="lg">
-              <Header />
-              <Routes>
-                <Route
-                  path="/"
-                  element={<Navigate replace to="/trending" />}
-                  key="landingPage"
-                />
-                <Route
-                  path="/trending"
-                  element={<TrendingPage />}
-                  key="trendingPage"
-                />
-                <Route
-                  path="/search"
-                  element={<SearchPage />}
-                  key="savedPage"
-                />
+              <Box bgcolor="rgba(246, 247, 248, 0.5)">
+                <Header />
+                <PageTabs></PageTabs>
+                <Routes>
+                  <Route
+                    path="/"
+                    element={<Navigate replace to="/trending" />}
+                    key="landingPage"
+                  />
+                  <Route
+                    path="/trending"
+                    element={<TrendingPage />}
+                    key="trendingPage"
+                  />
+                  <Route
+                    path="/search"
+                    element={<SearchPage />}
+                    key="savedPage"
+                  />
 
-                <Route path="/saved" element={<SavedPage />} key="savedRoute" />
-              </Routes>
+                  <Route
+                    path="/saved"
+                    element={<SavedPage />}
+                    key="savedRoute"
+                  />
+                </Routes>
+              </Box>
             </Container>
           </BrowserRouter>
-        </SearchContext.Provider>
+        </SearchTermProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );

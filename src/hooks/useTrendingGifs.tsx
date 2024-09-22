@@ -1,4 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+import axios, { AxiosResponse } from "axios";
+
 import { GiphyBrowerConfig } from "../config";
 import { GiphyResponse } from "../models";
 
@@ -6,13 +8,10 @@ const fetchTrendingGifs = async (
   limit: number,
   offset: number,
 ): Promise<GiphyResponse> => {
-  const response = await fetch(
-    `https://api.giphy.com/v1/gifs/trending?api_key=${GiphyBrowerConfig.apiKey}&limit=${limit}&offset=${offset}&rating=g&bundle="messaging_non_clips"`,
-  );
-  if (!response.ok) {
-    throw new Error("There was an error fetching the trending gifs");
-  }
-  return await response.json();
+  const url: string = `https://api.giphy.com/v1/gifs/trending?api_key=${GiphyBrowerConfig.apiKey}&limit=${limit}&offset=${offset}&rating=g&bundle="messaging_non_clips"`;
+  // Let react-query do the error handling if this throws, no need for extra error handling here
+  const response: AxiosResponse<GiphyResponse> = await axios.get(url);
+  return response.data;
 };
 
 export function useTrendingGifs() {

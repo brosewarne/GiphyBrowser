@@ -1,4 +1,4 @@
-import React, {memo } from "react";
+import React, { memo } from "react";
 
 import Grid from "@mui/material/Grid2";
 import { Box, Skeleton } from "@mui/material";
@@ -25,10 +25,10 @@ export const LoadingGrid = memo(function LoadingGrid() {
   );
 
   return (
-    <Box flexGrow={1} data-testid="loading-grid">
+    <Box data-testid="loading-grid">
       <Grid container rowSpacing={3} columnSpacing={2}>
         {rows}
       </Grid>
     </Box>
   );
-})
+});

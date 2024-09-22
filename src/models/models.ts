@@ -29,15 +29,13 @@ export interface GiphyGif {
 export interface GiphyResponse {
   data: GiphyGif[];
   pagination: GiphyPagination;
+  meta: {
+    response_id?: string;
+  };
 }
 
 export interface GiphyPagination {
   total_count: number;
   count: number;
   offset: number;
-}
-
-export interface ISearchContext {
-  searchTerm: string;
-  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }

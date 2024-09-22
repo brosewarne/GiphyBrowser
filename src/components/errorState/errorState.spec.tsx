@@ -7,7 +7,7 @@ import { ErrorState } from "./errorState";
 describe("ErrorState", () => {
   describe("renders the ErrorState component", () => {
     beforeEach(() => {
-      render(<ErrorState message="message" />);
+      render(<ErrorState error={{ message: "message", name: "error" }} />);
     });
     it("should render the component", () => {
       const errorState = screen.getByTestId("error-state");

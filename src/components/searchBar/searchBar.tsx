@@ -1,14 +1,9 @@
 import React, { memo, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import {
-  Box,
-  InputAdornment,
-  TextField,
-  useTheme,
-} from "@mui/material";
+import { InputAdornment, TextField } from "@mui/material";
 
-import { SearchContext } from "../../App";
+import { SearchContext } from "../../providers/searchTermProvider";
 
 import { Search } from "@mui/icons-material";
 
@@ -19,43 +14,43 @@ import { Search } from "@mui/icons-material";
 export const SearchBar = memo(function SearchBar() {
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
   const [textFieldContent, setTextFieldContent] = useState(searchTerm);
-  const theme = useTheme();
 
   useEffect(() => {
     setTextFieldContent(searchTerm);
   }, [searchTerm]);
 
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const submitOnEnter = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      setSearchTerm(textFieldContent);
+    if (e.key !== "Enter") {
+      return;
+    }
+    setSearchTerm(textFieldContent);
+    if (pathname !== "/search") {
       navigate("/search");
     }
   };
 
   return (
-    <Box display="flex" padding={theme.spacing(4)}>
-      <TextField
-        id="serachGiphy"
-        value={textFieldContent}
-        onChange={(event) => {
-          setTextFieldContent(event.target.value);
-        }}
-        onKeyDown={submitOnEnter}
-        label="Search Giphy"
-        variant="outlined"
-        slotProps={{
-          input: {
-            startAdornment: (
-              <InputAdornment position="start">
-                <Search />
-              </InputAdornment>
-            ),
-          },
-        }}
-        data-testid="search-bar-input"
-      />
-    </Box>
+    <TextField
+      id="serachGiphy"
+      placeholder="Search Giphty"
+      value={textFieldContent}
+      onChange={(event) => {
+        setTextFieldContent(event.target.value);
+      }}
+      onKeyDown={submitOnEnter}
+      slotProps={{
+        input: {
+          startAdornment: (
+            <InputAdornment position="start">
+              <Search />
+            </InputAdornment>
+          ),
+        },
+      }}
+      data-testid="search-bar-input"
+    />
   );
 });
