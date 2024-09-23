@@ -4,7 +4,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { IconButton, Snackbar } from "@mui/material";
 import { ThumbUp } from "@mui/icons-material";
 
-import { db } from "../../utils/savedItemsDB.js";
+import { db } from "@app/utils";
 
 /**
  *  Save button for saving Gifs to local storage if they are not already saved, or removing them if they are.

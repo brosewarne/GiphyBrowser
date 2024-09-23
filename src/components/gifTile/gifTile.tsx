@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { Box, Card, CardActions, CardContent, Typography } from "@mui/material";
 
-import { GiphyGif } from "../../models";
+import { GiphyGif } from "@app/models";
 import { SaveButton } from "../saveButton";
 
 import sharedStyles from "../shared.module.css";

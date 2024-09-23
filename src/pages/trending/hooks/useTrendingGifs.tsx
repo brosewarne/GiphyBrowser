@@ -1,9 +1,12 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  UseInfiniteQueryResult,
+} from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 
-import { GiphyResponse } from "../models";
+import { GiphyResponse, PagedQueryResult } from "@app/models";
 import { useContext } from "react";
-import { ConfigContext } from "../providers";
+import { ConfigContext } from "@app/providers";
 
 const fetchTrendingGifs = async (
   baseUrl: string,
@@ -17,18 +20,27 @@ const fetchTrendingGifs = async (
   return response.data;
 };
 
-export function useTrendingGifs() {
+export function useTrendingGifs(): UseInfiniteQueryResult<PagedQueryResult> {
   const { apiKey, baseUrl, numberOfItems } = useContext(ConfigContext);
 
   return useInfiniteQuery({
     queryKey: ["trendingPage"],
-    queryFn: async ({ pageParam }): Promise<GiphyResponse> =>
-      fetchTrendingGifs(baseUrl, apiKey, numberOfItems, pageParam * numberOfItems, ),
+    queryFn: async ({
+      pageParam,
+    }: {
+      pageParam: number;
+    }): Promise<GiphyResponse> =>
+      fetchTrendingGifs(
+        baseUrl,
+        apiKey,
+        numberOfItems,
+        pageParam * numberOfItems,
+      ),
 
     initialPageParam: 0,
-    getPreviousPageParam: (firstPage) =>
+    getPreviousPageParam: (firstPage: GiphyResponse) =>
       firstPage.pagination.offset > 0 ? firstPage.pagination.offset - 1 : null,
-    getNextPageParam: (lastPage) =>
+    getNextPageParam: (lastPage: GiphyResponse) =>
       lastPage.pagination.count < lastPage.pagination.total_count
         ? lastPage.pagination.offset + 1
         : null,

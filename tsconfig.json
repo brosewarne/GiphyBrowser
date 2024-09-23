@@ -16,8 +16,18 @@
     "noEmit": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "noUnusedLocals": false
+    "noUnusedLocals": false,
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["src/*"]
+    }
   },
-  "include": ["**/*.ts", "**/*.tsx", "./vitest.setup.ts"],
+  "include": [
+    "src",
+    "**/*.ts",
+    "**/*.tsx",
+    "./vitest.setup.ts",
+    "./vite.config.ts"
+  ],
   "exclude": ["node_modules"]
 }

@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 
 import { GifGrid } from "./gifGrid";
-import { GiphyGif } from "../../models";
+import { GiphyGif } from "@app/models";
 
 const getMockGifData = (): GiphyGif[] => {
   const mockGifData = {

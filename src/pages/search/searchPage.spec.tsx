@@ -4,10 +4,10 @@ import { MemoryRouter } from "react-router";
 import { screen } from "@testing-library/dom";
 import { SearchPage } from "./searchPage";
 import { vi } from "vitest";
-import { SearchContext } from "../../providers";
+import { SearchContext } from "@app/providers";
 import userEvent from "@testing-library/user-event";
 import { act } from "react";
-import { useSearchGifs } from "../../hooks";
+import { useSearchGifs } from "./hooks";
 import {
   InfiniteData,
   InfiniteQueryObserverLoadingErrorResult,
@@ -15,9 +15,9 @@ import {
   InfiniteQueryObserverSuccessResult,
   DefaultError,
 } from "@tanstack/react-query";
-import { GiphyResponse } from "../../models";
+import { GiphyResponse } from "@app/models";
 
-vi.mock("../../hooks/useSearchGifs");
+vi.mock("./hooks/useSearchGifs");
 
 const mockSetSearchTerm = vi.fn();
 
@@ -35,6 +35,7 @@ describe("SearchPage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
+
   describe("renders the SearchPage component", () => {
     describe('when status is "success"', () => {
       it("should render the page", () => {

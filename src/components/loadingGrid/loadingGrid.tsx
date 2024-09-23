@@ -3,7 +3,7 @@ import React, { memo, useContext } from "react";
 import Grid from "@mui/material/Grid2";
 import { Box, Skeleton, useTheme } from "@mui/material";
 
-import { ConfigContext } from "../../providers";
+import { ConfigContext } from "@app/providers";
 
 /**
  *  Simple presentational component for showing a loading grid with rectangle skeletons

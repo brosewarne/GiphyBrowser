@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { AppBar, Toolbar, Typography, Box } from "@mui/material";
 
-import { SearchBar } from "../searchBar";
+import { SearchBar } from "@app/components";
 
 import styles from "./header.module.css";
 

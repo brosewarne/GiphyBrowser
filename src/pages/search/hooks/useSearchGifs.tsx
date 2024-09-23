@@ -1,9 +1,12 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useContext } from "react";
+import {
+  useInfiniteQuery,
+  UseInfiniteQueryResult,
+} from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 
-import { GiphyResponse } from "../models";
-import { useContext } from "react";
-import { ConfigContext } from "../providers";
+import { GiphyResponse, PagedQueryResult } from "@app/models";
+import { ConfigContext } from "@app/providers";
 
 const fetchSearchGifs = async (
   baseUrl: string,
@@ -16,7 +19,7 @@ const fetchSearchGifs = async (
     return {
       data: [],
       pagination: { count: 0, total_count: 0, offset: 0 },
-      meta: {},
+      meta: { response_id: "-1" },
     };
   }
 
@@ -26,7 +29,11 @@ const fetchSearchGifs = async (
   return response.data;
 };
 
-export function useSearchGifs({ searchTerm }: { searchTerm: string }) {
+export function useSearchGifs({
+  searchTerm,
+}: {
+  searchTerm: string;
+}): UseInfiniteQueryResult<PagedQueryResult> {
   const { apiKey, baseUrl, numberOfItems } = useContext(ConfigContext);
 
   return useInfiniteQuery({
@@ -36,14 +43,18 @@ export function useSearchGifs({ searchTerm }: { searchTerm: string }) {
     }: {
       pageParam: number;
     }): Promise<GiphyResponse> =>
-      fetchSearchGifs(baseUrl, apiKey, searchTerm, numberOfItems, pageParam * numberOfItems),
+      fetchSearchGifs(
+        baseUrl,
+        apiKey,
+        searchTerm,
+        numberOfItems,
+        pageParam * numberOfItems,
+      ),
 
     initialPageParam: 0,
-    getPreviousPageParam: (firstPage) =>
-      firstPage.pagination.offset > 0
-        ? firstPage.pagination.offset - 1
-        : null,
-    getNextPageParam: (lastPage) =>
+    getPreviousPageParam: (firstPage: GiphyResponse) =>
+      firstPage.pagination.offset > 0 ? firstPage.pagination.offset - 1 : null,
+    getNextPageParam: (lastPage: GiphyResponse) =>
       lastPage.pagination.count < lastPage.pagination.total_count
         ? lastPage.pagination?.offset + 1
         : null,

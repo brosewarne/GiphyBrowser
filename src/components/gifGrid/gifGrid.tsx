@@ -3,7 +3,7 @@ import React, { memo } from "react";
 import Grid from "@mui/material/Grid2";
 import { Box } from "@mui/material";
 
-import { GiphyGif } from "../../models";
+import { GiphyGif } from "@app/models";
 import { GifTile } from "../gifTile";
 
 import styles from "./gifGrid.module.css";

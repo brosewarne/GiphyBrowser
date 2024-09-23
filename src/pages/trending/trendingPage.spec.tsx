@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 import { TrendingPage } from "./trendingPage";
 import { vi } from "vitest";
-import { useTrendingGifs } from "../../hooks";
+import { useTrendingGifs } from "./hooks";
 import {
   DefaultError,
   InfiniteData,
@@ -11,9 +11,9 @@ import {
   InfiniteQueryObserverPendingResult,
   InfiniteQueryObserverSuccessResult,
 } from "@tanstack/react-query";
-import { GiphyResponse } from "../../models";
+import { GiphyResponse } from "@app/models";
 
-vi.mock("../../hooks/useTrendingGifs");
+vi.mock("./hooks/useTrendingGifs");
 
 describe("TrendingPage", () => {
   beforeEach(() => {

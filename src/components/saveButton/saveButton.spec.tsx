@@ -9,7 +9,7 @@ import { SaveButton } from "./saveButton";
 
 vi.mock("../../utils/savedItemsDB", async () => {
   const mod = await vi.importActual<
-    typeof import("../../utils/savedItemsDB.js")
+    typeof import("../../utils/savedItemsDB")
   >("../../utils/savedItemsDB");
   return {
     ...mod,

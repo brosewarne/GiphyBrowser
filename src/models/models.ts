@@ -39,3 +39,8 @@ export interface GiphyPagination {
   count: number;
   offset: number;
 }
+
+
+export interface PagedQueryResult {
+  pages: GiphyResponse[]
+}

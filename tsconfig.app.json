@@ -18,7 +18,11 @@
     "strict": true,
     "noUnusedLocals": false,
     "noFallthroughCasesInSwitch": true,
-    "composite": true
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["src/*"]
+    }
   },
   "include": ["src"]
 }

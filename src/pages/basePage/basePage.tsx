@@ -2,7 +2,7 @@ import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { Box } from "@mui/material";
-import { LoadingGrid, ErrorState } from "../../components";
+import { LoadingGrid, ErrorState } from "@app/components";
 
 import styles from "./basePage.module.css"
 

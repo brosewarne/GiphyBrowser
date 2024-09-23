@@ -1,9 +1,9 @@
 import React, { memo, useMemo } from "react";
 
-import { useTrendingGifs } from "../../hooks";
+import { useTrendingGifs } from "./hooks";
 
-import { GifGrid, LoadingGrid, ShowMoreButton } from "../../components";
-import { BasePage } from "../basePage";
+import { GifGrid, LoadingGrid, ShowMoreButton } from "@app/components";
+import { BasePage } from "@app/pages";
 
 /**
  * The Trending Gifs page. Shows the current trending gifs in a Gif Grid
@@ -24,7 +24,6 @@ export const TrendingPage = memo(function TrendingPage() {
     fetchNextPage,
     hasNextPage,
   } = useTrendingGifs();
-
 
   const pages = useMemo(() => data?.pages || [], [data]);
 

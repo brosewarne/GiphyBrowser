@@ -5,7 +5,7 @@ import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 import { vi } from "vitest";
 
-import { SearchContext } from "../../providers";
+import { SearchContext } from "@app/providers";
 
 import { Header } from "./header";
 

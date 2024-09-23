@@ -2,7 +2,7 @@ import * as React from "react";
 import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 
-import { GiphyGif } from "../../models";
+import { GiphyGif } from "@app/models";
 
 import { GifTile } from "./gifTile";
 
@@ -39,7 +39,7 @@ describe("GifTile", () => {
       const img = screen.getByRole("img");
       expect(img.getAttribute("src")).toEqual("http://abc.height.com");
     });
-    
+
     it("should render the save button", () => {
       const saveButton = screen.getByTestId("save-button");
       expect(saveButton).toBeTruthy();

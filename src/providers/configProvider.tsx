@@ -1,10 +1,10 @@
 import React, { ReactNode, useState, createContext } from "react";
-import { GiphyBrowserConfig } from "../config";
+import { GiphyBrowserConfig } from "@app/config";
 
 export type Configuration = {
   apiKey: string;
   numberOfItems: number;
-  baseUrl: string
+  baseUrl: string;
 };
 
 export type Config = Configuration;
@@ -15,8 +15,6 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [config] = useState(GiphyBrowserConfig);
 
   return (
-    <ConfigContext.Provider value={config}>
-      {children}
-    </ConfigContext.Provider>
+    <ConfigContext.Provider value={config}>{children}</ConfigContext.Provider>
   );
 }

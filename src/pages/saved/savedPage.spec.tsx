@@ -3,11 +3,11 @@ import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 import { SavedPage } from "./savedPage";
 import { vi } from "vitest";
-import { useSavedGifs } from "../../hooks";
-import { UseQueryResult } from "@tanstack/react-query";
-import { GiphyGif } from "../../models";
+import { useSavedGifs } from "./hooks";
+import { UseInfiniteQueryResult } from "@tanstack/react-query";
+import { PagedQueryResult } from "@app/models";
 
-vi.mock("../../hooks/useSavedGifs");
+vi.mock("./hooks/useSavedGifs");
 vi.mock("dexie-react-hooks", async () => {
   const mod =
     await vi.importActual<typeof import("dexie-react-hooks")>(
@@ -24,15 +24,23 @@ describe("SavedPage", () => {
     beforeEach(() => {
       vi.clearAllMocks();
     });
+
     describe("when there are saved gifs", () => {
       it("should render the page", () => {
         vi.mocked(useSavedGifs).mockReturnValue({
-          data: [{ id: "1234" }, { id: "5678" }],
-          pagination: { total_count: 2, count: 2 },
+          data: {
+            pages: [
+              {
+                data: [{ id: "1234" }, { id: "5678" }],
+                pagination: { total_count: 2, count: 2 },
+                meta: { response_id: "1234" },
+              },
+            ],
+          },
 
           status: "success",
           error: null,
-        } as unknown as UseQueryResult<GiphyGif[]>);
+        } as unknown as UseInfiniteQueryResult<PagedQueryResult>);
         render(<SavedPage />);
         const gifGrid = screen.getByTestId("gif-grid");
         expect(gifGrid).toBeTruthy();

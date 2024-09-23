@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { InputAdornment, TextField } from "@mui/material";
 
-import { SearchContext } from "../../providers/searchTermProvider";
+import { SearchContext } from "@app/providers";
 
 import { Search } from "@mui/icons-material";
 

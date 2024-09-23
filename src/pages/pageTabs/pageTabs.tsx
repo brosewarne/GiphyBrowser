@@ -9,7 +9,7 @@ export const PageTabs = memo(function PageTabs() {
   const { pathname } = useLocation();
 
   return (
-    <Box className={styles['tabs-container']}>
+    <Box className={styles["tabs-container"]}>
       <Tabs value={pathname} variant="fullWidth">
         <Tab
           label="Trending"

@@ -1,11 +1,16 @@
-import React, { memo } from "react";
+import React, { memo, useMemo } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import { useSavedGifs } from "../../hooks";
-import { db } from "../../utils";
+import { useSavedGifs } from "./hooks";
+import { db } from "@app/utils";
 
-import { ErrorState, GifGrid, LoadingGrid } from "../../components";
-import { BasePage } from "../basePage";
+import {
+  ErrorState,
+  GifGrid,
+  LoadingGrid,
+  ShowMoreButton,
+} from "@app/components";
+import { BasePage } from "@app/pages";
 
 /**
  * The Saved Gifs page. Shows the saved gifs in a simple grid with no pagination.
@@ -25,12 +30,20 @@ export const SavedPage = memo(function SavedPage() {
   );
 
   const {
-    isPending,
+    data,
     error,
-    data: items,
+    isFetching,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
   } = useSavedGifs({
     gifIds: savedItems ? savedItems.join(",") : "",
   });
+
+  const pages = useMemo(() => data?.pages || [], [data]);
+
+  const hasItems = (pages ?? []).length;
+  const showInitialLoading = isFetching && !hasItems;
 
   if (!savedItems && loaded) {
     return (
@@ -39,12 +52,15 @@ export const SavedPage = memo(function SavedPage() {
       ></ErrorState>
     );
   }
+
   return (
-    <BasePage showInitialLoading={isPending} apiError={error}>
-      {isPending ? (
-        <LoadingGrid></LoadingGrid>
-      ) : (
-        !error && <GifGrid gifData={items}></GifGrid>
+    <BasePage showInitialLoading={showInitialLoading} apiError={error}>
+      {pages.map((page) => (
+        <GifGrid gifData={page.data} key={page.meta.response_id}></GifGrid>
+      ))}
+      {isFetchingNextPage && <LoadingGrid></LoadingGrid>}
+      {hasNextPage && (
+        <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
       )}
     </BasePage>
   );
