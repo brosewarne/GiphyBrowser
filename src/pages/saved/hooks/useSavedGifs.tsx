@@ -6,6 +6,7 @@ import {
 import axios, { AxiosResponse } from "axios";
 
 import { GiphyResponse, PagedQueryResult } from "@app/models";
+
 import { ConfigContext } from "@app/providers";
 
 const fetchSavedGifs = async (
@@ -33,7 +34,11 @@ const fetchSavedGifs = async (
   return {
     data: response.data.data,
     meta: response.data.meta,
-    pagination: { total_count: allGifIds.length, offset, count: limit },
+    pagination: {
+      total_count: allGifIds.length,
+      offset,
+      count: offset * limit + response.data.data.length,
+    },
   };
 };
 
