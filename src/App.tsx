@@ -10,11 +10,13 @@ import {
 
 import { Header } from "./components/header";
 import { TrendingPage, SavedPage, SearchPage, PageTabs } from "./pages";
+import { ConfigProvider, SearchTermProvider } from "./providers";
 
-import { SearchTermProvider } from "./providers/searchTermProvider";
+import styles from "./App.module.css";
 
 const theme = createTheme({
   spacing: 8,
+  cssVariables: true,
 });
 
 function App() {
@@ -24,38 +26,44 @@ function App() {
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <SearchTermProvider>
-          <CssBaseline />
-          <BrowserRouter>
-            <Container maxWidth="lg">
-              <Box bgcolor="rgba(246, 247, 248, 0.5)">
-                <Header />
-                <PageTabs></PageTabs>
-                <Routes>
-                  <Route
-                    path="/"
-                    element={<Navigate replace to="/trending" />}
-                    key="landingPage"
-                  />
-                  <Route
-                    path="/trending"
-                    element={<TrendingPage />}
-                    key="trendingPage"
-                  />
-                  <Route
-                    path="/search"
-                    element={<SearchPage />}
-                    key="savedPage"
-                  />
+          <ConfigProvider>
+            <CssBaseline />
+            <BrowserRouter>
+              <Container
+                maxWidth="lg"
+                disableGutters={true}
+                className={styles["app-container"]}
+              >
+                <Box>
+                  <Header />
+                  <PageTabs></PageTabs>
+                  <Routes>
+                    <Route
+                      path="/"
+                      element={<Navigate replace to="/trending" />}
+                      key="landingPage"
+                    />
+                    <Route
+                      path="/trending"
+                      element={<TrendingPage />}
+                      key="trendingPage"
+                    />
+                    <Route
+                      path="/search"
+                      element={<SearchPage />}
+                      key="savedPage"
+                    />
 
-                  <Route
-                    path="/saved"
-                    element={<SavedPage />}
-                    key="savedRoute"
-                  />
-                </Routes>
-              </Box>
-            </Container>
-          </BrowserRouter>
+                    <Route
+                      path="/saved"
+                      element={<SavedPage />}
+                      key="savedRoute"
+                    />
+                  </Routes>
+                </Box>
+              </Container>
+            </BrowserRouter>
+          </ConfigProvider>
         </SearchTermProvider>
       </QueryClientProvider>
     </ThemeProvider>

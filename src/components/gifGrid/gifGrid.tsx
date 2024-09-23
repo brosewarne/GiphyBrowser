@@ -1,11 +1,12 @@
 import React, { memo } from "react";
 
 import Grid from "@mui/material/Grid2";
-import { Box, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { GiphyGif } from "../../models";
-
 import { GifTile } from "../gifTile";
+
+import styles from "./gifGrid.module.css";
 
 /**
  *  Simple presentational component for showing the loaded Gifs in a grid
@@ -15,13 +16,8 @@ export const GifGrid = memo(function GifGrid({
 }: {
   gifData: GiphyGif[];
 }) {
-  const theme = useTheme();
   return (
-    <Box
-      justifyContent="space-between"
-      marginBottom={theme.spacing(1)}
-      data-testid="gif-grid"
-    >
+    <Box className={styles['grid-container']} data-testid="gif-grid">
       <Grid container rowSpacing={3} columnSpacing={2}>
         {gifData.map((gif: GiphyGif) => {
           return (

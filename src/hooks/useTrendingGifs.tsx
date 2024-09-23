@@ -1,26 +1,29 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 
-import { GiphyBrowerConfig } from "../config";
 import { GiphyResponse } from "../models";
+import { useContext } from "react";
+import { ConfigContext } from "../providers";
 
 const fetchTrendingGifs = async (
+  baseUrl: string,
+  apiKey: string,
   limit: number,
   offset: number,
 ): Promise<GiphyResponse> => {
-  const url: string = `https://api.giphy.com/v1/gifs/trending?api_key=${GiphyBrowerConfig.apiKey}&limit=${limit}&offset=${offset}&rating=g&bundle="messaging_non_clips"`;
+  const url: string = `${baseUrl}/trending?api_key=${apiKey}&limit=${limit}&offset=${offset}&rating=g&bundle="messaging_non_clips"`;
   // Let react-query do the error handling if this throws, no need for extra error handling here
   const response: AxiosResponse<GiphyResponse> = await axios.get(url);
   return response.data;
 };
 
 export function useTrendingGifs() {
-  const { numberOfItems } = GiphyBrowerConfig;
+  const { apiKey, baseUrl, numberOfItems } = useContext(ConfigContext);
 
   return useInfiniteQuery({
     queryKey: ["trendingPage"],
     queryFn: async ({ pageParam }): Promise<GiphyResponse> =>
-      fetchTrendingGifs(numberOfItems, pageParam * numberOfItems),
+      fetchTrendingGifs(baseUrl, apiKey, numberOfItems, pageParam * numberOfItems, ),
 
     initialPageParam: 0,
     getPreviousPageParam: (firstPage) =>

@@ -1,21 +1,11 @@
 import React, { memo } from "react";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Box, Card, CardActions, CardContent, Typography } from "@mui/material";
 
 import { GiphyGif } from "../../models";
 import { SaveButton } from "../saveButton";
 
-const StyledImage = styled("img")(({ theme }) => ({
-  width: theme.spacing(25),
-  height: theme.spacing(18.75),
-}));
+import sharedStyles from "../shared.module.css";
+import styles from "./gifTile.module.css";
 
 /**
  *  Simple presentational component for showing a loaded Gif in a Card with the title,
@@ -29,13 +19,11 @@ export const GifTile = memo(function GifTile({
   const gifUrl =
     gifData.images?.fixed_height?.url ?? gifData.images?.fixed_width?.url;
 
-  const theme = useTheme();
-
   return (
     <Card variant="outlined" data-testid="gif-tile">
       <CardContent key={gifData.id}>
-        <Box alignItems="center" display="flex" flexDirection="column">
-          <Box minHeight={theme.spacing(7.5)}>
+        <Box className={sharedStyles['centered-column-content']}>
+          <Box className={styles['gif-title-container']}>
             <Typography
               gutterBottom
               variant="subtitle1"
@@ -44,10 +32,10 @@ export const GifTile = memo(function GifTile({
               {gifData.title}
             </Typography>
           </Box>
-          <StyledImage src={gifUrl} alt={gifData.title} />
+          <img src={gifUrl} alt={gifData.title} className={styles['gif-image']} />
         </Box>
       </CardContent>
-      <Box display="flex" justifyContent="center">
+      <Box className={sharedStyles['centered-content']}>
         <CardActions>
           <SaveButton gifId={gifData.id}></SaveButton>
         </CardActions>

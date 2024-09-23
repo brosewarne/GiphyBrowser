@@ -1,15 +1,16 @@
-import React, {memo} from "react";
+import React, { memo } from "react";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 
 import { Box, Tabs, Tab } from "@mui/material";
+import styles from "./pageTabs.module.css";
 
 export const PageTabs = memo(function PageTabs() {
   const { pathname } = useLocation();
 
   return (
-    <Box borderBottom={1} borderColor="divider">
-      <Tabs aria-label="Tab navigation" value={pathname} variant="fullWidth">
+    <Box className={styles['tabs-container']}>
+      <Tabs value={pathname} variant="fullWidth">
         <Tab
           label="Trending"
           component={Link}
@@ -21,4 +22,4 @@ export const PageTabs = memo(function PageTabs() {
       </Tabs>
     </Box>
   );
-})
+});

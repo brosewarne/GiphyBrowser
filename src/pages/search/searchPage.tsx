@@ -1,6 +1,9 @@
 import React, { memo, useMemo, useContext } from "react";
 import { Box, Typography } from "@mui/material";
 
+import { SearchContext } from "../../providers";
+import { useSearchGifs } from "../../hooks";
+
 import {
   GifGrid,
   ShowMoreButton,
@@ -8,10 +11,9 @@ import {
   ErrorState,
   SearchBar,
 } from "../../components";
-import { SearchContext } from "../../providers";
-import { useSearchGifs } from "../../hooks";
-
 import { BasePage } from "../basePage";
+
+import sharedStyles from "../../components/Shared.module.css";
 
 /**
  * The Search Gifs page. Shows a search bar and any search results in a Gif Grid
@@ -40,7 +42,7 @@ export const SearchPage = memo(function SearchPage() {
 
   return (
     <BasePage showInitialLoading={false} apiError={error}>
-      <Box textAlign="center">
+      <Box className={sharedStyles['centered-content']}>
         <SearchBar></SearchBar>
         {!hasItems && !!searchTerm && !isFetching && (
           <ErrorState

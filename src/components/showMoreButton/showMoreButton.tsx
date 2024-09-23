@@ -1,13 +1,13 @@
 import React from "react";
-import { Box, Button, useTheme } from "@mui/material";
+import { Box, Button } from "@mui/material";
+import styles from "./showMoreButton.module.css";
 
 /**
  *  Show More button for loading more items.
  */
 export function ShowMoreButton({ getNextPage }: { getNextPage: () => void }) {
-  const theme = useTheme();
   return (
-    <Box marginTop={theme.spacing(2)} textAlign="center">
+    <Box className={styles["button-container"]}>
       <Button
         variant="contained"
         onClick={getNextPage}

@@ -1,0 +1,4 @@
+.page-container {
+  margin-top: calc(var(--mui-spacing) * 4);
+  height: 100vh;
+}

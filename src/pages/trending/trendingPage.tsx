@@ -1,8 +1,8 @@
 import React, { memo, useMemo } from "react";
 
-import { GifGrid, LoadingGrid, ShowMoreButton } from "../../components";
-
 import { useTrendingGifs } from "../../hooks";
+
+import { GifGrid, LoadingGrid, ShowMoreButton } from "../../components";
 import { BasePage } from "../basePage";
 
 /**

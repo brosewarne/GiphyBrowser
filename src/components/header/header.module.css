@@ -1,0 +1,11 @@
+.header-container {
+  width: 100%;
+  padding-bottom: calc(var(--mui-spacing) * 4);
+  align-content: center;
+}
+
+.toolbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

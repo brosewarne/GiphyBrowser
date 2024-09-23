@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import { useSavedGifs } from "../../hooks";
-import { db } from "../../savedItemsDB.js";
+import { db } from "../../utils";
 
 import { ErrorState, GifGrid, LoadingGrid } from "../../components";
 import { BasePage } from "../basePage";

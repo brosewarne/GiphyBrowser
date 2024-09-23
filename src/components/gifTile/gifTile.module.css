@@ -1,0 +1,8 @@
+.gif-title-container {
+  min-height: calc(var(--mui-spacing) * 7.5);
+}
+
+.gif-image {
+    width:  calc(var(--mui-spacing) * 25);
+    height:  calc(var(--mui-spacing) * 18.75);
+}
