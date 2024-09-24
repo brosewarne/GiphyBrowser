@@ -37,7 +37,7 @@ export const SavedPage = memo(function SavedPage() {
     fetchNextPage,
     hasNextPage,
   } = useSavedGifs({
-    gifIds: savedItems ? savedItems.join(",") : "",
+    gifIds: savedItems ?? [],
   });
 
   if (!savedItems && savedItemsLoaded) {

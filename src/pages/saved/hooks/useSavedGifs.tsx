@@ -12,7 +12,7 @@ import { ConfigContext } from "@app/providers";
 const fetchSavedGifs = async (
   baseUrl: string,
   apiKey: string,
-  gifIds: string,
+  gifIds: string[],
   limit: number,
   offset: number,
 ): Promise<GiphyResponse> => {
@@ -25,8 +25,7 @@ const fetchSavedGifs = async (
   }
 
   // simple pagination functionality as the `gifs` EP doesn't support pagination
-  const allGifIds = gifIds.split(",");
-  const pagedGifIds = allGifIds.slice(offset, offset + limit);
+  const pagedGifIds = gifIds.reverse().slice(offset, offset + limit); // reverse to show most recently saved first
 
   // Let react-query do the error handling if this throws, no need for extra error handling here
   const response: AxiosResponse<GiphyResponse> = await axios.get(`${baseUrl}`, {
@@ -41,7 +40,7 @@ const fetchSavedGifs = async (
     data: response.data.data,
     meta: response.data.meta,
     pagination: {
-      total_count: allGifIds.length,
+      total_count: gifIds.length,
       offset,
       count: offset * limit + response.data.data.length,
     },
@@ -55,7 +54,7 @@ const fetchSavedGifs = async (
 export function useSavedGifs({
   gifIds,
 }: {
-  gifIds: string;
+  gifIds: string[];
 }): UseInfiniteQueryResult<PagedQueryResult> {
   const { apiKey, baseUrl, numberOfItems } = useContext(ConfigContext);
   return useInfiniteQuery({
