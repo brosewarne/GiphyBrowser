@@ -3,7 +3,6 @@ import {
   UseInfiniteQueryResult,
 } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
-import queryString from "query-string";
 
 import { GiphyResponse, PagedQueryResult } from "@app/models";
 import { useContext } from "react";
@@ -15,17 +14,18 @@ const fetchTrendingGifs = async (
   limit: number,
   offset: number,
 ): Promise<GiphyResponse> => {
-  const qs = queryString.stringify({
-    limit,
-    offset,
-    api_key: apiKey,
-    rating: "g",
-    bundle: "messaging_non_clips",
-  });
-
   // Let react-query do the error handling if this throws, no need for extra error handling here
   const response: AxiosResponse<GiphyResponse> = await axios.get(
-    `${baseUrl}/trending?${qs}`,
+    `${baseUrl}/trending`,
+    {
+      params: {
+        limit,
+        offset,
+        api_key: apiKey,
+        rating: "g",
+        bundle: "messaging_non_clips",
+      },
+    },
   );
   return response.data;
 };

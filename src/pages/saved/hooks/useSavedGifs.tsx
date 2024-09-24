@@ -4,7 +4,6 @@ import {
   UseInfiniteQueryResult,
 } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
-import queryString from "query-string";
 
 import { GiphyResponse, PagedQueryResult } from "@app/models";
 
@@ -29,17 +28,15 @@ const fetchSavedGifs = async (
   const allGifIds = gifIds.split(",");
   const pagedGifIds = allGifIds.slice(offset, offset + limit);
 
-  const qs = queryString.stringify(
-    {
+  // Let react-query do the error handling if this throws, no need for extra error handling here
+  const response: AxiosResponse<GiphyResponse> = await axios.get(`${baseUrl}`, {
+    params: {
       api_key: apiKey,
-      ids: pagedGifIds,
+      ids: pagedGifIds.join(","),
       rating: "g",
     },
-    { arrayFormat: "comma" },
-  );
+  });
 
-  // Let react-query do the error handling if this throws, no need for extra error handling here
-  const response: AxiosResponse<GiphyResponse> = await axios.get(`${baseUrl}?${qs}`);
   return {
     data: response.data.data,
     meta: response.data.meta,
