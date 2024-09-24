@@ -2,19 +2,17 @@ import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { Box } from "@mui/material";
-import { LoadingGrid, ErrorState } from "@app/components";
+import { ErrorState } from "@app/components";
 
 import styles from "./basePage.module.css"
 
 interface PageProps {
   children?: React.ReactNode;
-  showInitialLoading: boolean;
   apiError: Error | null;
 }
 
 export function BasePage({
   children,
-  showInitialLoading,
   apiError,
 }: PageProps) {
   const renderErrorState = ({ error }: { error: Error }) => (
@@ -28,7 +26,7 @@ export function BasePage({
   return (
     <ErrorBoundary fallbackRender={renderErrorState}>
       <Box className={styles['page-container']}>
-        {showInitialLoading ? <LoadingGrid></LoadingGrid> : children}
+        {children}
       </Box>
     </ErrorBoundary>
   );

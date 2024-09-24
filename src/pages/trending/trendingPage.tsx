@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo } from "react";
 
 import { useTrendingGifs } from "./hooks";
 
@@ -25,13 +25,14 @@ export const TrendingPage = memo(function TrendingPage() {
     hasNextPage,
   } = useTrendingGifs();
 
-  const pages = useMemo(() => data?.pages || [], [data]);
+  if (!data && isFetching && !error) {
+    return <LoadingGrid></LoadingGrid>;
+  }
 
-  const hasItems = (pages ?? []).length;
-  const showInitialLoading = isFetching && !hasItems;
+  const pages = data?.pages ?? [];
 
   return (
-    <BasePage showInitialLoading={showInitialLoading} apiError={error}>
+    <BasePage apiError={error}>
       {pages.map((page) => (
         <GifGrid gifData={page.data} key={page.meta.response_id}></GifGrid>
       ))}

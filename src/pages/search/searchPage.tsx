@@ -41,7 +41,7 @@ export const SearchPage = memo(function SearchPage() {
     : "";
 
   return (
-    <BasePage showInitialLoading={false} apiError={error}>
+    <BasePage apiError={error}>
       <Box className={sharedStyles["centered-column-content"]}>
         <Box></Box>
         <SearchBar></SearchBar>

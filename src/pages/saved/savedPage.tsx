@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import { useSavedGifs } from "./hooks";
@@ -40,11 +40,6 @@ export const SavedPage = memo(function SavedPage() {
     gifIds: savedItems ? savedItems.join(",") : "",
   });
 
-  const pages = useMemo(() => data?.pages || [], [data]);
-
-  const hasItems = (pages ?? []).length;
-  const showInitialLoading = isFetching && !hasItems;
-
   if (!savedItems && loaded) {
     return (
       <ErrorState
@@ -53,8 +48,13 @@ export const SavedPage = memo(function SavedPage() {
     );
   }
 
+  if (!data && isFetching) {
+    return <LoadingGrid></LoadingGrid>;
+  }
+
+  const pages = data?.pages ?? [];
   return (
-    <BasePage showInitialLoading={showInitialLoading} apiError={error}>
+    <BasePage apiError={error}>
       {pages.map((page) => (
         <GifGrid gifData={page.data} key={page.meta.response_id}></GifGrid>
       ))}
