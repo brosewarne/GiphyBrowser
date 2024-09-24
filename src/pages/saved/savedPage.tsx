@@ -20,7 +20,7 @@ import { BasePage } from "@app/pages";
  * If the user doen't have any saved gifs, then a simple empty state is displayed
  */
 export const SavedPage = memo(function SavedPage() {
-  const [savedItems, loaded] = useLiveQuery(
+  const [savedItems, savedItemsLoaded] = useLiveQuery(
     () =>
       db.savedGifs
         ?.toArray()
@@ -40,7 +40,7 @@ export const SavedPage = memo(function SavedPage() {
     gifIds: savedItems ? savedItems.join(",") : "",
   });
 
-  if (!savedItems && loaded) {
+  if (!savedItems && savedItemsLoaded) {
     return (
       <ErrorState
         error={{ message: "You have no saved Gifs", name: "no saved gifs" }}
