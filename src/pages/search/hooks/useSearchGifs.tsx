@@ -4,6 +4,7 @@ import {
   UseInfiniteQueryResult,
 } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
+import queryString from "query-string";
 
 import { GiphyResponse, PagedQueryResult } from "@app/models";
 import { ConfigContext } from "@app/providers";
@@ -23,9 +24,19 @@ const fetchSearchGifs = async (
     };
   }
 
-  const url: string = `${baseUrl}/search?api_key=${apiKey}&q=${searchTerm}&limit=${limit}&offset=${offset}&rating=g&bundle=messaging_non_clips`;
+  const qs = queryString.stringify({
+    limit,
+    offset,
+    api_key: apiKey,
+    q: searchTerm,
+    rating: "g",
+    bundle: "messaging_non_clips",
+  });
+
   // Let react-query do the error handling if this throws, no need for extra error handling here
-  const response: AxiosResponse<GiphyResponse> = await axios.get(url);
+  const response: AxiosResponse<GiphyResponse> = await axios.get(
+    `${baseUrl}/search?${qs}`,
+  );
   return response.data;
 };
 
