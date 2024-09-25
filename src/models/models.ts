@@ -16,6 +16,8 @@ export interface GiphyGif {
   images: {
     original: {
       url: string;
+      width: string;
+      height: string;
     };
     fixed_width?: {
       url: string;
@@ -40,7 +42,6 @@ export interface GiphyPagination {
   offset: number;
 }
 
-
 export interface PagedQueryResult {
-  pages: GiphyResponse[]
+  pages: GiphyResponse[];
 }

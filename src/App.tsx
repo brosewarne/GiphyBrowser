@@ -13,6 +13,8 @@ import { TrendingPage, SavedPage, SearchPage, PageTabs } from "./pages";
 import { ConfigProvider, SearchTermProvider } from "./providers";
 
 import styles from "./App.module.css";
+import { GifModal } from "./components/gifModal";
+import { GifModalProvider } from "@app/providers";
 
 const theme = createTheme({
   spacing: 8,
@@ -27,42 +29,45 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <SearchTermProvider>
           <ConfigProvider>
-            <CssBaseline />
-            <BrowserRouter>
-              <Container
-                maxWidth="lg"
-                disableGutters={true}
-                className={styles["app-container"]}
-              >
-                <Box>
-                  <Header />
-                  <PageTabs></PageTabs>
-                  <Routes>
-                    <Route
-                      path="/"
-                      element={<Navigate replace to="/trending" />}
-                      key="landingPage"
-                    />
-                    <Route
-                      path="/trending"
-                      element={<TrendingPage />}
-                      key="trendingPage"
-                    />
-                    <Route
-                      path="/search"
-                      element={<SearchPage />}
-                      key="savedPage"
-                    />
+            <GifModalProvider>
+              <CssBaseline />
+              <BrowserRouter>
+                <Container
+                  maxWidth="lg"
+                  disableGutters={true}
+                  className={styles["app-container"]}
+                >
+                  <Box>
+                    <Header />
+                    <PageTabs></PageTabs>
+                    <Routes>
+                      <Route
+                        path="/"
+                        element={<Navigate replace to="/trending" />}
+                        key="landingPage"
+                      />
+                      <Route
+                        path="/trending"
+                        element={<TrendingPage />}
+                        key="trendingPage"
+                      />
+                      <Route
+                        path="/search"
+                        element={<SearchPage />}
+                        key="savedPage"
+                      />
 
-                    <Route
-                      path="/saved"
-                      element={<SavedPage />}
-                      key="savedRoute"
-                    />
-                  </Routes>
-                </Box>
-              </Container>
-            </BrowserRouter>
+                      <Route
+                        path="/saved"
+                        element={<SavedPage />}
+                        key="savedRoute"
+                      />
+                    </Routes>
+                  </Box>
+                  <GifModal></GifModal>
+                </Container>
+              </BrowserRouter>
+            </GifModalProvider>
           </ConfigProvider>
         </SearchTermProvider>
       </QueryClientProvider>

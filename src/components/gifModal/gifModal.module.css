@@ -1,0 +1,14 @@
+.close-button {
+  /* @todo make this work without !important  */
+  position: absolute !important;
+  right: var(--mui-spacing);
+  top: var(--mui-spacing);
+  /* @todo make this work without !important  */
+  color: var(--mui-palette-grey-500) !important;
+}
+
+.save-button {
+  display: flex;
+  justify-content: center;
+  padding: var(--mui-spacing);
+}
