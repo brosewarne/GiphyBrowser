@@ -23,6 +23,7 @@ const fetchSearchGifs = async (
     };
   }
 
+  
   // Let react-query do the error handling if this throws, no need for extra error handling here
   const response: AxiosResponse<GiphyResponse> = await axios.get(
     `${baseUrl}/search`,
@@ -63,12 +64,11 @@ export function useSearchGifs({
       ),
 
     initialPageParam: 0,
-    getPreviousPageParam: (firstPage: GiphyResponse) =>
-      firstPage.pagination.offset > 0 ? firstPage.pagination.offset - 1 : null,
-    getNextPageParam: (lastPage: GiphyResponse) =>
-      lastPage.pagination.count < lastPage.pagination.total_count
-        ? lastPage.pagination?.offset + 1
-        : null,
+    getNextPageParam: ({
+      pagination: { total_count, count, offset },
+    }: GiphyResponse) => {
+      return count < total_count ? (count + offset) / numberOfItems : null;
+    },
     retry: false,
     staleTime: 300000,
   });

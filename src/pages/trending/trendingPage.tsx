@@ -4,6 +4,7 @@ import { useTrendingGifs } from "./hooks";
 
 import { GifGrid, LoadingGrid, ShowMoreButton } from "@app/components";
 import { BasePage } from "@app/pages";
+import { Box } from "@mui/material";
 
 /**
  * The Trending Gifs page. Shows the current trending gifs in a Gif Grid
@@ -38,7 +39,9 @@ export const TrendingPage = memo(function TrendingPage() {
       ))}
       {isFetchingNextPage && <LoadingGrid></LoadingGrid>}
       {hasNextPage && (
-        <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
+        <Box margin="32px">
+          <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
+        </Box>
       )}
     </BasePage>
   );

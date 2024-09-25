@@ -24,7 +24,7 @@ vi.mock("@tanstack/react-query", async () => {
 describe("useSavedGifs", () => {
   it("should call Giphy for the saved gifs", () => {
     const { result } = renderHook(useSavedGifs, {
-      initialProps: { gifIds: "1234,5678" },
+      initialProps: { gifIds: ["1234", "5678"] },
     });
     expect(result.current).toEqual({
       data: {

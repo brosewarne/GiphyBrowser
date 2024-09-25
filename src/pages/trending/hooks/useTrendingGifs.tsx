@@ -39,21 +39,21 @@ export function useTrendingGifs(): UseInfiniteQueryResult<PagedQueryResult> {
       pageParam,
     }: {
       pageParam: number;
-    }): Promise<GiphyResponse> =>
-      fetchTrendingGifs(
+    }): Promise<GiphyResponse> => {
+      return fetchTrendingGifs(
         baseUrl,
         apiKey,
         numberOfItems,
         pageParam * numberOfItems,
-      ),
+      );
+    },
 
     initialPageParam: 0,
-    getPreviousPageParam: (firstPage: GiphyResponse) =>
-      firstPage.pagination.offset > 0 ? firstPage.pagination.offset - 1 : null,
-    getNextPageParam: (lastPage: GiphyResponse) =>
-      lastPage.pagination.count < lastPage.pagination.total_count
-        ? lastPage.pagination.offset + 1
-        : null,
+    getNextPageParam: ({
+      pagination: { total_count, count, offset },
+    }: GiphyResponse) => {
+      return count < total_count ? (count + offset) / numberOfItems : null;
+    },
     staleTime: 300000,
     retry: false,
   });

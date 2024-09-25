@@ -24,7 +24,7 @@ export const SavedPage = memo(function SavedPage() {
     () =>
       db.savedGifs
         ?.toArray()
-        .then((items) => [items.map((item) => item.giphyId), true]),
+        .then((items) => [items.map((item) => item.giphyId).reverse(), true]),
     [db],
     [],
   );

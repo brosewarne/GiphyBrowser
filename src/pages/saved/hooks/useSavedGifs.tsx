@@ -16,7 +16,7 @@ const fetchSavedGifs = async (
   limit: number,
   offset: number,
 ): Promise<GiphyResponse> => {
-  if (!gifIds) {
+  if (!gifIds.length) {
     return {
       data: [],
       pagination: { offset: 0, count: 0, total_count: 0 },
@@ -25,7 +25,7 @@ const fetchSavedGifs = async (
   }
 
   // simple pagination functionality as the `gifs` EP doesn't support pagination
-  const pagedGifIds = gifIds.reverse().slice(offset, offset + limit); // reverse to show most recently saved first
+  const pagedGifIds = gifIds.slice(offset, offset + limit); // reverse to show most recently saved first
 
   // Let react-query do the error handling if this throws, no need for extra error handling here
   const response: AxiosResponse<GiphyResponse> = await axios.get(`${baseUrl}`, {
@@ -42,7 +42,7 @@ const fetchSavedGifs = async (
     pagination: {
       total_count: gifIds.length,
       offset,
-      count: offset * limit + response.data.data.length,
+      count: response.data.data.length + offset,
     },
   };
 };
@@ -73,12 +73,11 @@ export function useSavedGifs({
       ),
 
     initialPageParam: 0,
-    getPreviousPageParam: (firstPage: GiphyResponse) =>
-      firstPage.pagination.offset > 0 ? firstPage.pagination.offset - 1 : null,
-    getNextPageParam: (lastPage: GiphyResponse) =>
-      lastPage.pagination.count < lastPage.pagination.total_count
-        ? lastPage.pagination?.offset + 1
-        : null,
+    getNextPageParam: ({
+      pagination: { total_count, count, offset },
+    }: GiphyResponse) => {
+      return count < total_count ? (count + offset) / numberOfItems : null;
+    },
     retry: false,
     staleTime: 300000,
   });
