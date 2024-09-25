@@ -13,7 +13,6 @@ import { TrendingPage, SavedPage, SearchPage, PageTabs } from "./pages";
 import { ConfigProvider, SearchTermProvider } from "./providers";
 
 import styles from "./App.module.css";
-import { GifModal } from "./components/gifModal";
 import { GifModalProvider } from "@app/providers";
 
 const theme = createTheme({
@@ -64,7 +63,7 @@ function App() {
                       />
                     </Routes>
                   </Box>
-                  <GifModal></GifModal>
+              
                 </Container>
               </BrowserRouter>
             </GifModalProvider>
