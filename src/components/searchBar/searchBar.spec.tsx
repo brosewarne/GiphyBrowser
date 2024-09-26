@@ -1,8 +1,10 @@
 import * as React from "react";
 import { act } from "react";
-
-import { MemoryRouter } from "react-router";
-
+import {
+  createRouter,
+  createRootRoute,
+  RouterProvider,
+} from "@tanstack/react-router";
 import { vi } from "vitest";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -12,11 +14,10 @@ import { SearchContext } from "@app/providers";
 import { SearchBar } from "./searchBar";
 
 const mockedUseNavigate = vi.fn();
-vi.mock("react-router-dom", async () => {
-  const mod =
-    await vi.importActual<typeof import("react-router-dom")>(
-      "react-router-dom",
-    );
+vi.mock("@tanstack/react-router", async () => {
+  const mod = await vi.importActual<typeof import("@tanstack/react-router")>(
+    "@tanstack/react-router",
+  );
   return {
     ...mod,
     useNavigate: () => mockedUseNavigate,
@@ -26,18 +27,27 @@ vi.mock("react-router-dom", async () => {
 const mockSetSearchTerm = vi.fn();
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
+  const rootRoute = createRootRoute({
+    component: () => <>{children}</>,
+  });
+
+   // @todo: fix any
+  const router: any = createRouter({
+    routeTree: rootRoute,
+  });
+
   return (
     <SearchContext.Provider
       value={{ searchTerm: "", setSearchTerm: mockSetSearchTerm }}
     >
-      <MemoryRouter>{children}</MemoryRouter>
+      <RouterProvider router={router}></RouterProvider>
     </SearchContext.Provider>
   );
 };
 
 describe("SearchBar", () => {
-  beforeEach(() => {
-    render(<SearchBar />, { wrapper: Wrapper });
+  beforeEach(async () => {
+    await act(async () => render(<SearchBar />, { wrapper: Wrapper }));
   });
   describe("renders the SearchBar component", () => {
     it("should render the searchBar", () => {
@@ -58,7 +68,11 @@ describe("SearchBar", () => {
             await user.type(searchInput as HTMLElement, "search term"),
         );
         await user.type(searchInput as HTMLElement, "{Enter}");
-        expect(mockedUseNavigate.mock.calls[0]).toEqual(["/search"]);
+        expect(mockedUseNavigate.mock.calls[0]).toEqual([
+          {
+            to: "/search",
+          },
+        ]);
         expect(mockSetSearchTerm).toHaveBeenLastCalledWith("search term");
       });
     });

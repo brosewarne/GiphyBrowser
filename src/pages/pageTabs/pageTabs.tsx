@@ -1,6 +1,7 @@
 import React, { memo } from "react";
-import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
+import { useLocation } from "@tanstack/react-router";
+
+import { Link } from "@tanstack/react-router";
 
 import { Box, Tabs, Tab } from "@mui/material";
 import styles from "./pageTabs.module.css";

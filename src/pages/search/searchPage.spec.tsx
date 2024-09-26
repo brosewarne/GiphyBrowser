@@ -1,6 +1,11 @@
 import * as React from "react";
 import { render } from "@testing-library/react";
-import { MemoryRouter } from "react-router";
+import {
+  createRootRoute,
+  createRouter,
+  Router,
+  RouterProvider,
+} from "@tanstack/react-router";
 import { screen } from "@testing-library/dom";
 import { SearchPage } from "./searchPage";
 import { vi } from "vitest";
@@ -22,11 +27,27 @@ vi.mock("./hooks/useSearchGifs");
 const mockSetSearchTerm = vi.fn();
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
+  const rootRoute = createRootRoute({
+    component: () => <>{children}</>,
+  });
+
+  // @todo: fix any
+  const router: any = createRouter({
+    routeTree: rootRoute,
+  });
+
+  function TestingComponent() {
+    <>{children}</>;
+  }
+
   return (
     <SearchContext.Provider
       value={{ searchTerm: "", setSearchTerm: mockSetSearchTerm }}
     >
-      <MemoryRouter initialEntries={["/"]}>{children}</MemoryRouter>
+      <RouterProvider
+        router={router}
+        defaultComponent={TestingComponent}
+      ></RouterProvider>
     </SearchContext.Provider>
   );
 };

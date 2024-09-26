@@ -1,5 +1,6 @@
 import React, { memo, useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+
+import { useLocation, useNavigate } from "@tanstack/react-router";
 
 import { InputAdornment, TextField } from "@mui/material";
 
@@ -28,7 +29,7 @@ export const SearchBar = memo(function SearchBar() {
     }
     setSearchTerm(textFieldContent);
     if (pathname !== "/search") {
-      navigate("/search");
+      navigate({to: "/search"});
     }
   };
 
