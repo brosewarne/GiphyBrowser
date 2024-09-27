@@ -42,11 +42,18 @@ export function GifModal() {
         aria-label="close"
         onClick={handleClose}
         className={styles["close-button"]}
+        data-testid="close-button"
       >
         <CloseIcon />
       </IconButton>
       <DialogContent>
-        <img src={url} width={width} height={height} alt={title}></img>
+        <img
+          src={url}
+          width={width}
+          height={height}
+          alt={title}
+          data-testid="gif-modal-img"
+        ></img>
       </DialogContent>
       <Box className={styles["save-button"]}>
         <SaveButton gifId={id}></SaveButton>

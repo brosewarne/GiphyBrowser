@@ -1,61 +1,65 @@
-import { renderHook } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
-import { act } from "react";
+import axios from "axios";
+
+import { QueryClientWrapper } from "@app/testUtils/mocks/queryClient";
+vi.mock("axios");
 
 import { useSearchGifs } from "./useSearchGifs";
 
-vi.mock("@tanstack/react-query", async () => {
-  const mod = await vi.importActual<typeof import("@tanstack/react-query")>(
-    "@tanstack/react-query",
-  );
-  return {
-    ...mod,
-    useInfiniteQuery: () => ({
-      data: {
-        pages: [
-          {
-            data: [{ id: 1234 }, { id: 5678 }],
-            pagination: { total_count: 2, count: 2 },
-          },
-        ],
-      },
-    }),
-  };
-});
-
 describe("useSearchGifs", () => {
-  describe("when 'searchTerm' is supplied", () => {
-    it("should search gifs based on the searchTerms", async () => {
-      const { result } = await act(async () =>
-        renderHook(useSearchGifs, {
-          initialProps: {
-            searchTerm: "hello",
-            resetItems: false,
-            limit: 9,
-            offset: 0,
+  describe("when a searchTerm is provided", () => {
+    it("should search gifs based on the searchTerm", async () => {
+      vi.spyOn(axios, "get").mockResolvedValue({
+        data: {
+          data: [{ id: "1234" }, { id: "5678" }],
+          pagination: { total_count: 2, count: 2, offset: 0 },
+          meta: { response_id: "1234" },
+        },
+      });
+
+      const { result } = renderHook(useSearchGifs, {
+        initialProps: { searchTerm: "hello" },
+        wrapper: QueryClientWrapper,
+      });
+      await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
+      expect(result.current).toEqual(
+        expect.objectContaining({
+          data: {
+            pageParams: [0],
+            pages: [
+              {
+                data: [{ id: "1234" }, { id: "5678" }],
+                pagination: { total_count: 2, count: 2, offset: 0 },
+                meta: { response_id: "1234" },
+              },
+            ],
           },
         }),
       );
-      expect(result.current).toEqual({
-        data: {
-          pages: [
-            {
-              data: [
-                {
-                  id: 1234,
-                },
-                {
-                  id: 5678,
-                },
-              ],
-              pagination: {
-                count: 2,
-                total_count: 2,
-              },
-            },
-          ],
-        },
+    });
+  });
+  describe("when gifIds are not provided", () => {
+    test("should return default data", async () => {
+      const { result } = renderHook(useSearchGifs, {
+        initialProps: { searchTerm: "" },
+        wrapper: QueryClientWrapper,
       });
+      await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
+      expect(result.current).toEqual(
+        expect.objectContaining({
+          data: {
+            pageParams: [0],
+            pages: [
+              {
+                data: [],
+                pagination: { total_count: 0, count: 0, offset: 0 },
+                meta: { response_id: "-1" },
+              },
+            ],
+          },
+        }),
+      );
     });
   });
 });
