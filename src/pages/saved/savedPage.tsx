@@ -1,8 +1,5 @@
-import React, { memo } from "react";
-import { useLiveQuery } from "dexie-react-hooks";
-
+import React, { memo, useContext } from "react";
 import { useSavedGifs } from "./hooks";
-import { db } from "@app/utils";
 
 import {
   ErrorState,
@@ -11,6 +8,7 @@ import {
   ShowMoreButton,
 } from "@app/components";
 import { BasePage } from "@app/pages";
+import { SavedContext } from "@app/providers";
 
 /**
  * The Saved Gifs page. Shows the saved gifs in a simple grid with no pagination.
@@ -20,14 +18,7 @@ import { BasePage } from "@app/pages";
  * If the user doen't have any saved gifs, then a simple empty state is displayed
  */
 export const SavedPage = memo(function SavedPage() {
-  const [savedItems, savedItemsLoaded] = useLiveQuery(
-    () =>
-      db.savedGifs
-        ?.toArray()
-        .then((items) => [items.map((item) => item.giphyId).reverse(), true]),
-    [db],
-    [],
-  );
+  const { gifs: savedItems } = useContext(SavedContext);
 
   const {
     data,
@@ -40,7 +31,7 @@ export const SavedPage = memo(function SavedPage() {
     gifIds: savedItems ?? [],
   });
 
-  if (!savedItems && savedItemsLoaded) {
+  if (!savedItems) {
     return (
       <ErrorState
         error={{ message: "You have no saved Gifs", name: "no saved gifs" }}

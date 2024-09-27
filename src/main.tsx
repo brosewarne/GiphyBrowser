@@ -21,7 +21,11 @@ import {
 
 import { Header } from "./components/header";
 import { PageTabs } from "./pages";
-import { ConfigProvider, SearchTermProvider } from "./providers";
+import {
+  ConfigProvider,
+  SearchTermProvider,
+  SavedGifsProvider,
+} from "./providers";
 import { searchRoutes } from "./pages/search/routes";
 import { trendingRoutes } from "./pages/trending/routes.js";
 import { savedRoutes } from "./pages/saved/routes";
@@ -41,20 +45,22 @@ const rootRoute = createRootRoute({
       <QueryClientProvider client={queryClient}>
         <SearchTermProvider>
           <ConfigProvider>
-            <GifModalProvider>
-              <CssBaseline />
-              <Container
-                maxWidth="lg"
-                disableGutters={true}
-                className={styles["app-container"]}
-              >
-                <Box>
-                  <Header />
-                  <PageTabs></PageTabs>
-                  <Outlet></Outlet>
-                </Box>
-              </Container>
-            </GifModalProvider>
+            <SavedGifsProvider>
+              <GifModalProvider>
+                <CssBaseline />
+                <Container
+                  maxWidth="lg"
+                  disableGutters={true}
+                  className={styles["app-container"]}
+                >
+                  <Box>
+                    <Header />
+                    <PageTabs></PageTabs>
+                    <Outlet></Outlet>
+                  </Box>
+                </Container>
+              </GifModalProvider>
+            </SavedGifsProvider>
           </ConfigProvider>
         </SearchTermProvider>
       </QueryClientProvider>

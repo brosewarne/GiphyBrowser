@@ -64,6 +64,7 @@ export function useSearchGifs({
       ),
 
     initialPageParam: 0,
+
     getNextPageParam: ({
       pagination: { total_count, count, offset },
     }: GiphyResponse) => {

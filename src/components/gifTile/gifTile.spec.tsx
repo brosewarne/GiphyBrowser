@@ -15,6 +15,8 @@ describe("GifTile", () => {
     images: {
       original: {
         url: "http://abc.original.com",
+        width: "200px",
+        height: "150px",
       },
       fixed_width: {
         url: "http://abc.width.com",

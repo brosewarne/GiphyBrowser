@@ -6,11 +6,12 @@ import { screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 
 import { SaveButton } from "./saveButton";
+import { SavedContext } from "@app/providers";
 
 vi.mock("../../utils/savedItemsDB", async () => {
-  const mod = await vi.importActual<
-    typeof import("../../utils/savedItemsDB")
-  >("../../utils/savedItemsDB");
+  const mod = await vi.importActual<typeof import("../../utils/savedItemsDB")>(
+    "../../utils/savedItemsDB",
+  );
   return {
     ...mod,
     db: {
@@ -22,16 +23,15 @@ vi.mock("../../utils/savedItemsDB", async () => {
   };
 });
 
-vi.mock("dexie-react-hooks", async () => {
-  const mod =
-    await vi.importActual<typeof import("dexie-react-hooks")>(
-      "dexie-react-hooks",
-    );
-  return {
-    ...mod,
-    useLiveQuery: () => [{ giphyId: "1234" }, { giphyId: "5678" }],
-  };
-});
+vi.mock("dexie-react-hooks");
+
+const Wrapper = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <SavedContext.Provider value={{ gifs: ["1234", "5678"], setGifs: vi.fn() }}>
+      {children}
+    </SavedContext.Provider>
+  );
+};
 
 describe("SaveButton", () => {
   afterEach(() => {
@@ -39,8 +39,10 @@ describe("SaveButton", () => {
   });
 
   describe("renders the SaveButton component", () => {
-    it("should render the SaveButton", () => {
-      render(<SaveButton gifId="1234" />);
+    it("should render the SaveButton", async () => {
+      const dexie = await import("dexie-react-hooks");
+      dexie.useLiveQuery = vi.fn().mockReturnValue([["1234", "5678"], true]);
+      render(<SaveButton gifId="1234" />, { wrapper: Wrapper });
       const button = screen.getByTestId("save-button");
       expect(button).toBeTruthy();
     });
@@ -49,8 +51,10 @@ describe("SaveButton", () => {
   describe("when the SaveButton isClicked", () => {
     describe("when the input gifId is not already saved", () => {
       it("should save the gifId and show the SnackBar", async () => {
+        const dexie = await import("dexie-react-hooks");
+        dexie.useLiveQuery = vi.fn().mockReturnValue([["1234", "5678"], true]);
         const user = userEvent.setup();
-        render(<SaveButton gifId="1111" />);
+        render(<SaveButton gifId="1111" />, { wrapper: Wrapper });
         const button = screen.getByTestId("save-button");
         await act(async () => await user.click(button));
 
@@ -63,8 +67,10 @@ describe("SaveButton", () => {
 
     describe("when the input gifId is already saved", () => {
       it("should remove the gifId and show the SnackBar", async () => {
+        const dexie = await import("dexie-react-hooks");
+        dexie.useLiveQuery = vi.fn().mockReturnValue([["1234", "5678"], true]);
         const user = userEvent.setup();
-        render(<SaveButton gifId="1234" />);
+        render(<SaveButton gifId="1234" />, { wrapper: Wrapper });
         const button = screen.getByTestId("save-button");
         await act(async () => await user.click(button));
         const snackbar = screen.getByTestId("save-button-snackbar");

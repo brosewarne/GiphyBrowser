@@ -8,16 +8,10 @@ import { UseInfiniteQueryResult } from "@tanstack/react-query";
 import { PagedQueryResult } from "@app/models";
 
 vi.mock("./hooks/useSavedGifs");
-vi.mock("dexie-react-hooks", async () => {
-  const mod =
-    await vi.importActual<typeof import("dexie-react-hooks")>(
-      "dexie-react-hooks",
-    );
-  return {
-    ...mod,
-    useLiveQuery: () => [["1234", "5678"], true],
-  };
-});
+
+vi.mock('dexie-react-hooks')
+const dexie = await import("dexie-react-hooks");
+dexie.useLiveQuery = vi.fn().mockReturnValue([["1234", "5678"], true]);
 
 describe("SavedPage", () => {
   describe("renders the SavedPage component", () => {
@@ -37,7 +31,6 @@ describe("SavedPage", () => {
               },
             ],
           },
-
           status: "success",
           error: null,
         } as unknown as UseInfiniteQueryResult<PagedQueryResult>);

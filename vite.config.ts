@@ -10,6 +10,17 @@ export default defineConfig({
     globals: true,
     setupFiles: ["./vitest-setup.ts"],
     css: true,
+    coverage: {
+      provider: "v8",
+      include: ["src/**"],
+      exclude: [
+        "src/config/**",
+        "src/testUtils/**",
+        "src/main.tsx",
+        "src/vite-env.d.ts",
+        "src/models/**"
+      ],
+    },
   },
   resolve: {
     alias: {

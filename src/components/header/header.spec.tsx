@@ -4,15 +4,9 @@ import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 import { vi } from "vitest";
 
-import { SearchContext } from "@app/providers";
-
 import { Header } from "./header";
-import {
-  createRootRoute,
-  createRouter,
-  Router,
-  RouterProvider,
-} from "@tanstack/react-router";
+
+import { getMockRouterProvider, getMockSearchProvider } from "@app/testUtils";
 
 const mockedUseNavigate = vi.fn();
 vi.mock("react-router-dom", async () => {
@@ -27,20 +21,8 @@ vi.mock("react-router-dom", async () => {
 });
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
-  const rootRoute = createRootRoute({
-    component: () => <>{children}</>,
-  });
-
-   // @todo: fix any
-  const router: any = createRouter({
-    routeTree: rootRoute,
-  });
-
-  return (
-    <SearchContext.Provider value={{ searchTerm: "", setSearchTerm: () => {} }}>
-      <RouterProvider router={router}></RouterProvider>
-    </SearchContext.Provider>
-  );
+  const router = getMockRouterProvider({ children });
+  return getMockSearchProvider({ children: router });
 };
 
 describe("Header", () => {

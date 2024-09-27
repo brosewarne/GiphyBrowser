@@ -1,19 +1,49 @@
 import * as React from "react";
 import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
-import { TrendingPage } from "./trendingPage";
 import { vi } from "vitest";
-import { useTrendingGifs } from "./hooks";
 import {
   DefaultError,
   InfiniteData,
-  InfiniteQueryObserverLoadingErrorResult,
-  InfiniteQueryObserverPendingResult,
-  InfiniteQueryObserverSuccessResult,
+  InfiniteQueryObserverResult,
 } from "@tanstack/react-query";
-import { GiphyResponse } from "@app/models";
+
+import { TrendingPage } from "./trendingPage";
+import { useTrendingGifs } from "./hooks";
+import { GiphyGif, GiphyResponse } from "@app/models";
 
 vi.mock("./hooks/useTrendingGifs");
+
+const setMockUseTrendingGifs = ({
+  status,
+  isFetchingNextPage,
+  isFetching,
+  error,
+}: {
+  status: "success" | "error" | "pending";
+  isFetchingNextPage: boolean;
+  isFetching: boolean;
+  error: DefaultError | null;
+}) => {
+  vi.mocked(useTrendingGifs).mockReturnValue({
+    data: {
+      pages: [
+        {
+          data: [{ id: "1234" }, { id: "5678" }] as GiphyGif[],
+          pagination: { total_count: 2, count: 2, offset: 0 },
+          meta: { response_id: "1234" },
+        },
+      ],
+      pageParams: [{}],
+    },
+    isFetchingNextPage,
+    isFetching,
+    error,
+    status,
+  } as unknown as InfiniteQueryObserverResult<
+    InfiniteData<GiphyResponse, unknown>
+  >);
+};
 
 describe("TrendingPage", () => {
   beforeEach(() => {
@@ -23,20 +53,12 @@ describe("TrendingPage", () => {
   describe("renders the TrendingPage component", () => {
     describe('when there are items and the status is "success"', () => {
       it("should render the page", () => {
-        vi.mocked(useTrendingGifs).mockReturnValue({
-          data: {
-            pages: [
-              {
-                data: [{ id: "1234" }, { id: "5678" }],
-                pagination: { total_count: 2, count: 2 },
-                meta: { response_id: "1234" },
-              },
-            ],
-            pageParams: [{}],
-          },
+        setMockUseTrendingGifs({
           status: "success",
+          isFetching: false,
+          isFetchingNextPage: false,
           error: null,
-        } as InfiniteQueryObserverSuccessResult<InfiniteData<GiphyResponse>>);
+        });
 
         render(<TrendingPage />);
         const gifGrid = screen.getByTestId("gif-grid");
@@ -47,23 +69,13 @@ describe("TrendingPage", () => {
     });
     describe("when isFetchingNextPage is true", () => {
       it("should show the loading grid", () => {
-        vi.mocked(useTrendingGifs).mockReturnValue({
-          data: {
-            pages: [
-              {
-                data: [{ id: "1234" }, { id: "5678" }],
-                pagination: { total_count: 2, count: 2 },
-                meta: { response_id: "1234" },
-              },
-            ],
-            pageParams: [{}],
-          },
+        setMockUseTrendingGifs({
+          status: "pending",
+          isFetching: false,
           isFetchingNextPage: true,
           error: null,
-        } as unknown as InfiniteQueryObserverPendingResult<
-          InfiniteData<GiphyResponse>,
-          DefaultError
-        >);
+        });
+
         render(<TrendingPage />);
         const loadingGrid = screen.getByTestId("loading-grid");
         expect(loadingGrid).toBeTruthy();
@@ -71,23 +83,13 @@ describe("TrendingPage", () => {
     });
     describe('when the status is "error"', () => {
       it("should show the error state", () => {
-        vi.mocked(useTrendingGifs).mockReturnValue({
-          data: {
-            pages: [
-              {
-                data: [{ id: "1234" }, { id: "5678" }],
-                pagination: { total_count: 2, count: 2, offeset: 0 },
-                meta: { response_id: "1234" },
-              },
-            ],
-            pageParams: [{}],
-          },
+        setMockUseTrendingGifs({
           status: "error",
-          error: { message: "there was an error" },
-        } as unknown as InfiniteQueryObserverLoadingErrorResult<
-          InfiniteData<GiphyResponse>,
-          DefaultError
-        >);
+          isFetching: false,
+          isFetchingNextPage: false,
+          error: { message: "there was an error", name: "error" },
+        });
+
         render(<TrendingPage />);
         const errorState = screen.getByTestId("error-state");
         expect(errorState).toBeTruthy();

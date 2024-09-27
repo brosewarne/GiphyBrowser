@@ -1,17 +1,19 @@
 import * as React from "react";
 import { act } from "react";
-import {
-  createRouter,
-  createRootRoute,
-  RouterProvider,
-} from "@tanstack/react-router";
-import { vi } from "vitest";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { screen } from "@testing-library/dom";
-
-import { SearchContext } from "@app/providers";
+import { vi } from "vitest";
 import { SearchBar } from "./searchBar";
+
+import {
+  getMockRouterProvider,
+  getMockSearchProvider,
+  mockSetSearchTerm,
+  // mockUseNavigate,
+} from "@app/testUtils";
+
+//import mockUseNavigate from "@app/testUtils/mocks/router/mockUseNavigate";
 
 const mockedUseNavigate = vi.fn();
 vi.mock("@tanstack/react-router", async () => {
@@ -24,41 +26,28 @@ vi.mock("@tanstack/react-router", async () => {
   };
 });
 
-const mockSetSearchTerm = vi.fn();
-
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
-  const rootRoute = createRootRoute({
-    component: () => <>{children}</>,
-  });
-
-   // @todo: fix any
-  const router: any = createRouter({
-    routeTree: rootRoute,
-  });
-
-  return (
-    <SearchContext.Provider
-      value={{ searchTerm: "", setSearchTerm: mockSetSearchTerm }}
-    >
-      <RouterProvider router={router}></RouterProvider>
-    </SearchContext.Provider>
-  );
+  const router = getMockRouterProvider({ children });
+  return getMockSearchProvider({ children: router });
 };
 
 describe("SearchBar", () => {
-  beforeEach(async () => {
-    await act(async () => render(<SearchBar />, { wrapper: Wrapper }));
-  });
+  // beforeEach(async () => {
+  //   await act(async () => render(<SearchBar />, { wrapper: Wrapper }));
+  // });
+
   describe("renders the SearchBar component", () => {
-    it("should render the searchBar", () => {
+    it("should render the searchBar", async () => {
+      await act(async () => render(<SearchBar />, { wrapper: Wrapper }));
       const searchBar = screen.getByTestId("search-bar-input");
       expect(searchBar).toBeTruthy();
     });
   });
 
   describe("search functionality", () => {
-    describe("when a user neters a search term and submits the search", () => {
+    describe("when a user enters a search term and submits the search", () => {
       it("should redirect the user to the search page with the search term set", async () => {
+        await act(async () => render(<SearchBar />, { wrapper: Wrapper }));
         const user = userEvent.setup();
         const searchInput = screen
           .getByTestId("search-bar-input")
@@ -67,7 +56,7 @@ describe("SearchBar", () => {
           async () =>
             await user.type(searchInput as HTMLElement, "search term"),
         );
-        await user.type(searchInput as HTMLElement, "{Enter}");
+        await act(async () => user.type(searchInput as HTMLElement, "{Enter}"));
         expect(mockedUseNavigate.mock.calls[0]).toEqual([
           {
             to: "/search",

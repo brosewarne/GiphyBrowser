@@ -21,7 +21,8 @@
     "composite": true,
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["src/*"]
+      "@app/*": ["src/*"],
+      "@mocks/*": ["src/testUtils/mocks/*"]
     }
   },
   "include": ["src"]

@@ -1,10 +1,11 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useContext } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import { IconButton, Snackbar } from "@mui/material";
 import { ThumbUp } from "@mui/icons-material";
 
 import { db } from "@app/utils";
+import { SavedContext } from "@app/providers";
 
 /**
  *  Save button for saving Gifs to local storage if they are not already saved, or removing them if they are.
@@ -17,14 +18,15 @@ export const SaveButton = memo(function SaveButton({
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
-  const savedItems = useLiveQuery(() => db.savedGifs?.toArray() || [])?.map(
-    (item) => item.giphyId,
-  );
+  const { gifs: savedItems } = useContext(SavedContext);
+
   const isSaved = savedItems?.includes(gifId);
 
   const savedItem = useLiveQuery(async () => {
-    const item = await db.savedGifs.where("giphyId").equals(gifId).toArray();
-    return item ? item[0] : null;
+    if (!isSaved) {
+      return null;
+    }
+    return (await db.savedGifs.where("giphyId").equals(gifId).toArray())[0];
   }, [gifId]);
 
   const updateSavedGifs = async () => {

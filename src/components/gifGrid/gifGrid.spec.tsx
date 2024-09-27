@@ -4,6 +4,7 @@ import { screen } from "@testing-library/dom";
 
 import { GifGrid } from "./gifGrid";
 import { GiphyGif } from "@app/models";
+import { GiphyBrowserConfig } from "@app/config";
 
 const getMockGifData = (): GiphyGif[] => {
   const mockGifData = {
@@ -14,6 +15,8 @@ const getMockGifData = (): GiphyGif[] => {
     images: {
       original: {
         url: "http://abc.original.com",
+        width: "200px",
+        height: "150px",
       },
       fixed_width: {
         url: "http://abc.width.com",
@@ -36,7 +39,7 @@ describe("GifGrid", () => {
       it("should render a GifTile for each item in gifData", () => {
         render(<GifGrid gifData={mockGifData} />);
         const gifTiles = screen.queryAllByTestId("gif-tile");
-        expect(gifTiles.length).toEqual(9);
+        expect(gifTiles.length).toEqual(GiphyBrowserConfig.numberOfItems);
       });
     });
   });
