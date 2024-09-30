@@ -1,6 +1,8 @@
 import React, { useState, memo, useContext } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 
+import { motion } from "framer-motion";
+
 import { IconButton, Snackbar } from "@mui/material";
 import { ThumbUp } from "@mui/icons-material";
 
@@ -47,8 +49,13 @@ export const SaveButton = memo(function SaveButton({
 
   return (
     <>
-      <IconButton onClick={updateSavedGifs} data-testid="save-button">
-        <ThumbUp color={isSaved ? "primary" : "inherit"}></ThumbUp>
+      <IconButton
+        onClick={updateSavedGifs}
+        data-testid="save-button"
+        component={motion.div}
+        whileTap={{ scale: 1.1, rotate: 360 }}
+      >
+        <ThumbUp color={isSaved ? "primary" : "action"}></ThumbUp>
       </IconButton>
 
       <Snackbar

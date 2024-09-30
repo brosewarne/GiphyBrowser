@@ -31,7 +31,6 @@ import { trendingRoutes } from "./pages/trending/routes.js";
 import { savedRoutes } from "./pages/saved/routes";
 
 import styles from "./main.module.css";
-import { GifModalProvider } from "@app/providers";
 
 const theme = createTheme({
   spacing: 8,
@@ -46,7 +45,6 @@ const rootRoute = createRootRoute({
         <SearchTermProvider>
           <ConfigProvider>
             <SavedGifsProvider>
-              <GifModalProvider>
                 <CssBaseline />
                 <Container
                   maxWidth="lg"
@@ -59,7 +57,6 @@ const rootRoute = createRootRoute({
                     <Outlet></Outlet>
                   </Box>
                 </Container>
-              </GifModalProvider>
             </SavedGifsProvider>
           </ConfigProvider>
         </SearchTermProvider>

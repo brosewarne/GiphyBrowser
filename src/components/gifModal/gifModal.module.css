@@ -1,10 +1,8 @@
-.close-button {
-  /* @todo make this work without !important  */
-  position: absolute !important;
+button.close-button {
+  position: absolute;
   right: var(--mui-spacing);
   top: var(--mui-spacing);
-  /* @todo make this work without !important  */
-  color: var(--mui-palette-grey-500) !important;
+  color: var(--mui-palette-grey-500);
 }
 
 .save-button {
