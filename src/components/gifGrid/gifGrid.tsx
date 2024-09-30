@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 
 import Grid from "@mui/material/Grid2";
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
 
 import { GiphyGif } from "@app/models";
 import { GifTile } from "../gifTile";

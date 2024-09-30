@@ -3,7 +3,10 @@ import { useLocation } from "@tanstack/react-router";
 
 import { Link } from "@tanstack/react-router";
 
-import { Box, Tabs, Tab } from "@mui/material";
+import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+
 import styles from "./pageTabs.module.css";
 
 export const PageTabs = memo(function PageTabs() {

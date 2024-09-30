@@ -11,13 +11,11 @@ import {
 } from "@tanstack/react-router";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  CssBaseline,
-  ThemeProvider,
-  Box,
-  Container,
-  createTheme,
-} from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+
+import { ThemeProvider, createTheme } from "@mui/material";
 
 import { Header } from "./components/header";
 import { PageTabs } from "./pages";

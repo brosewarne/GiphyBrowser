@@ -1,11 +1,10 @@
 import React, { useEffect, useContext, useState } from "react";
-import {
-  IconButton,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Box,
-} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Box from "@mui/material/Box";
+
 import CloseIcon from "@mui/icons-material/Close";
 
 import styles from "./gifModal.module.css";

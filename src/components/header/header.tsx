@@ -1,5 +1,8 @@
 import React, { memo } from "react";
-import { AppBar, Toolbar, Typography, Box } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 import { SearchBar } from "@app/components";
 
@@ -11,9 +14,9 @@ import styles from "./header.module.css";
  */
 export const Header = memo(function Header() {
   return (
-    <Box className={styles['header-container']} data-testid="header">
+    <Box className={styles["header-container"]} data-testid="header">
       <AppBar position="static">
-        <Box className={styles['toolbar-container']}>
+        <Box className={styles["toolbar-container"]}>
           <Toolbar>
             <Typography variant="h6">Giphy Browser</Typography>
           </Toolbar>

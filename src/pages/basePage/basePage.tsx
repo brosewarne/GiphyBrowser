@@ -1,7 +1,7 @@
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
 import { ErrorState } from "@app/components";
 
 import styles from "./basePage.module.css";

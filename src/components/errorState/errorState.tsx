@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 /**
  * Simple error state component that currently just shows a supplied message

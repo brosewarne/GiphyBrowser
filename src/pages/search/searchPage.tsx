@@ -1,5 +1,6 @@
 import React, { memo, useContext } from "react";
-import { Box, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 import { SearchContext } from "@app/providers";
 import { useSearchGifs } from "./hooks";
@@ -31,7 +32,7 @@ export const SearchPage = memo(function SearchPage() {
     isFetching,
   } = useSearchGifs({ searchTerm });
 
-  const pages = data?.pages ?? []
+  const pages = data?.pages ?? [];
   const hasItems = pages[0]?.data.length > 0;
 
   const lastPage = pages.slice(-1)[0];

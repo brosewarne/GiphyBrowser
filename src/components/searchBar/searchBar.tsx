@@ -2,11 +2,12 @@ import React, { memo, useContext, useEffect, useState } from "react";
 
 import { useLocation, useNavigate } from "@tanstack/react-router";
 
-import { InputAdornment, TextField } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
 
 import { SearchContext } from "@app/providers";
 
-import { Search } from "@mui/icons-material";
+import Search from "@mui/icons-material/Search";
 
 /**
  *  The SearchBar showin the the header. When a search term is submitted the searchTerm is set and the user
@@ -29,7 +30,7 @@ export const SearchBar = memo(function SearchBar() {
     }
     setSearchTerm(textFieldContent);
     if (pathname !== "/search") {
-      navigate({to: "/search"});
+      navigate({ to: "/search" });
     }
   };
 

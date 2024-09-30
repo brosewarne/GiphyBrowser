@@ -1,10 +1,10 @@
 import React, { memo } from "react";
+import Box from "@mui/material/Box";
 
 import { useTrendingGifs } from "./hooks";
 
 import { GifGrid, LoadingGrid, ShowMoreButton } from "@app/components";
 import { BasePage } from "@app/pages";
-import { Box } from "@mui/material";
 
 /**
  * The Trending Gifs page. Shows the current trending gifs in a Gif Grid

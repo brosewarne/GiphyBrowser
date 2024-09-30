@@ -1,7 +1,9 @@
 import React, { memo, useContext } from "react";
 
 import Grid from "@mui/material/Grid2";
-import { Box, Skeleton, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
+import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
 
 import { ConfigContext } from "@app/providers";
 
