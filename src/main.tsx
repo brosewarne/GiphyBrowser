@@ -45,18 +45,18 @@ const rootRoute = createRootRoute({
         <SearchTermProvider>
           <ConfigProvider>
             <SavedGifsProvider>
-                <CssBaseline />
-                <Container
-                  maxWidth="lg"
-                  disableGutters={true}
-                  className={styles["app-container"]}
-                >
-                  <Box>
-                    <Header />
-                    <PageTabs></PageTabs>
-                    <Outlet></Outlet>
-                  </Box>
-                </Container>
+              <CssBaseline />
+              <Container
+                maxWidth="lg"
+                disableGutters={true}
+                className={styles["app-container"]}
+              >
+                <Box>
+                  <Header />
+                  <PageTabs></PageTabs>
+                  <Outlet></Outlet>
+                </Box>
+              </Container>
             </SavedGifsProvider>
           </ConfigProvider>
         </SearchTermProvider>
@@ -82,6 +82,7 @@ const routeTree = rootRoute.addChildren([
 
 const router = createRouter({ routeTree });
 
+// https://tanstack.com/router/latest/docs/framework/react/guide/type-safety#exported-hooks-components-and-utilities
 declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
