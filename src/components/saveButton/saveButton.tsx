@@ -48,6 +48,7 @@ export const SaveButton = memo(function SaveButton({
     }
   };
 
+  const onClose = () => setShowSnackbar(false)
   return (
     <>
       <IconButton
@@ -63,7 +64,7 @@ export const SaveButton = memo(function SaveButton({
         open={showSnackbar}
         autoHideDuration={2000}
         message={snackbarMessage}
-        onClose={() => setShowSnackbar(false)}
+        onClose={onClose}
         data-testid="save-button-snackbar"
       />
     </>

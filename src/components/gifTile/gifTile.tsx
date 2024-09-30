@@ -27,10 +27,12 @@ export const GifTile = memo(function GifTile({
   const gifUrl =
     gifData.images?.fixed_height?.url ?? gifData.images?.fixed_width?.url;
 
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
   return (
     <>
       <Card variant="outlined" data-testid="gif-tile">
-        <CardActionArea onClick={() => setModalOpen(true)}>
+        <CardActionArea onClick={openModal}>
           <CardContent key={gifData.id}>
             <Box className={sharedStyles["centered-column-content"]}>
               <Box className={styles["gif-title-container"]}>
@@ -59,7 +61,7 @@ export const GifTile = memo(function GifTile({
       </Card>
       <GifModal
         open={modalOpen}
-        handleClose={() => setModalOpen(false)}
+        handleClose={closeModal}
         gifData={gifData}
       ></GifModal>
     </>
