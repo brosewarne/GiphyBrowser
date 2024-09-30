@@ -21,14 +21,10 @@
     "paths": {
       "@app/*": ["src/*"],
       "@mocks/*": ["src/testUtils/mocks/*"]
-    }
+    },
+    "rootDir": ".",
+    "outDir": "./dist"
   },
-  "include": [
-    "src",
-    "**/*.ts",
-    "**/*.tsx",
-    "./vitest.setup.ts",
-    "./vite.config.ts"
-  ],
+  "include": ["**/*.ts", "**/*.tsx", "./vitest.setup.ts", "./vite.config.ts"],
   "exclude": ["node_modules"]
 }
