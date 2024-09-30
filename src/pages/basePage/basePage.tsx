@@ -5,8 +5,6 @@ import Box from "@mui/material/Box";
 import { ErrorState } from "@app/components";
 
 import styles from "./basePage.module.css";
-import { GifModal } from "@app/components/gifModal";
-import { GifModalProvider } from "@app/providers";
 
 interface PageProps {
   children?: React.ReactNode;
@@ -23,11 +21,8 @@ export function BasePage({ children, apiError }: PageProps) {
   }
 
   return (
-    <GifModalProvider>
-      <ErrorBoundary fallbackRender={renderErrorState}>
-        <Box className={styles["page-container"]}>{children}</Box>
-        <GifModal></GifModal>
-      </ErrorBoundary>
-    </GifModalProvider>
+    <ErrorBoundary fallbackRender={renderErrorState}>
+      <Box className={styles["page-container"]}>{children}</Box>
+    </ErrorBoundary>
   );
 }

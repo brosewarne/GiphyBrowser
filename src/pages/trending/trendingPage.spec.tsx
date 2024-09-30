@@ -2,15 +2,12 @@ import * as React from "react";
 import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 import { vi } from "vitest";
-import {
-  DefaultError,
-  InfiniteData,
-  InfiniteQueryObserverResult,
-} from "@tanstack/react-query";
+import { DefaultError, UseInfiniteQueryResult } from "@tanstack/react-query";
 
 import { TrendingPage } from "./trendingPage";
 import { useTrendingGifs } from "./hooks";
-import { GiphyGif, GiphyResponse } from "@app/models";
+import { PagedQueryResult } from "@app/models";
+import { getMockGifData } from "@app/testUtils";
 
 vi.mock("./hooks/useTrendingGifs");
 
@@ -29,7 +26,7 @@ const setMockUseTrendingGifs = ({
     data: {
       pages: [
         {
-          data: [{ id: "1234" }, { id: "5678" }] as GiphyGif[],
+          data: getMockGifData(2),
           pagination: { total_count: 2, count: 2, offset: 0 },
           meta: { response_id: "1234" },
         },
@@ -40,9 +37,7 @@ const setMockUseTrendingGifs = ({
     isFetching,
     error,
     status,
-  } as unknown as InfiniteQueryObserverResult<
-    InfiniteData<GiphyResponse, unknown>
-  >);
+  } as UseInfiniteQueryResult<PagedQueryResult>);
 };
 
 describe("TrendingPage", () => {

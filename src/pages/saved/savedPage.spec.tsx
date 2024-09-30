@@ -6,6 +6,7 @@ import { vi } from "vitest";
 import { useSavedGifs } from "./hooks";
 import { UseInfiniteQueryResult } from "@tanstack/react-query";
 import { PagedQueryResult } from "@app/models";
+import { getMockGifData } from "@app/testUtils";
 
 vi.mock("./hooks/useSavedGifs");
 
@@ -20,12 +21,12 @@ describe("SavedPage", () => {
     });
 
     describe("when there are saved gifs", () => {
-      it("should render the page", () => {
+      it("should render the page", async () => {
         vi.mocked(useSavedGifs).mockReturnValue({
           data: {
             pages: [
               {
-                data: [{ id: "1234" }, { id: "5678" }],
+                data: getMockGifData(2),
                 pagination: { total_count: 2, count: 2 },
                 meta: { response_id: "1234" },
               },
@@ -34,7 +35,7 @@ describe("SavedPage", () => {
           status: "success",
           error: null,
         } as unknown as UseInfiniteQueryResult<PagedQueryResult>);
-        render(<SavedPage />);
+        await React.act(async () => render(<SavedPage />));
         const gifGrid = screen.getByTestId("gif-grid");
         expect(gifGrid).toBeTruthy();
         const gifTiles = screen.getAllByTestId("gif-tile");

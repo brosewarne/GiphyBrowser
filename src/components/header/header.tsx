@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -7,12 +7,14 @@ import Box from "@mui/material/Box";
 import { SearchBar } from "@app/components";
 
 import styles from "./header.module.css";
+import { SearchContext } from "@app/providers";
 
 /**
  *  The App header with a title, naviation buttons for the trending, searcvh and saved pages.
  *  The header also includes a search bar.
  */
 export const Header = memo(function Header() {
+  const { searchTerm } = useContext(SearchContext);
   return (
     <Box className={styles["header-container"]} data-testid="header">
       <AppBar position="static">
@@ -20,7 +22,9 @@ export const Header = memo(function Header() {
           <Toolbar>
             <Typography variant="h6">Giphy Browser</Typography>
           </Toolbar>
-          <SearchBar></SearchBar>
+          {/* include the searchTerm in the key so the SearchBar is recreated when the searchTerm changes, 
+              allowing it to reflect the searchTerm if it was set from a different component */}
+          <SearchBar key={`appHeaderSearchBar-${searchTerm}`}></SearchBar>
         </Box>
       </AppBar>
     </Box>

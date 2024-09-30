@@ -5,8 +5,13 @@ import axios from "axios";
 
 import { QueryClientWrapper } from "@app/testUtils/mocks/queryClient";
 vi.mock("axios");
+vi.mock("crypto");
 
 describe("useSavedGifs", () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    vi.spyOn(crypto, 'randomUUID').mockReturnValue('a-a-a-a-a')
+  })
   describe("when gifIds are provided", () => {
     it("should call Giphy for the saved gifs", async () => {
       vi.spyOn(axios, "get").mockResolvedValue({
@@ -28,7 +33,7 @@ describe("useSavedGifs", () => {
             pageParams: [0],
             pages: [
               {
-                data: [{ id: "1234" }, { id: "5678" }],
+                data: [{ id: "1234", uniqueId: 'a-a-a-a-a' }, { id: "5678",uniqueId: 'a-a-a-a-a' }],
                 pagination: { total_count: 2, count: 2, offset: 0 },
                 meta: { response_id: "1234" },
               },

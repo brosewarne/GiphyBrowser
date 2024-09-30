@@ -10,10 +10,7 @@ import {
   getMockRouterProvider,
   getMockSearchProvider,
   mockSetSearchTerm,
-  // mockUseNavigate,
 } from "@app/testUtils";
-
-//import mockUseNavigate from "@app/testUtils/mocks/router/mockUseNavigate";
 
 const mockedUseNavigate = vi.fn();
 vi.mock("@tanstack/react-router", async () => {
@@ -32,10 +29,6 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
 };
 
 describe("SearchBar", () => {
-  // beforeEach(async () => {
-  //   await act(async () => render(<SearchBar />, { wrapper: Wrapper }));
-  // });
-
   describe("renders the SearchBar component", () => {
     it("should render the searchBar", async () => {
       await act(async () => render(<SearchBar />, { wrapper: Wrapper }));

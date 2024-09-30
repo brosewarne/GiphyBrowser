@@ -18,8 +18,9 @@ import { SavedContext } from "@app/providers";
  * If the user doen't have any saved gifs, then a simple empty state is displayed
  */
 export const SavedPage = memo(function SavedPage() {
-  const { gifs: savedItems } = useContext(SavedContext);
+  const { savedGifsState } = useContext(SavedContext);
 
+  const { savedGifs, savedGifsLoaded } = savedGifsState;
   const {
     data,
     error,
@@ -28,10 +29,10 @@ export const SavedPage = memo(function SavedPage() {
     fetchNextPage,
     hasNextPage,
   } = useSavedGifs({
-    gifIds: savedItems ?? [],
+    gifIds: savedGifs ?? [],
   });
 
-  if (!savedItems) {
+  if (!savedGifs && savedGifsLoaded) {
     return (
       <ErrorState
         error={{ message: "You have no saved Gifs", name: "no saved gifs" }}

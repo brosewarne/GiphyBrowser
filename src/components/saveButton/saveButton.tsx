@@ -21,9 +21,9 @@ export const SaveButton = memo(function SaveButton({
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
-  const { gifs: savedItems } = useContext(SavedContext);
+  const { savedGifsState: { savedGifs} } = useContext(SavedContext);
 
-  const isSaved = savedItems?.includes(gifId);
+  const isSaved = savedGifs?.includes(gifId);
 
   const savedItem = useLiveQuery(async () => {
     if (!isSaved) {

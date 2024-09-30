@@ -19,11 +19,11 @@ export const GifGrid = memo(function GifGrid({
   return (
     <Box className={styles["grid-container"]} data-testid="gif-grid">
       <Grid container rowSpacing={3} columnSpacing={2}>
-        {gifData.map((gif: GiphyGif, index: number) => {
+        {gifData.map((gif: GiphyGif) => {
           return (
-            // sometimes trending and search can bring back the same gif multiple times, add index to the key to account foir this
-            <Grid size={4} columnGap={2} key={`grid-${gif.id}-${index}`}>
-              <GifTile gifData={gif} key={`tile-${gif.id}-${index}`}></GifTile>
+            // sometimes trending and search can bring back the same gif multiple times, use the added uniqueId instead of the giphy provided id
+            <Grid size={4} columnGap={2} key={`grid-${gif.uniqueId}`}>
+              <GifTile gifData={gif} key={`tile-${gif.uniqueId}`}></GifTile>
             </Grid>
           );
         })}

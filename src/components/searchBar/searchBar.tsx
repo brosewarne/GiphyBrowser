@@ -1,4 +1,4 @@
-import React, { memo, useContext, useEffect, useState } from "react";
+import React, { memo, useContext, useState } from "react";
 
 import { useLocation, useNavigate } from "@tanstack/react-router";
 
@@ -17,10 +17,6 @@ export const SearchBar = memo(function SearchBar() {
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
   const [textFieldContent, setTextFieldContent] = useState(searchTerm);
 
-  useEffect(() => {
-    setTextFieldContent(searchTerm);
-  }, [searchTerm]);
-
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -36,7 +32,7 @@ export const SearchBar = memo(function SearchBar() {
 
   return (
     <TextField
-      id="serachGiphy"
+      id="searchGiphy"
       placeholder="Search Giphty"
       value={textFieldContent}
       onChange={(event) => {

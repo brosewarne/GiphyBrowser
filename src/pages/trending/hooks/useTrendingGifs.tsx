@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import {
   useInfiniteQuery,
   UseInfiniteQueryResult,
@@ -5,8 +6,8 @@ import {
 import axios, { AxiosResponse } from "axios";
 
 import { GiphyResponse, PagedQueryResult } from "@app/models";
-import { useContext } from "react";
 import { ConfigContext } from "@app/providers";
+import { addUniqueId } from "@app/utils";
 
 const fetchTrendingGifs = async (
   baseUrl: string,
@@ -54,6 +55,7 @@ export function useTrendingGifs(): UseInfiniteQueryResult<PagedQueryResult> {
     }: GiphyResponse) => {
       return count < total_count ? (count + offset) / numberOfItems : null;
     },
+    select: addUniqueId,
     staleTime: 300000,
     retry: false,
   });

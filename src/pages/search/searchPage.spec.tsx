@@ -4,19 +4,19 @@ import { screen } from "@testing-library/dom";
 import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import {
-  InfiniteData,
   DefaultError,
-  InfiniteQueryObserverResult,
+  UseInfiniteQueryResult,
 } from "@tanstack/react-query";
 
 import { SearchPage } from "./searchPage";
 import { useSearchGifs } from "./hooks";
-import { GiphyGif, GiphyResponse } from "@app/models";
+import { PagedQueryResult } from "@app/models";
 
 import {
   mockSetSearchTerm,
   getMockRouterProvider,
   getMockSearchProvider,
+  getMockGifData,
 } from "@app/testUtils";
 
 vi.mock("./hooks/useSearchGifs");
@@ -36,20 +36,18 @@ const setMockUseSearchGifs = ({
     data: {
       pages: [
         {
-          data: [{ id: "1234" }, { id: "5678" }] as GiphyGif[],
+          data: getMockGifData(2),
           pagination: { total_count: 2, count: 2, offset: 0 },
           meta: { response_id: "1234" },
         },
       ],
-      pageParams: [{}],
+      pageParams: [1],
     },
     isFetchingNextPage,
     isFetching,
     error,
     status,
-  } as unknown as InfiniteQueryObserverResult<
-    InfiniteData<GiphyResponse, unknown>
-  >);
+  } as UseInfiniteQueryResult<PagedQueryResult>);
 };
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {

@@ -11,6 +11,7 @@ export interface SearchGifParams extends TrendingGifParams {
 export interface GiphyGif {
   type: string;
   id: string;
+  uniqueId: string;
   url: string;
   title: string;
   images: {
@@ -44,4 +45,5 @@ export interface GiphyPagination {
 
 export interface PagedQueryResult {
   pages: GiphyResponse[];
+  pageParams: number[];
 }

@@ -2,31 +2,10 @@ import * as React from "react";
 import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 
-import { GiphyGif } from "@app/models";
-
 import { GifTile } from "./gifTile";
+import { mockGifData } from "@app/testUtils";
 
 describe("GifTile", () => {
-  const mockGifData: GiphyGif = {
-    type: "sports",
-    id: "1234",
-    url: "http://abc.com",
-    title: "SomeGif",
-    images: {
-      original: {
-        url: "http://abc.original.com",
-        width: "200px",
-        height: "150px",
-      },
-      fixed_width: {
-        url: "http://abc.width.com",
-      },
-      fixed_height: {
-        url: "http://abc.height.com",
-      },
-    },
-  };
-
   describe("renders the GifTile component", () => {
     beforeEach(() => {
       render(<GifTile gifData={mockGifData} />);

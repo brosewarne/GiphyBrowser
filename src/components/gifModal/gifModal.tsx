@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React from "react";
 import IconButton from "@mui/material/IconButton";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -10,32 +10,21 @@ import CloseIcon from "@mui/icons-material/Close";
 import styles from "./gifModal.module.css";
 
 import { SaveButton } from "@app/components";
-import { GifModalContext } from "@app/providers";
+import { GiphyGif } from "@app/models";
 
-export function GifModal() {
-  const [showGifModal, setShowGifModal] = useState(false);
-  const { gifData, setGifData } = useContext(GifModalContext);
-
-  useEffect(() => {
-    if (gifData?.title) {
-      setShowGifModal(true);
-    }
-  }, [gifData]);
-
-  if (!gifData) {
-    // gifData is null by default
-    return;
-  }
-
-  const handleClose = () => {
-    setShowGifModal(false);
-    setGifData(null);
-  };
-
+export function GifModal({
+  open,
+  gifData,
+  handleClose,
+}: {
+  open: boolean;
+  gifData: GiphyGif;
+  handleClose: () => void;
+}) {
   const { title, id } = gifData;
   const { url, width, height } = gifData.images.original;
   return (
-    <Dialog open={showGifModal} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
       <IconButton
         aria-label="close"

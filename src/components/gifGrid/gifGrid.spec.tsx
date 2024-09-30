@@ -3,37 +3,12 @@ import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 
 import { GifGrid } from "./gifGrid";
-import { GiphyGif } from "@app/models";
 import { GiphyBrowserConfig } from "@app/config";
+import { getMockGifData } from "@app/testUtils";
 
-const getMockGifData = (): GiphyGif[] => {
-  const mockGifData = {
-    type: "sports",
-    id: "1234",
-    url: "http://abc.com",
-    title: "SomeGif",
-    images: {
-      original: {
-        url: "http://abc.original.com",
-        width: "200px",
-        height: "150px",
-      },
-      fixed_width: {
-        url: "http://abc.width.com",
-      },
-      fixed_height: {
-        url: "http://abc.height.com",
-      },
-    },
-  };
-
-  return Array.from(Array(9).keys()).map((i) => {
-    return { ...mockGifData, id: `${i}` };
-  });
-};
 
 describe("GifGrid", () => {
-  const mockGifData = getMockGifData();
+  const mockGifData = getMockGifData(9);
   describe("renders the GifGrid component", () => {
     describe("when loading is false", () => {
       it("should render a GifTile for each item in gifData", () => {

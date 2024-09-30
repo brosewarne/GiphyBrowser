@@ -7,6 +7,7 @@ import axios, { AxiosResponse } from "axios";
 
 import { GiphyResponse, PagedQueryResult } from "@app/models";
 import { ConfigContext } from "@app/providers";
+import { addUniqueId } from "@app/utils";
 
 const fetchSearchGifs = async (
   baseUrl: string,
@@ -23,7 +24,6 @@ const fetchSearchGifs = async (
     };
   }
 
-  
   // Let react-query do the error handling if this throws, no need for extra error handling here
   const response: AxiosResponse<GiphyResponse> = await axios.get(
     `${baseUrl}/search`,
@@ -70,6 +70,7 @@ export function useSearchGifs({
     }: GiphyResponse) => {
       return count < total_count ? (count + offset) / numberOfItems : null;
     },
+    select: addUniqueId,
     retry: false,
     staleTime: 300000,
   });

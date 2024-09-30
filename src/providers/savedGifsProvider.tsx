@@ -2,14 +2,19 @@ import { db, SavedGiphyGif } from "@app/utils";
 import { useLiveQuery } from "dexie-react-hooks";
 import React, { ReactNode, useState, createContext, useEffect } from "react";
 
+interface SavedGifsState {
+  savedGifs: string[] | undefined;
+  savedGifsLoaded: boolean | undefined;
+}
+
 interface ISavedGifsContext {
-  gifs: string[] | undefined;
-  setGifs: React.Dispatch<React.SetStateAction<string[] | undefined>>;
+  savedGifsState: SavedGifsState;
+  setSavedGifsState: React.Dispatch<React.SetStateAction<SavedGifsState>>;
 }
 
 export const SavedContext = createContext<ISavedGifsContext>({
-  gifs: [],
-  setGifs: () => {},
+  savedGifsState: { savedGifs: [], savedGifsLoaded: false },
+  setSavedGifsState: () => {},
 });
 
 export function SavedGifsProvider({ children }: { children: ReactNode }) {
@@ -25,16 +30,21 @@ export function SavedGifsProvider({ children }: { children: ReactNode }) {
     [],
   );
 
-  const [gifs, setGifs] = useState<string[] | undefined>([]);
+  const [savedGifsState, setSavedGifsState] = useState<SavedGifsState>({
+    savedGifs,
+    savedGifsLoaded,
+  });
 
+  // useEffect to update the savedGifs on state when the indexedDB contents change. The app will access the savedGifs
+  // from state rather than reading from indexedDB all the time
   useEffect(() => {
     if (savedGifs) {
-      setGifs(savedGifs);
+      setSavedGifsState({savedGifs, savedGifsLoaded});
     }
   }, [savedGifs, savedGifsLoaded]);
 
   return (
-    <SavedContext.Provider value={{ gifs, setGifs }}>
+    <SavedContext.Provider value={{ savedGifsState, setSavedGifsState }}>
       {children}
     </SavedContext.Provider>
   );

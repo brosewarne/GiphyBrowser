@@ -27,7 +27,12 @@ vi.mock("dexie-react-hooks");
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return (
-    <SavedContext.Provider value={{ gifs: ["1234", "5678"], setGifs: vi.fn() }}>
+    <SavedContext.Provider
+      value={{
+        savedGifsState: { savedGifs: ["1234", "5678"], savedGifsLoaded: true },
+        setSavedGifsState: vi.fn(),
+      }}
+    >
       {children}
     </SavedContext.Provider>
   );

@@ -44,9 +44,10 @@ export const SearchPage = memo(function SearchPage() {
   return (
     <BasePage apiError={error}>
       <Box className={sharedStyles["centered-column-content"]}>
-        <Box></Box>
-        <SearchBar></SearchBar>
-        {!hasItems && !!searchTerm && !isFetching && (
+        {/* include the searchTerm in the key so the SearchBar is recreated when the searchTerm changes, 
+            allowing it to reflect the searchTerm if it was set from a different component */}
+        <SearchBar key={`searchPageSearchBar-${searchTerm}`}></SearchBar>
+        {!hasItems && searchTerm.length > 0 && !isFetching && (
           <ErrorState
             error={{
               message: `No Results for "${searchTerm}"`,

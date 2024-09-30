@@ -6,8 +6,8 @@ import {
 import axios, { AxiosResponse } from "axios";
 
 import { GiphyResponse, PagedQueryResult } from "@app/models";
-
 import { ConfigContext } from "@app/providers";
+import { addUniqueId } from "@app/utils";
 
 const fetchSavedGifs = async (
   baseUrl: string,
@@ -78,6 +78,7 @@ export function useSavedGifs({
     }: GiphyResponse) => {
       return count < total_count ? (count + offset) / numberOfItems : null;
     },
+    select: addUniqueId,
     retry: false,
     staleTime: 300000,
   });
