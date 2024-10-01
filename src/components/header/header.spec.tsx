@@ -7,18 +7,13 @@ import { vi } from "vitest";
 import { Header } from "./header";
 
 import { getMockRouterProvider, getMockSearchProvider } from "@app/testUtils";
+import { useAutoComplete } from "@app/pages/search/hooks";
+import { UseQueryResult } from "@tanstack/react-query";
 
-const mockedUseNavigate = vi.fn();
-vi.mock("react-router-dom", async () => {
-  const mod =
-    await vi.importActual<typeof import("react-router-dom")>(
-      "react-router-dom",
-    );
-  return {
-    ...mod,
-    useNavigate: () => mockedUseNavigate,
-  };
-});
+vi.mock("@app/pages/search/hooks/useAutoComplete");
+vi.mocked(useAutoComplete).mockReturnValue({
+  data: ["hell", "hello"],
+} as unknown as UseQueryResult<string[], Error>);
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   const router = getMockRouterProvider({ children });
@@ -26,16 +21,13 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
 };
 
 describe("Header", () => {
-  beforeEach(async () => {
-    await act(async () => render(<Header />, { wrapper: Wrapper }));
-  });
   afterEach(() => {
     vi.clearAllMocks();
   });
 
   describe("renders the Header component", () => {
-    it("should render the trending, saved and search links and the search bar", () => {
-      // @todo fill this in
+    it("should render the trending, saved and search links and the search bar", async () => {
+      await act(async () => render(<Header />, { wrapper: Wrapper }));
       const searchBar = screen.queryByTestId("search-bar-input");
       expect(searchBar).toBeTruthy();
     });

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { act } from "react";
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { screen } from "@testing-library/dom";
 import { vi } from "vitest";
@@ -11,6 +11,13 @@ import {
   getMockSearchProvider,
   mockSetSearchTerm,
 } from "@app/testUtils";
+import { useAutoComplete } from "@app/pages/search/hooks";
+import { UseQueryResult } from "@tanstack/react-query";
+
+vi.mock("@app/pages/search/hooks/useAutoComplete");
+vi.mocked(useAutoComplete).mockReturnValue({
+  data: ["hell", "hello"],
+} as unknown as UseQueryResult<string[], Error>);
 
 const mockedUseNavigate = vi.fn();
 vi.mock("@tanstack/react-router", async () => {
@@ -45,6 +52,7 @@ describe("SearchBar", () => {
         const searchInput = screen
           .getByTestId("search-bar-input")
           .querySelector("input");
+
         await act(
           async () =>
             await user.type(searchInput as HTMLElement, "search term"),
@@ -55,7 +63,7 @@ describe("SearchBar", () => {
             to: "/search",
           },
         ]);
-        expect(mockSetSearchTerm).toHaveBeenLastCalledWith("search term");
+        await waitFor(() => expect(mockSetSearchTerm).toHaveBeenLastCalledWith("search term"));
       });
     });
   });

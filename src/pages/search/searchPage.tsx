@@ -47,7 +47,7 @@ export const SearchPage = memo(function SearchPage() {
         {/* include the searchTerm in the key so the SearchBar is recreated when the searchTerm changes, 
             allowing it to reflect the searchTerm if it was set from a different component */}
         <SearchBar key={`searchPageSearchBar-${searchTerm}`}></SearchBar>
-        {!hasItems && searchTerm.length > 0 && !isFetching && (
+        {!hasItems && searchTerm?.length > 0 && !isFetching && (
           <ErrorState
             error={{
               message: `No Results for "${searchTerm}"`,

@@ -47,3 +47,11 @@ export interface PagedQueryResult {
   pages: GiphyResponse[];
   pageParams: number[];
 }
+
+export interface AutoCompleteResponse {
+  data: { name: string }[];
+  pagination: GiphyPagination;
+  meta: {
+    response_id?: string;
+  };
+}
