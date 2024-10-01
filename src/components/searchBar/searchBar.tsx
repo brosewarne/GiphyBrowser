@@ -1,4 +1,10 @@
-import React, { memo, useContext, useState } from "react";
+import React, {
+  ChangeEvent,
+  memo,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
 
 import { useLocation, useNavigate } from "@tanstack/react-router";
 
@@ -30,14 +36,19 @@ export const SearchBar = memo(function SearchBar() {
     }
   };
 
+  const updateTextField = useCallback(
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setTextFieldContent(event.target.value);
+    },
+    [],
+  );
+
   return (
     <TextField
       id="searchGiphy"
       placeholder="Search Giphty"
       value={textFieldContent}
-      onChange={(event) => {
-        setTextFieldContent(event.target.value);
-      }}
+      onChange={updateTextField}
       onKeyDown={submitOnEnter}
       slotProps={{
         input: {

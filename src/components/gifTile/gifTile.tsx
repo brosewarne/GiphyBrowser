@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
@@ -27,8 +27,8 @@ export const GifTile = memo(function GifTile({
   const gifUrl =
     gifData.images?.fixed_height?.url ?? gifData.images?.fixed_width?.url;
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  const openModal = useCallback(() => setModalOpen(true), []);
+  const closeModal = useCallback(() => setModalOpen(false), []);
   return (
     <>
       <Card variant="outlined" data-testid="gif-tile">

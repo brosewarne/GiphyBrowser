@@ -1,4 +1,4 @@
-import React, { useState, memo, useContext } from "react";
+import React, { useState, memo, useContext, useCallback } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import { motion } from "framer-motion";
@@ -48,7 +48,7 @@ export const SaveButton = memo(function SaveButton({
     }
   };
 
-  const onClose = () => setShowSnackbar(false)
+  const onClose = useCallback(() => setShowSnackbar(false), [])
   return (
     <>
       <IconButton
