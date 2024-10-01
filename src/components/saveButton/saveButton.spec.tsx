@@ -7,6 +7,7 @@ import userEvent from "@testing-library/user-event";
 
 import { SaveButton } from "./saveButton";
 import { SavedContext } from "@app/providers";
+import { UseMutationResult } from "@tanstack/react-query";
 
 vi.mock("../../utils/savedItemsDB", async () => {
   const mod = await vi.importActual<typeof import("../../utils/savedItemsDB")>(
@@ -25,11 +26,29 @@ vi.mock("../../utils/savedItemsDB", async () => {
 
 vi.mock("dexie-react-hooks");
 
+const mockAddSavedGif = { mutate: vi.fn() } as unknown as UseMutationResult<
+  number,
+  Error,
+  string,
+  unknown
+>;
+const mockRemoveSavedGif = { mutate: vi.fn() } as unknown as UseMutationResult<
+  void,
+  Error,
+  number,
+  unknown
+>;
+
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <SavedContext.Provider
       value={{
-        savedGifsState: { savedGifs: ["1234", "5678"], savedGifsLoaded: true },
+        savedGifsState: {
+          savedGifs: ["1234", "5678"],
+          savedGifsLoaded: true,
+          addSavedGif: mockAddSavedGif,
+          removeSavedGif: mockRemoveSavedGif,
+        },
       }}
     >
       {children}

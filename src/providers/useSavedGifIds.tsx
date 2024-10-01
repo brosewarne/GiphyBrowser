@@ -12,7 +12,7 @@ const fetchSavedGifIds = async (): Promise<string[]> => {
  */
 export function useSavedGifIds(): UseQueryResult<string[]> {
   return useQuery({
-    queryKey: ["savedGifIds"],
+    queryKey: ["savedGifIds", ],
     queryFn: fetchSavedGifIds,
     retry: false,
     staleTime: 300000,

@@ -21,7 +21,9 @@ export const SaveButton = memo(function SaveButton({
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
-  const { savedGifsState: { savedGifs} } = useContext(SavedContext);
+  const {
+    savedGifsState: { savedGifs, addSavedGif, removeSavedGif },
+  } = useContext(SavedContext);
 
   const isSaved = savedGifs?.includes(gifId);
 
@@ -35,12 +37,13 @@ export const SaveButton = memo(function SaveButton({
   const updateSavedGifs = async () => {
     try {
       if (savedItem) {
-        await db.savedGifs.delete(savedItem.id);
+        // need to sort out default values for these that aren't null
+        removeSavedGif?.mutate(savedItem.id);
       } else {
-        await db.savedGifs.add({
-          giphyId: gifId,
-        });
+        // need to sort out default values for these that aren't null
+        addSavedGif?.mutate(gifId);
       }
+
       setSnackbarMessage(!isSaved ? "Gif Saved" : "Gif Removed");
       setShowSnackbar(true);
     } catch (error) {
@@ -48,7 +51,7 @@ export const SaveButton = memo(function SaveButton({
     }
   };
 
-  const onClose = useCallback(() => setShowSnackbar(false), [])
+  const onClose = useCallback(() => setShowSnackbar(false), []);
   return (
     <>
       <IconButton
