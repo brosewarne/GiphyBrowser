@@ -30,7 +30,6 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
     <SavedContext.Provider
       value={{
         savedGifsState: { savedGifs: ["1234", "5678"], savedGifsLoaded: true },
-        setSavedGifsState: vi.fn(),
       }}
     >
       {children}

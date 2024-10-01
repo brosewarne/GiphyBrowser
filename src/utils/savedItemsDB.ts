@@ -12,5 +12,9 @@ db.version(1).stores({
   savedGifs: "++id, giphyId", // Primary key and indexed props
 });
 
+export async function getSavedGifs(): Promise<SavedGiphyGif[]> {
+  return db.table("savedGifs").toArray();
+}
+
 export type { SavedGiphyGif };
 export { db };
