@@ -5,7 +5,7 @@ $spacing-4: calc($spacing * 4);
 $spacing-5: calc($spacing * 5);
 $spacing-6: calc($spacing * 6);
 
-$color-light-grey: rgba(246, 247, 248, 50%);
+$color-light-grey: rgba(246 247 248 / 50%);
 
 %centered-column-content {
   display: flex;
