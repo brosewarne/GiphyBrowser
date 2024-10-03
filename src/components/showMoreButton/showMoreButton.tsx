@@ -1,7 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import styles from "./showMoreButton.module.css";
+import styles from "./showMoreButton.module.scss";
 
 /**
  *  Show More button for loading more items.

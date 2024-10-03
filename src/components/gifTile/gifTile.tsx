@@ -9,8 +9,7 @@ import Typography from "@mui/material/Typography";
 import { GiphyGif } from "@app/models";
 import { SaveButton } from "../saveButton";
 
-import sharedStyles from "../shared.module.css";
-import styles from "./gifTile.module.css";
+import styles from "./gifTile.module.scss";
 import { GifModal } from "../gifModal";
 
 /**
@@ -34,7 +33,7 @@ export const GifTile = memo(function GifTile({
       <Card variant="outlined" data-testid="gif-tile">
         <CardActionArea onClick={openModal}>
           <CardContent key={gifData.id}>
-            <Box className={sharedStyles["centered-column-content"]}>
+            <Box className={styles["gif-tile-container"]}>
               <Box className={styles["gif-title-container"]}>
                 <Typography
                   gutterBottom
@@ -53,7 +52,7 @@ export const GifTile = memo(function GifTile({
           </CardContent>
         </CardActionArea>
 
-        <Box className={sharedStyles["centered-content"]}>
+        <Box className={styles["save-button-container"]}>
           <CardActions>
             <SaveButton gifId={gifData.id}></SaveButton>
           </CardActions>

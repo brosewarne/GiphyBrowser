@@ -14,7 +14,7 @@ import {
 } from "@app/components";
 import { BasePage } from "@app/pages";
 
-import sharedStyles from "@app/components/shared.module.css";
+import styles from "./search.module.scss";
 
 /**
  * The Search Gifs page. Shows a search bar and any search results in a Gif Grid
@@ -41,9 +41,10 @@ export const SearchPage = memo(function SearchPage() {
     ? `Showing ${lastPage.pagination.offset + lastPage.pagination.count} out of ${firstPage.pagination.total_count} total search results`
     : "";
 
+  const allItems = pages.map((p) => p.data).flat();
   return (
     <BasePage apiError={error}>
-      <Box className={sharedStyles["centered-column-content"]}>
+      <Box className={styles["page-container"]}>
         {/* include the searchTerm in the key so the SearchBar is recreated when the searchTerm changes, 
             allowing it to reflect the searchTerm if it was set from a different component */}
         <SearchBar key={`searchPageSearchBar-${searchTerm}`}></SearchBar>
@@ -58,12 +59,7 @@ export const SearchPage = memo(function SearchPage() {
         {hasItems && (
           <>
             <Typography variant="h6">{countCopy}</Typography>
-            {pages.map((page) => (
-              <GifGrid
-                gifData={page.data}
-                key={page.meta.response_id}
-              ></GifGrid>
-            ))}
+            <GifGrid gifData={allItems}></GifGrid>
           </>
         )}
 

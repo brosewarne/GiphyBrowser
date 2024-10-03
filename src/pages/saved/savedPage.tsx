@@ -45,11 +45,10 @@ export const SavedPage = memo(function SavedPage() {
   }
 
   const pages = data?.pages ?? [];
+  const allItems = pages.map((p) => p.data).flat();
   return (
     <BasePage apiError={error}>
-      {pages.map((page) => (
-        <GifGrid gifData={page.data} key={page.meta.response_id}></GifGrid>
-      ))}
+      <GifGrid gifData={allItems}></GifGrid>
       {isFetchingNextPage && <LoadingGrid></LoadingGrid>}
       {hasNextPage && (
         <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>

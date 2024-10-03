@@ -1,0 +1,9 @@
+@use "../../base";
+
+.auto-complete {
+  width: calc(base.$spacing * 37.5);
+}
+
+.bold-option {
+  font-weight: bold;
+}

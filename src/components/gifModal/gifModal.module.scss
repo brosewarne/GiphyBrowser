@@ -1,12 +1,14 @@
+@use "../../base";
+
 button.close-button {
   position: absolute;
-  right: var(--mui-spacing);
-  top: var(--mui-spacing);
+  right: base.$spacing;
+  top: base.$spacing;
   color: var(--mui-palette-grey-500);
 }
 
 .save-button {
   display: flex;
   justify-content: center;
-  padding: var(--mui-spacing);
+  padding: base.$spacing;
 }

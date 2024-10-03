@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
-import styles from "./pageTabs.module.css";
+import styles from "./pageTabs.module.scss";
 
 export const PageTabs = memo(function PageTabs() {
   const { pathname } = useLocation();

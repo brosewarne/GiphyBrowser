@@ -1,0 +1,23 @@
+@use "../../base";
+
+.gif-tile-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.gif-title-container {
+  min-height: calc(base.$spacing * 7.5);
+}
+
+.gif-image {
+  width: calc(base.$spacing * 25);
+  height: calc(base.$spacing * 18.75);
+}
+
+.save-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+

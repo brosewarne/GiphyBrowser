@@ -9,6 +9,7 @@
     "coverage": "vitest run --coverage",
     "lint": "eslint .",
     "preview": "vite preview",
+    "stylelint": "stylelint **/src/**/*.css",
     "test": "vitest",
     "test:ui": "vitest --ui"
   },
@@ -29,7 +30,8 @@
     "framer-motion": "^11.5.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-error-boundary": "^4.0.13"    
+    "react-error-boundary": "^4.0.13",
+    "sass": "^1.79.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
@@ -50,6 +52,8 @@
     "globals": "^15.9.0",
     "jsdom": "^24.0.0",
     "prettier": "^3.3.3",
+    "stylelint": "^16.9.0",
+    "stylelint-config-standard-scss": "^13.1.0",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1",

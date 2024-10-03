@@ -31,18 +31,17 @@ export const TrendingPage = memo(function TrendingPage() {
   }
 
   const pages = data?.pages ?? [];
-
+  const allItems = pages.map((p) => p.data).flat();
   return (
     <BasePage apiError={error}>
-      {pages.map((page) => (
-        <GifGrid gifData={page.data} key={page.meta.response_id}></GifGrid>
-      ))}
-      {isFetchingNextPage && <LoadingGrid></LoadingGrid>}
-      {hasNextPage && (
-        <Box margin="32px">
+      <Box>
+        <GifGrid gifData={allItems}></GifGrid>
+
+        {isFetchingNextPage && <LoadingGrid></LoadingGrid>}
+        {hasNextPage && (
           <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
-        </Box>
-      )}
+        )}
+      </Box>
     </BasePage>
   );
 });

@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 
 import CloseIcon from "@mui/icons-material/Close";
 
-import styles from "./gifModal.module.css";
+import styles from "./gifModal.module.scss";
 
 import { SaveButton } from "@app/components";
 import { GiphyGif } from "@app/models";

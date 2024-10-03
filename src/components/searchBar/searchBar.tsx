@@ -24,7 +24,7 @@ import Search from "@mui/icons-material/Search";
 import { SearchContext } from "@app/providers";
 import { useAutoComplete } from "@app/pages/search/hooks/useAutoComplete";
 
-import styles from "./searchBar.module.css";
+import styles from "./searchBar.module.scss";
 
 /**
  *  The SearchBar showin the the header. When a search term is submitted the searchTerm is set and the user

@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 
 import { SearchBar } from "@app/components";
 
-import styles from "./header.module.css";
+import styles from "./header.module.scss";
 import { SearchContext } from "@app/providers";
 
 /**

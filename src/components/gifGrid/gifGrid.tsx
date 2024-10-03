@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import { GiphyGif } from "@app/models";
 import { GifTile } from "../gifTile";
 
-import styles from "./gifGrid.module.css";
+import styles from "./gifGrid.module.scss";
 
 /**
  *  Simple presentational component for showing the loaded Gifs in a grid

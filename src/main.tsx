@@ -16,6 +16,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 
 import { ThemeProvider, createTheme } from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 import { Header } from "./components/header";
 import { PageTabs } from "./pages";
@@ -28,7 +29,7 @@ import { searchRoutes } from "./pages/search/routes";
 import { trendingRoutes } from "./pages/trending/routes.js";
 import { savedRoutes } from "./pages/saved/routes";
 
-import styles from "./main.module.css";
+import styles from "./main.module.scss";
 
 const theme = createTheme({
   spacing: 8,
@@ -49,10 +50,15 @@ const rootRoute = createRootRoute({
                 disableGutters={true}
                 className={styles["app-container"]}
               >
-                <Box>
-                  <Header />
+                <Header />
+
+                <Box className={styles["main-content"]}>
                   <PageTabs></PageTabs>
                   <Outlet></Outlet>
+                </Box>
+
+                <Box className={styles.footer}>
+                  <Typography variant="body1">Giphy Browser 2024</Typography>
                 </Box>
               </Container>
             </SavedGifsProvider>

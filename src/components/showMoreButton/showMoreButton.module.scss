@@ -1,0 +1,8 @@
+@use "../../base";
+
+.button-container {
+  display: flex;
+  margin-top: base.$spacing-2;
+  margin-bottom: base.$spacing-2;
+  justify-content: center;
+}
