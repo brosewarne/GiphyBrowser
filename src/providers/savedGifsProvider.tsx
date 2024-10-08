@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext } from "react";
+import React, { ReactNode, createContext, useState } from "react";
 
 import { useSavedGifIds } from "./useSavedGifIds";
 import { db } from "@app/utils";
@@ -9,6 +9,7 @@ interface SavedGifsState {
   savedGifsLoaded: boolean | undefined;
   addSavedGif: UseMutationResult<number, Error, string, unknown> | null;
   removeSavedGif: UseMutationResult<void, Error, number, unknown> | null;
+  version: number;
 }
 
 interface ISavedGifsContext {
@@ -21,11 +22,15 @@ export const SavedContext = createContext<ISavedGifsContext>({
     savedGifsLoaded: false,
     addSavedGif: null,
     removeSavedGif: null,
+    version: 0,
   },
 });
 
 export function SavedGifsProvider({ children }: { children: ReactNode }) {
-  const { data: savedGifs, isFetching, refetch } = useSavedGifIds();
+  const [ version, setVersion ] = useState(0)
+  const { data: savedGifs, isFetching } = useSavedGifIds(version);
+  
+
 
   const addSavedGif = useMutation({
     mutationFn: (gifId: string) => {
@@ -33,16 +38,16 @@ export function SavedGifsProvider({ children }: { children: ReactNode }) {
         giphyId: gifId,
       });
     },
-    // I'm not 100% happy with this, but I can't find a way to supply a unique-per-query key for react-query from the dexie db
-    onSuccess: () => refetch(),
+    // version is used for the queryKey when fetching the saved gif ids from indexedDB
+    onSuccess: () => setVersion(version + 1),
   });
 
   const removeSavedGif = useMutation({
     mutationFn: (gifId: number) => {
       return db.savedGifs.delete(gifId);
     },
-    // I'm not 100% happy with this, but I can't find a way to supply a unique-per-query key for react-query from the dexie db
-    onSuccess: () => refetch(),
+    // version is used for the queryKey when fetching the saved gif ids from indexedDB
+    onSuccess: () => setVersion(version + 1),
   });
 
   return (
@@ -53,6 +58,7 @@ export function SavedGifsProvider({ children }: { children: ReactNode }) {
           savedGifsLoaded: !isFetching,
           addSavedGif,
           removeSavedGif,
+          version,
         },
       }}
     >

@@ -25,7 +25,7 @@ const fetchSavedGifs = async (
   }
 
   // simple pagination functionality as the `gifs` EP doesn't support pagination
-  const pagedGifIds = gifIds.slice(offset, offset + limit); // reverse to show most recently saved first
+  const pagedGifIds = gifIds.slice(offset, offset + limit); 
 
   // Let react-query do the error handling if this throws, no need for extra error handling here
   const response: AxiosResponse<GiphyResponse> = await axios.get(`${baseUrl}`, {
