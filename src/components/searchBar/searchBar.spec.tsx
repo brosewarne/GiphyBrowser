@@ -14,7 +14,7 @@ import {
 import { useAutoComplete } from "@app/features/search/hooks";
 import { UseQueryResult } from "@tanstack/react-query";
 
-vi.mock("@app/pages/search/hooks/useAutoComplete");
+vi.mock("@app/features/search/hooks/useAutoComplete");
 vi.mocked(useAutoComplete).mockReturnValue({
   data: ["hell", "hello"],
 } as unknown as UseQueryResult<string[], Error>);

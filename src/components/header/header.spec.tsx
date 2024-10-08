@@ -6,14 +6,11 @@ import { vi } from "vitest";
 
 import { Header } from "./header";
 
-import {
-  getMockRouterProvider,
-  getMockSearchProvider,
-} from "@app/test";
-import { useAutoComplete } from "@app/features/search/hooks";
+import { getMockRouterProvider, getMockSearchProvider } from "@app/test";
+import { useAutoComplete } from "@app/features/search/hooks/useAutoComplete";
 import { UseQueryResult } from "@tanstack/react-query";
 
-vi.mock("@app/pages/search/hooks/useAutoComplete");
+vi.mock("@app/features/search/hooks/useAutoComplete");
 vi.mocked(useAutoComplete).mockReturnValue({
   data: ["hell", "hello"],
 } as unknown as UseQueryResult<string[], Error>);
