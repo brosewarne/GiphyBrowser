@@ -1,4 +1,4 @@
-@use "../../base";
+@use "@app/app/_base" as *;
 
 .gif-tile-container {
   display: flex;
@@ -7,17 +7,15 @@
 }
 
 .gif-title-container {
-  min-height: calc(base.$spacing * 7.5);
+  min-height: calc($spacing * 7.5);
 }
 
 .gif-image {
-  width: calc(base.$spacing * 25);
-  height: calc(base.$spacing * 18.75);
+  width: calc($spacing * 25);
+  height: calc($spacing * 18.75);
 }
 
 .save-button-container {
   display: flex;
   justify-content: center;
 }
-
-

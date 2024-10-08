@@ -6,8 +6,11 @@ import { vi } from "vitest";
 
 import { Header } from "./header";
 
-import { getMockRouterProvider, getMockSearchProvider } from "@app/testUtils";
-import { useAutoComplete } from "@app/pages/search/hooks";
+import {
+  getMockRouterProvider,
+  getMockSearchProvider,
+} from "@app/test";
+import { useAutoComplete } from "@app/features/search/hooks";
 import { UseQueryResult } from "@tanstack/react-query";
 
 vi.mock("@app/pages/search/hooks/useAutoComplete");

@@ -5,7 +5,7 @@ import { useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 
-import { ConfigContext } from "@app/providers";
+import { ConfigContext } from "@app/app/providers";
 
 /**
  *  Simple presentational component for showing a loading grid with rectangle skeletons

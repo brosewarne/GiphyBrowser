@@ -4,8 +4,7 @@ import { screen } from "@testing-library/dom";
 
 import { GifGrid } from "./gifGrid";
 import { GiphyBrowserConfig } from "@app/config";
-import { getMockGifData } from "@app/testUtils";
-
+import { getMockGifData } from "@app/test";
 
 describe("GifGrid", () => {
   const mockGifData = getMockGifData(9);

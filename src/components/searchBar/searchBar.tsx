@@ -21,8 +21,8 @@ import parse from "autosuggest-highlight/parse";
 
 import Search from "@mui/icons-material/Search";
 
-import { SearchContext } from "@app/providers";
-import { useAutoComplete } from "@app/pages/search/hooks/useAutoComplete";
+import { SearchContext } from "@app/app/providers";
+import { useAutoComplete } from "@app/features/search/hooks";
 
 import styles from "./searchBar.module.scss";
 

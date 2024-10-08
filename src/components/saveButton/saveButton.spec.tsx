@@ -6,7 +6,7 @@ import { screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 
 import { SaveButton } from "./saveButton";
-import { SavedContext } from "@app/providers";
+import { SavedContext } from "@app/app/providers";
 import { UseMutationResult } from "@tanstack/react-query";
 
 vi.mock("../../utils/savedItemsDB", async () => {
@@ -48,6 +48,7 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
           savedGifsLoaded: true,
           addSavedGif: mockAddSavedGif,
           removeSavedGif: mockRemoveSavedGif,
+          version: 0,
         },
       }}
     >

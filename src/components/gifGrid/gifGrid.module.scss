@@ -1,5 +1,5 @@
-@use '../../base';
+@use "@app/app/_base" as *;
 
 .grid-container {
-  margin-bottom: base.$spacing;
+  margin-bottom: $spacing;
 }

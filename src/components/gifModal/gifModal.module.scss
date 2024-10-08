@@ -1,14 +1,14 @@
-@use "../../base";
+@use "@app/app/_base" as *;
 
 button.close-button {
   position: absolute;
-  right: base.$spacing;
-  top: base.$spacing;
+  right: $spacing;
+  top: $spacing;
   color: var(--mui-palette-grey-500);
 }
 
 .save-button {
   display: flex;
   justify-content: center;
-  padding: base.$spacing;
+  padding: $spacing;
 }

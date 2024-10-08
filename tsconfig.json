@@ -20,7 +20,7 @@
     "baseUrl": ".",
     "paths": {
       "@app/*": ["src/*"],
-      "@mocks/*": ["src/testUtils/mocks/*"]
+      "@mocks/*": ["src/test/mocks/*"]
     },
     "rootDir": ".",
     "outDir": "./dist"

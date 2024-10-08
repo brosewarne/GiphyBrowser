@@ -8,7 +8,7 @@ import Snackbar from "@mui/material/Snackbar";
 import ThumbUp from "@mui/icons-material/ThumbUp";
 
 import { db } from "@app/utils";
-import { SavedContext } from "@app/providers";
+import { SavedContext } from "@app/app/providers";
 
 /**
  *  Save button for saving Gifs to local storage if they are not already saved, or removing them if they are.

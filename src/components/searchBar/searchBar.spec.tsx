@@ -10,8 +10,8 @@ import {
   getMockRouterProvider,
   getMockSearchProvider,
   mockSetSearchTerm,
-} from "@app/testUtils";
-import { useAutoComplete } from "@app/pages/search/hooks";
+} from "@app/test";
+import { useAutoComplete } from "@app/features/search/hooks";
 import { UseQueryResult } from "@tanstack/react-query";
 
 vi.mock("@app/pages/search/hooks/useAutoComplete");
@@ -63,7 +63,9 @@ describe("SearchBar", () => {
             to: "/search",
           },
         ]);
-        await waitFor(() => expect(mockSetSearchTerm).toHaveBeenLastCalledWith("search term"));
+        await waitFor(() =>
+          expect(mockSetSearchTerm).toHaveBeenLastCalledWith("search term"),
+        );
       });
     });
   });

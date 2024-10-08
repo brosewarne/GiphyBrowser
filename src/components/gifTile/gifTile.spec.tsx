@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 
 import { GifTile } from "./gifTile";
-import { mockGifData } from "@app/testUtils";
+import { mockGifData } from "@app/test";
 
 describe("GifTile", () => {
   describe("renders the GifTile component", () => {

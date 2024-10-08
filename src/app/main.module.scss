@@ -1,0 +1,25 @@
+@use "@app/app/_base" as *;
+
+.main-content {
+  flex-grow: 1;
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: $color-light-grey;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--mui-palette-primary-main);
+  min-height: $spacing-6;
+  flex-shrink: 0;
+  margin-top: $spacing-4;
+  text-align: center;
+  color: white;
+}

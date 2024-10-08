@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import { SearchBar } from "@app/components";
 
 import styles from "./header.module.scss";
-import { SearchContext } from "@app/providers";
+import { SearchContext } from "@app/app/providers";
 
 /**
  *  The App header with a title, naviation buttons for the trending, searcvh and saved pages.
