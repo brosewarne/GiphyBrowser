@@ -30,8 +30,8 @@ describe("useTrendingGifs", () => {
           pages: [
             {
               data: [
-                { id: "1234", uniqueId: "a-a-a-a-a" },
-                { id: "5678", uniqueId: "a-a-a-a-a" },
+                { id: "1234", uniqueId: "1234" },
+                { id: "5678", uniqueId: "5678" },
               ],
               pagination: { total_count: 2, count: 2, offset: 0 },
               meta: { response_id: "1234" },

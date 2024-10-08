@@ -9,9 +9,9 @@ vi.mock("crypto");
 
 describe("useSavedGifs", () => {
   beforeEach(() => {
-    vi.clearAllMocks()
-    vi.spyOn(crypto, 'randomUUID').mockReturnValue('a-a-a-a-a')
-  })
+    vi.clearAllMocks();
+    vi.spyOn(crypto, "randomUUID").mockReturnValue("a-a-a-a-a");
+  });
   describe("when gifIds are provided", () => {
     it("should call Giphy for the saved gifs", async () => {
       vi.spyOn(axios, "get").mockResolvedValue({
@@ -33,7 +33,10 @@ describe("useSavedGifs", () => {
             pageParams: [0],
             pages: [
               {
-                data: [{ id: "1234", uniqueId: 'a-a-a-a-a' }, { id: "5678",uniqueId: 'a-a-a-a-a' }],
+                data: [
+                  { id: "1234", uniqueId: "1234" },
+                  { id: "5678", uniqueId: "5678" },
+                ],
                 pagination: { total_count: 2, count: 2, offset: 0 },
                 meta: { response_id: "1234" },
               },
