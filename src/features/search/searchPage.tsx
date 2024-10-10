@@ -9,10 +9,8 @@ import {
   GifGrid,
   ShowMoreButton,
   LoadingGrid,
-  ErrorState,
   SearchBar,
 } from "@app/components";
-import { BasePage } from "@app/components";
 
 import styles from "./search.module.scss";
 
@@ -25,7 +23,6 @@ export const SearchPage = memo(function SearchPage() {
 
   const {
     data,
-    error,
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
@@ -43,32 +40,29 @@ export const SearchPage = memo(function SearchPage() {
 
   const allItems = pages.map((p) => p.data).flat();
   return (
-    <BasePage apiError={error}>
-      <Box className={styles["page-container"]}>
-        {/* include the searchTerm in the key so the SearchBar is recreated when the searchTerm changes, 
+    <Box className={styles["page-container"]}>
+      {/* include the searchTerm in the key so the SearchBar is recreated when the searchTerm changes, 
             allowing it to reflect the searchTerm if it was set from a different component */}
-        <SearchBar key={`searchPageSearchBar-${searchTerm}`}></SearchBar>
-        {!hasItems && searchTerm?.length > 0 && !isFetching && (
-          <ErrorState
-            error={{
-              message: `No Results for "${searchTerm}"`,
-              name: "no results",
-            }}
-          ></ErrorState>
-        )}
-        {hasItems && (
-          <>
-            <Typography variant="h6">{countCopy}</Typography>
-            <GifGrid gifData={allItems}></GifGrid>
-          </>
-        )}
+      <SearchBar key={`searchPageSearchBar-${searchTerm}`}></SearchBar>
+      {!hasItems && searchTerm?.length > 0 && !isFetching && (
+        
+        <Typography variant="h4" data-testid="error-state">
+{`No Results for "${searchTerm}"`}
 
-        {isFetchingNextPage && <LoadingGrid></LoadingGrid>}
+        </Typography>
+      )}
+      {hasItems && (
+        <>
+          <Typography variant="h6">{countCopy}</Typography>
+          <GifGrid gifData={allItems}></GifGrid>
+        </>
+      )}
 
-        {hasNextPage && (
-          <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
-        )}
-      </Box>
-    </BasePage>
+      {isFetchingNextPage && <LoadingGrid></LoadingGrid>}
+
+      {hasNextPage && (
+        <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
+      )}
+    </Box>
   );
 });

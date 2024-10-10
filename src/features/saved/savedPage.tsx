@@ -2,13 +2,12 @@ import React, { memo, useContext } from "react";
 import { useSavedGifs } from "./hooks";
 
 import {
-  ErrorState,
   GifGrid,
   LoadingGrid,
   ShowMoreButton,
 } from "@app/components";
-import { BasePage } from "@app/components";
 import { SavedContext } from "@app/app/providers";
+import Typography from "@mui/material/Typography";
 
 /**
  * The Saved Gifs page. Shows the saved gifs in a simple grid with no pagination.
@@ -21,38 +20,29 @@ export const SavedPage = memo(function SavedPage() {
   const { savedGifsState } = useContext(SavedContext);
 
   const { savedGifs, savedGifsLoaded } = savedGifsState;
-  const {
-    data,
-    error,
-    isFetching,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-  } = useSavedGifs({
-    gifIds: savedGifs ?? [],
-  });
+  const { data, isFetchingNextPage, fetchNextPage, hasNextPage } = useSavedGifs(
+    {
+      gifIds: savedGifs ?? [],
+    },
+  );
 
   if (!savedGifs && savedGifsLoaded) {
     return (
-      <ErrorState
-        error={{ message: "You have no saved Gifs", name: "no saved gifs" }}
-      ></ErrorState>
+      <Typography variant="h4" data-testid="error-state">
+        You have no saved Gifs
+      </Typography>
     );
-  }
-
-  if (!data && isFetching) {
-    return <LoadingGrid></LoadingGrid>;
   }
 
   const pages = data?.pages ?? [];
   const allItems = pages.map((p) => p.data).flat();
   return (
-    <BasePage apiError={error}>
+    <>
       <GifGrid gifData={allItems}></GifGrid>
       {isFetchingNextPage && <LoadingGrid></LoadingGrid>}
       {hasNextPage && (
         <ShowMoreButton getNextPage={fetchNextPage}></ShowMoreButton>
       )}
-    </BasePage>
+    </>
   );
 });

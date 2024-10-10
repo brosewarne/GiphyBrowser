@@ -1,3 +1,6 @@
+@use "@app/app/_base" as *;
+
 .tabs-container {
   border-bottom: 1px solid var(--mui-palette-divider);
+  margin-bottom: $spacing-4;
 }

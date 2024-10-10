@@ -37,10 +37,10 @@ export const SaveButton = memo(function SaveButton({
   const updateSavedGifs = async () => {
     try {
       if (savedItem) {
-        // need to sort out default values for these that aren't null
+        // need to sort out default values for the mutations that aren't null
         removeSavedGif?.mutate(savedItem.id);
       } else {
-        // need to sort out default values for these that aren't null
+        // need to sort out default values for the mutations that aren't null
         addSavedGif?.mutate(gifId);
       }
 
@@ -55,10 +55,14 @@ export const SaveButton = memo(function SaveButton({
   return (
     <>
       <IconButton
-        onClick={updateSavedGifs}
+        onAnimationEnd={updateSavedGifs}
         data-testid="save-button"
         component={motion.div}
         whileTap={{ scale: 1.1, rotate: 360 }}
+        whileHover={{
+          scale: 1.2,
+          transition: { duration: 1 },
+        }}
       >
         <ThumbUp color={isSaved ? "primary" : "action"}></ThumbUp>
       </IconButton>

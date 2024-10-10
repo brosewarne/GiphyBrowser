@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import {
-  useInfiniteQuery,
-  UseInfiniteQueryResult,
+  useSuspenseInfiniteQuery,
+  UseSuspenseInfiniteQueryResult,
 } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 
@@ -45,10 +45,10 @@ export function useSearchGifs({
   searchTerm,
 }: {
   searchTerm: string;
-}): UseInfiniteQueryResult<PagedQueryResult> {
+}): UseSuspenseInfiniteQueryResult<PagedQueryResult> {
   const { apiKey, baseUrl, numberOfItems } = useContext(ConfigContext);
 
-  return useInfiniteQuery({
+  return useSuspenseInfiniteQuery({
     queryKey: ["searchPage", searchTerm],
     queryFn: async ({
       pageParam,

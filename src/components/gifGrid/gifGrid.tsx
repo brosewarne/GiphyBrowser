@@ -17,12 +17,16 @@ export const GifGrid = memo(function GifGrid({
   gifData: GiphyGif[];
 }) {
   return (
-    <Box className={styles["grid-container"]} data-testid="gif-grid">
-      <Grid container rowSpacing={3} columnSpacing={2}>
+    <Box data-testid="gif-grid">
+      <Grid container spacing={3} className={styles["grid-container"]}>
         {gifData.map((gif: GiphyGif) => {
           return (
             // sometimes trending and search can bring back the same gif multiple times, use the added uniqueId instead of the giphy provided id
-            <Grid size={4} columnGap={2} key={`grid-${gif.uniqueId}`}>
+            <Grid
+              size={{ xs: 8, sm: 6, md: 4 }}
+              columnGap={2}
+              key={`grid-${gif.uniqueId}`}
+            >
               <GifTile gifData={gif} key={`tile-${gif.uniqueId}`}></GifTile>
             </Grid>
           );

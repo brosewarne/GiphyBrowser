@@ -1,2 +1,2 @@
 export * from "./savedPage";
-export * from "./routes";
+export * from "./routes.lazy.js";
