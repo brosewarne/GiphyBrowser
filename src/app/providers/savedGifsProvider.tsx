@@ -9,7 +9,6 @@ interface SavedGifsState {
   savedGifsLoaded: boolean | undefined;
   addSavedGif: UseMutationResult<number, Error, string, unknown> | null;
   removeSavedGif: UseMutationResult<void, Error, number, unknown> | null;
-  version: number;
 }
 
 interface ISavedGifsContext {
@@ -22,7 +21,6 @@ export const SavedContext = createContext<ISavedGifsContext>({
     savedGifsLoaded: false,
     addSavedGif: null,
     removeSavedGif: null,
-    version: 0,
   },
 });
 
@@ -56,7 +54,6 @@ export function SavedGifsProvider({ children }: { children: ReactNode }) {
           savedGifsLoaded: !isFetching,
           addSavedGif,
           removeSavedGif,
-          version,
         },
       }}
     >
