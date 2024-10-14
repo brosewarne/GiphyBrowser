@@ -3,5 +3,7 @@
 .grid-container {
   margin-bottom: $spacing;
   padding: 0 $spacing-3 $spacing-3;
-  justify-content: center;
+  @media (max-width: 600px) {
+    justify-content: center;
+  }
 }
