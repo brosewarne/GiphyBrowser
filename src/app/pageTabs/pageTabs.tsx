@@ -3,9 +3,7 @@ import { useLocation } from "@tanstack/react-router";
 
 import { Link } from "@tanstack/react-router";
 
-import Box from "@mui/material/Box";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import { Box, Tab, Tabs } from "@mui/material";
 
 import styles from "./pageTabs.module.scss";
 

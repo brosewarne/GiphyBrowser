@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-import Box from "@mui/material/Box";
+import { Box } from "@mui/material";
 import { ErrorState, LoadingGrid } from "@app/components";
 
 import styles from "./pageContainer.module.scss";

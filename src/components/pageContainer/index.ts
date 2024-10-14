@@ -1,1 +1,1 @@
-export * from "./pageContainer.js";
+export * from "./pageContainer";

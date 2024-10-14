@@ -9,13 +9,15 @@ import React, {
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { useDebounce } from "@uidotdev/usehooks";
 
-import InputAdornment from "@mui/material/InputAdornment";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid2";
-import Box from "@mui/material/Box";
-import Autocomplete, {
+import {
+  InputAdornment,
+  TextField,
+  Box,
+  Autocomplete,
   AutocompleteRenderInputParams,
-} from "@mui/material/Autocomplete";
+} from "@mui/material";
+
+import Grid from "@mui/material/Grid2";
 
 import parse from "autosuggest-highlight/parse";
 

@@ -3,8 +3,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import { motion } from "framer-motion";
 
-import IconButton from "@mui/material/IconButton";
-import Snackbar from "@mui/material/Snackbar";
+import { IconButton, Snackbar }  from "@mui/material";
 import ThumbUp from "@mui/icons-material/ThumbUp";
 
 import { db } from "@app/utils";

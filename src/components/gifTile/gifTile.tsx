@@ -1,10 +1,12 @@
 import React, { memo, useCallback, useState } from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActionArea from "@mui/material/CardActionArea";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
+import {
+  Box,
+  Card,
+  CardActions,
+  CardActionArea,
+  CardContent,
+  Typography,
+} from "@mui/material";
 
 import { GiphyGif } from "@app/models";
 import { SaveButton } from "../saveButton";

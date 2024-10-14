@@ -7,7 +7,7 @@ import {
   ShowMoreButton,
 } from "@app/components";
 import { SavedContext } from "@app/app/providers";
-import Typography from "@mui/material/Typography";
+import { Typography } from "@mui/material";
 
 /**
  * The Saved Gifs page. Shows the saved gifs in a simple grid with no pagination.

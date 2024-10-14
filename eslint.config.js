@@ -24,7 +24,6 @@ export default tseslint.config(
     plugins: {
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
-      "mui-path-imports": muiPathImports,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,

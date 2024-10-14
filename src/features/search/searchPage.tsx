@@ -1,6 +1,5 @@
 import React, { memo, useContext } from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { Box, Typography }from "@mui/material";
 
 import { SearchContext } from "@app/app/providers";
 import { useSearchGifs } from "./hooks";

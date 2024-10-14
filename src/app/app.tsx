@@ -2,20 +2,17 @@ import React from "react";
 import { Outlet } from "@tanstack/react-router";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
+import { Box, Container, CssBaseline, Typography } from "@mui/material";
 
-import { ThemeProvider, createTheme } from "@mui/material";
-import Typography from "@mui/material/Typography";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import { Header } from "@app/components";
-import { PageTabs } from "../app/pageTabs/index.js";
+import { PageTabs } from "../app/pageTabs";
 import {
   ConfigProvider,
   SearchTermProvider,
   SavedGifsProvider,
-} from "../app/providers/index.js";
+} from "../app/providers";
 
 import styles from "./main.module.scss";
 
