@@ -76,19 +76,5 @@ describe("TrendingPage", () => {
         expect(loadingGrid).toBeTruthy();
       });
     });
-    describe('when the status is "error"', () => {
-      it("should show the error state", () => {
-        setMockUseTrendingGifs({
-          status: "error",
-          isFetching: false,
-          isFetchingNextPage: false,
-          error: { message: "there was an error", name: "error" },
-        });
-
-        render(<TrendingPage />);
-        const errorState = screen.getByTestId("error-state");
-        expect(errorState).toBeTruthy();
-      });
-    });
   });
 });

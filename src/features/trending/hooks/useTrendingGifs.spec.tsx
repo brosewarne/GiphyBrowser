@@ -20,7 +20,7 @@ describe("useTrendingGifs", () => {
       initialProps: {},
       wrapper: QueryClientWrapper,
     });
-    await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
+    await waitFor(() => expect(result.current?.data).toBeTruthy());
     expect(result.current).toEqual(
       expect.objectContaining({
         data: {

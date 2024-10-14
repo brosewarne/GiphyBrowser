@@ -4,7 +4,7 @@ import { screen } from "@testing-library/dom";
 import { SavedPage } from "./savedPage";
 import { vi } from "vitest";
 import { useSavedGifs } from "./hooks";
-import { UseInfiniteQueryResult } from "@tanstack/react-query";
+import { UseSuspenseInfiniteQueryResult } from "@tanstack/react-query";
 import { PagedQueryResult } from "@app/models";
 import { getMockGifData } from "@app/test";
 
@@ -35,7 +35,7 @@ describe("SavedPage", () => {
           },
           status: "success",
           error: null,
-        } as unknown as UseInfiniteQueryResult<PagedQueryResult>);
+        } as unknown as UseSuspenseInfiniteQueryResult<PagedQueryResult>);
         await React.act(async () => render(<SavedPage />));
         const gifGrid = screen.getByTestId("gif-grid");
         expect(gifGrid).toBeTruthy();

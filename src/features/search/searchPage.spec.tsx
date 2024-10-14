@@ -5,8 +5,8 @@ import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import {
   DefaultError,
-  UseInfiniteQueryResult,
   UseQueryResult,
+  UseSuspenseInfiniteQueryResult,
 } from "@tanstack/react-query";
 
 import { SearchPage } from "./searchPage";
@@ -49,7 +49,7 @@ const setMockUseSearchGifs = ({
     isFetching,
     error,
     status,
-  } as UseInfiniteQueryResult<PagedQueryResult>);
+  } as UseSuspenseInfiniteQueryResult<PagedQueryResult>);
 
   vi.mocked(useAutoComplete).mockReturnValue({
     data: ["hell", "hello"],
@@ -100,22 +100,6 @@ describe("SearchPage", () => {
         );
         const loadingGrid = screen.getByTestId("loading-grid");
         expect(loadingGrid).toBeTruthy();
-      });
-    });
-
-    describe('when the status is "error"', () => {
-      it("should show the error state", async () => {
-        setMockUseSearchGifs({
-          status: "error",
-          isFetchingNextPage: false,
-          error: { message: "there was an error", name: "error" },
-          isFetching: false,
-        });
-        await React.act(async () =>
-          render(<SearchPage />, { wrapper: Wrapper }),
-        );
-        const errorState = screen.getByTestId("error-state");
-        expect(errorState).toBeTruthy();
       });
     });
   });

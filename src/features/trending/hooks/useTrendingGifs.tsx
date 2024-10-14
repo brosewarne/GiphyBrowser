@@ -40,14 +40,13 @@ export function useTrendingGifs(): UseSuspenseInfiniteQueryResult<PagedQueryResu
       pageParam,
     }: {
       pageParam: number;
-    }): Promise<GiphyResponse> => {
-      return fetchTrendingGifs(
+    }): Promise<GiphyResponse> =>
+      fetchTrendingGifs(
         baseUrl,
         apiKey,
         numberOfItems,
         pageParam * numberOfItems,
-      );
-    },
+      ),
 
     initialPageParam: 0,
     getNextPageParam: ({

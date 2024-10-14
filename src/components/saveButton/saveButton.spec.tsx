@@ -1,9 +1,7 @@
 import * as React from "react";
 import { vi } from "vitest";
-import { act } from "react";
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
-import userEvent from "@testing-library/user-event";
 
 import { SaveButton } from "./saveButton";
 import { SavedContext } from "@app/app/providers";
@@ -48,7 +46,6 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
           savedGifsLoaded: true,
           addSavedGif: mockAddSavedGif,
           removeSavedGif: mockRemoveSavedGif,
-          version: 0,
         },
       }}
     >
@@ -77,11 +74,9 @@ describe("SaveButton", () => {
       it("should save the gifId and show the SnackBar", async () => {
         const dexie = await import("dexie-react-hooks");
         dexie.useLiveQuery = vi.fn().mockReturnValue([["1234", "5678"], true]);
-        const user = userEvent.setup();
         render(<SaveButton gifId="1111" />, { wrapper: Wrapper });
         const button = screen.getByTestId("save-button");
-        await act(async () => await user.click(button));
-
+        fireEvent.animationEnd(button);
         const snackbar = screen.getByTestId("save-button-snackbar");
         expect(
           snackbar.querySelector(".MuiSnackbarContent-message")?.textContent,
@@ -93,10 +88,9 @@ describe("SaveButton", () => {
       it("should remove the gifId and show the SnackBar", async () => {
         const dexie = await import("dexie-react-hooks");
         dexie.useLiveQuery = vi.fn().mockReturnValue([["1234", "5678"], true]);
-        const user = userEvent.setup();
         render(<SaveButton gifId="1234" />, { wrapper: Wrapper });
         const button = screen.getByTestId("save-button");
-        await act(async () => await user.click(button));
+        fireEvent.animationEnd(button);
         const snackbar = screen.getByTestId("save-button-snackbar");
         expect(
           snackbar.querySelector(".MuiSnackbarContent-message")?.textContent,
