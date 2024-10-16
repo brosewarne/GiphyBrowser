@@ -9,15 +9,11 @@ import React, {
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { useDebounce } from "@uidotdev/usehooks";
 
-import {
-  InputAdornment,
-  TextField,
-} from "@mui/material";
-
+import { InputAdornment, TextField } from "@mui/material";
 
 import Search from "@mui/icons-material/Search";
 
-import { SearchContext, StatsContext } from "@app/app/providers";
+import { SearchContext } from "@app/app/providers";
 
 /**
  *  The SearchBar showin the the header. When a search term is submitted the searchTerm is set and the user
@@ -26,7 +22,6 @@ import { SearchContext, StatsContext } from "@app/app/providers";
 export const SearchBar = memo(function SearchBar() {
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
   const [textFieldContent, setTextFieldContent] = useState(searchTerm);
-  const { stats, updateStats } = useContext(StatsContext);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -34,9 +29,6 @@ export const SearchBar = memo(function SearchBar() {
   const submit = useCallback(
     (value: string) => {
       setSearchTerm(value);
-      const numSearches = (stats?.numSearches ?? 0) + 1;
-      console.log("HERE?", numSearches);
-      updateStats?.mutate({ statToUpdate: "numSearches", incrementValue: 1 });
       if (pathname !== "/search") {
         navigate({ to: "/search" });
       }
