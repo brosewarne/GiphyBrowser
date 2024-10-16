@@ -8,10 +8,8 @@ import styles from "./errorState.module.scss";
  */
 export const ErrorState = memo(function ErrorState({
   error,
-  resetErrorBoundary,
 }: {
   error: Error;
-  resetErrorBoundary: () => void;
 }) {
   return (
     <Box className={styles["error-state-container"]}>
@@ -21,10 +19,6 @@ export const ErrorState = memo(function ErrorState({
         </Typography>
 
         <pre style={{ whiteSpace: "normal" }}>{error.message}</pre>
-
-        <Button variant="contained" onClick={() => resetErrorBoundary()}>
-          Try again
-        </Button>
       </Box>
     </Box>
   );

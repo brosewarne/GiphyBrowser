@@ -3,7 +3,6 @@ export * from "./gifGrid";
 export * from "./gifTile";
 export * from "./header";
 export * from "./loadingGrid";
-export * from './pageContainer';
 export * from "./saveButton";
 export * from "./searchBar";
 export * from "./showMoreButton";

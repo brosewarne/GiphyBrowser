@@ -5,16 +5,16 @@ interface SavedGiphyGif {
   giphyId: string;
 }
 
-const db = new Dexie("GiphyBrowserDB") as Dexie & {
+const savedItemsdb = new Dexie("GiphyBrowserDB") as Dexie & {
   savedGifs: EntityTable<SavedGiphyGif, "id">;
 };
-db.version(1).stores({
+savedItemsdb.version(1).stores({
   savedGifs: "++id, giphyId", // Primary key and indexed props
 });
 
 export async function getSavedGifs(): Promise<SavedGiphyGif[]> {
-  return db.table("savedGifs").toArray();
+  return savedItemsdb.table("savedGifs").toArray();
 }
 
 export type { SavedGiphyGif };
-export { db };
+export { savedItemsdb };

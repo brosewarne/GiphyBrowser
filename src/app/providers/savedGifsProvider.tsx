@@ -1,7 +1,7 @@
 import React, { ReactNode, createContext, useState } from "react";
 
 import { useSavedGifIds } from "./useSavedGifIds";
-import { db } from "@app/utils";
+import { savedItemsdb } from "@app/utils";
 import { useMutation, UseMutationResult } from "@tanstack/react-query";
 
 interface SavedGifsState {
@@ -30,7 +30,7 @@ export function SavedGifsProvider({ children }: { children: ReactNode }) {
 
   const addSavedGif = useMutation({
     mutationFn: (gifId: string) => {
-      return db.savedGifs.add({
+      return savedItemsdb.savedGifs.add({
         giphyId: gifId,
       });
     },
@@ -40,7 +40,7 @@ export function SavedGifsProvider({ children }: { children: ReactNode }) {
 
   const removeSavedGif = useMutation({
     mutationFn: (gifId: number) => {
-      return db.savedGifs.delete(gifId);
+      return savedItemsdb.savedGifs.delete(gifId);
     },
     // version is used for the queryKey when fetching the saved gif ids from indexedDB
     onSuccess: () => setVersion(version + 1),

@@ -7,12 +7,7 @@ import { ErrorState } from "./errorState";
 describe("ErrorState", () => {
   describe("renders the ErrorState component", () => {
     it("should render the component", () => {
-      render(
-        <ErrorState
-          error={{ message: "message", name: "error" }}
-          resetErrorBoundary={() => {}}
-        />,
-      );
+      render(<ErrorState error={{ message: "message", name: "error" }} />);
       const errorState = screen.getByTestId("error-state");
       expect(errorState.textContent).toEqual("There was an error!");
     });

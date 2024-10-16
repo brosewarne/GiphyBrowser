@@ -13,7 +13,7 @@ vi.mock("../../utils/savedItemsDB", async () => {
   );
   return {
     ...mod,
-    db: {
+    savedItemsdb: {
       savedGifs: {
         add: async () => {},
         delete: async () => {},

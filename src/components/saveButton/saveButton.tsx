@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { IconButton, Snackbar }  from "@mui/material";
 import ThumbUp from "@mui/icons-material/ThumbUp";
 
-import { db } from "@app/utils";
+import { savedItemsdb } from "@app/utils";
 import { SavedContext } from "@app/app/providers";
 
 /**
@@ -30,7 +30,7 @@ export const SaveButton = memo(function SaveButton({
     if (!isSaved) {
       return null;
     }
-    return (await db.savedGifs.where("giphyId").equals(gifId).toArray())[0];
+    return (await savedItemsdb.savedGifs.where("giphyId").equals(gifId).toArray())[0];
   }, [gifId]);
 
   const updateSavedGifs = async () => {
