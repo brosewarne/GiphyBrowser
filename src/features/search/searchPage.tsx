@@ -1,5 +1,5 @@
 import React, { memo, useContext } from "react";
-import { Box, Typography }from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 import { SearchContext } from "@app/app/providers";
 import { useSearchGifs } from "./hooks";
@@ -15,18 +15,12 @@ import styles from "./search.module.scss";
 
 /**
  * The Search Gifs page. Shows a search bar and any search results in a Gif Grid
-
  */
 export const SearchPage = memo(function SearchPage() {
   const { searchTerm } = useContext(SearchContext);
 
-  const {
-    data,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-  } = useSearchGifs({ searchTerm });
+  const { data, isFetchingNextPage, fetchNextPage, hasNextPage, isFetching } =
+    useSearchGifs({ searchTerm });
 
   const pages = data?.pages ?? [];
   const hasItems = pages[0]?.data.length > 0;
@@ -44,10 +38,8 @@ export const SearchPage = memo(function SearchPage() {
             allowing it to reflect the searchTerm if it was set from a different component */}
       <SearchBar key={`searchPageSearchBar-${searchTerm}`}></SearchBar>
       {!hasItems && searchTerm?.length > 0 && !isFetching && (
-        
         <Typography variant="h4" data-testid="error-state">
-{`No Results for "${searchTerm}"`}
-
+          {`No Results for "${searchTerm}"`}
         </Typography>
       )}
       {hasItems && (

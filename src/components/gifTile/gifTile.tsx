@@ -9,10 +9,9 @@ import {
 } from "@mui/material";
 
 import { GiphyGif } from "@app/models";
-import { SaveButton } from "../saveButton";
+import { SaveButton, GifModal } from "@app/components";
 
 import styles from "./gifTile.module.scss";
-import { GifModal } from "../gifModal";
 
 /**
  *  Simple presentational component for showing a loaded Gif in a Card with the title,

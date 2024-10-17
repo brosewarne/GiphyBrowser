@@ -7,7 +7,6 @@ import React, {
 } from "react";
 
 import { useLocation, useNavigate } from "@tanstack/react-router";
-import { useDebounce } from "@uidotdev/usehooks";
 
 import { InputAdornment, TextField } from "@mui/material";
 

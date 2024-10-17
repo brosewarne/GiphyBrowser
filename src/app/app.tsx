@@ -7,12 +7,12 @@ import { Box, Container, CssBaseline, Typography } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import { Header } from "@app/components";
-import { PageTabs } from "../app/pageTabs";
+import { PageTabs } from "./pageTabs";
 import {
   ConfigProvider,
   SearchTermProvider,
   SavedGifsProvider,
-} from "../app/providers";
+} from "./providers";
 
 import styles from "./main.module.scss";
 

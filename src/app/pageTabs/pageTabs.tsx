@@ -10,30 +10,20 @@ import styles from "./pageTabs.module.scss";
 export const PageTabs = memo(function PageTabs() {
   const { pathname } = useLocation();
 
+  const tabNames = ["Trending", "Saved", "Search"];
   return (
     <Box className={styles["tabs-container"]}>
       <Tabs value={pathname !== "/" ? pathname : false} variant="fullWidth">
-        <Tab
-          label="Trending"
-          component={Link}
-          to="/trending"
-          value="/trending"
-          data-testid="trending-tab"
-        />
-        <Tab
-          label="Saved"
-          component={Link}
-          to="/saved"
-          value="/saved"
-          data-testid="saved-tab"
-        />
-        <Tab
-          label="Search"
-          component={Link}
-          to="/search"
-          value="/search"
-          data-testid="search-tab"
-        />
+        {tabNames.map((name) => (
+          <Tab
+            label={name}
+            component={Link}
+            to={`/${name.toLowerCase()}`}
+            value={`/${name.toLowerCase()}`}
+            data-testid={`${name.toLowerCase()}-tab`}
+            key={name}
+          />
+        ))}
       </Tabs>
     </Box>
   );

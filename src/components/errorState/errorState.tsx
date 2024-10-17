@@ -3,9 +3,6 @@ import { Box, Button, Typography } from "@mui/material";
 
 import styles from "./errorState.module.scss";
 
-/**
- * Simple error state component that currently just shows a supplied message
- */
 export const ErrorState = memo(function ErrorState({
   error,
 }: {

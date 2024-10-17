@@ -11,13 +11,6 @@ import {
   getMockSearchProvider,
   mockSetSearchTerm,
 } from "@app/test";
-import { useAutoComplete } from "@app/features/search/hooks";
-import { UseQueryResult } from "@tanstack/react-query";
-
-vi.mock("@app/features/search/hooks/useAutoComplete");
-vi.mocked(useAutoComplete).mockReturnValue({
-  data: ["hell", "hello"],
-} as unknown as UseQueryResult<string[], Error>);
 
 const mockedUseNavigate = vi.fn();
 vi.mock("@tanstack/react-router", async () => {

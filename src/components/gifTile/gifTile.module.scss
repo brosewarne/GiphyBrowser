@@ -7,12 +7,12 @@
 }
 
 .gif-title-container {
-  min-height: calc($spacing * 7.5);
+  min-height: getSize(7.5);
 }
 
 .gif-image {
-  width: calc($spacing * 25);
-  height: calc($spacing * 18.75);
+  width: getSize(25);
+  height: getSize(18.75);
 }
 
 .save-button-container {

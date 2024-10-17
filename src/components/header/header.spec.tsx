@@ -7,13 +7,6 @@ import { vi } from "vitest";
 import { Header } from "./header";
 
 import { getMockRouterProvider, getMockSearchProvider } from "@app/test";
-import { useAutoComplete } from "@app/features/search/hooks/useAutoComplete";
-import { UseQueryResult } from "@tanstack/react-query";
-
-vi.mock("@app/features/search/hooks/useAutoComplete");
-vi.mocked(useAutoComplete).mockReturnValue({
-  data: ["hell", "hello"],
-} as unknown as UseQueryResult<string[], Error>);
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   const router = getMockRouterProvider({ children });

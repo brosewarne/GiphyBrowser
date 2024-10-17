@@ -8,9 +8,6 @@ import { GifTile } from "../gifTile";
 
 import styles from "./gifGrid.module.scss";
 
-/**
- *  Simple presentational component for showing the loaded Gifs in a grid
- */
 export const GifGrid = memo(function GifGrid({
   gifData,
 }: {

@@ -1,5 +1,6 @@
 export * from "./errorState";
 export * from "./gifGrid";
+export * from "./gifModal";
 export * from "./gifTile";
 export * from "./header";
 export * from "./loadingGrid";

@@ -1,10 +1,10 @@
 import * as React from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 
 import { PageTabs } from "./pageTabs";
 import { getMockRouterProvider } from "@app/test";
-import { useNavigate } from "@tanstack/react-router";
 
 describe("PageTabs", () => {
   describe("renders the PageTabs component", () => {
