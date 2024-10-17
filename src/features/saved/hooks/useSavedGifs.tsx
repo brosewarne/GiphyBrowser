@@ -7,16 +7,16 @@ import axios, { AxiosResponse } from "axios";
 
 import { GiphyResponse, PagedQueryResult } from "@app/models";
 import { ConfigContext } from "@app/app/providers";
-import { addUniqueId } from "@app/utils";
+import { addUniqueId, SavedGiphyGif } from "@app/utils";
 
 const fetchSavedGifs = async (
   baseUrl: string,
   apiKey: string,
-  gifIds: string[],
+  savedGifs: SavedGiphyGif[],
   limit: number,
   offset: number,
 ): Promise<GiphyResponse> => {
-  if (!gifIds.length) {
+  if (!savedGifs.length) {
     return {
       data: [],
       pagination: { offset: 0, count: 0, total_count: 0 },
@@ -24,6 +24,7 @@ const fetchSavedGifs = async (
     };
   }
 
+  const gifIds = savedGifs.map((item) => item.giphyId).reverse()
   // simple pagination functionality as the `gifs` EP doesn't support pagination
   const pagedGifIds = gifIds.slice(offset, offset + limit);
 
@@ -52,13 +53,13 @@ const fetchSavedGifs = async (
  *
  */
 export function useSavedGifs({
-  gifIds,
+  savedGifs,
 }: {
-  gifIds: string[];
+  savedGifs: SavedGiphyGif[];
 }): UseSuspenseInfiniteQueryResult<PagedQueryResult> {
   const { apiKey, baseUrl, numberOfItems } = useContext(ConfigContext);
   return useSuspenseInfiniteQuery({
-    queryKey: ["savedGifs", gifIds],
+    queryKey: ["savedGifs", savedGifs],
     queryFn: async ({
       pageParam,
     }: {
@@ -67,7 +68,7 @@ export function useSavedGifs({
       fetchSavedGifs(
         baseUrl,
         apiKey,
-        gifIds,
+        savedGifs,
         numberOfItems,
         pageParam * numberOfItems,
       ),

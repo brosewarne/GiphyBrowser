@@ -42,7 +42,10 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
     <SavedContext.Provider
       value={{
         savedGifsState: {
-          savedGifs: ["1234", "5678"],
+          savedGifs: [
+            { giphyId: "1234", id: 0 },
+            { giphyId: "5678", id: 1 },
+          ],
           savedGifsLoaded: true,
           addSavedGif: mockAddSavedGif,
           removeSavedGif: mockRemoveSavedGif,

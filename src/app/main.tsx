@@ -9,7 +9,6 @@ const router = createRouter({
   defaultPreload: "intent",
 });
 
-// Render the app
 const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
   const root = createRoot(rootElement);

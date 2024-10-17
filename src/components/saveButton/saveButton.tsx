@@ -1,12 +1,8 @@
 import React, { useState, memo, useContext, useCallback } from "react";
-import { useLiveQuery } from "dexie-react-hooks";
-
 import { motion } from "framer-motion";
 
-import { IconButton, Snackbar }  from "@mui/material";
+import { IconButton, Snackbar } from "@mui/material";
 import ThumbUp from "@mui/icons-material/ThumbUp";
-
-import { savedItemsdb } from "@app/utils";
 import { SavedContext } from "@app/app/providers";
 
 /**
@@ -24,14 +20,7 @@ export const SaveButton = memo(function SaveButton({
     savedGifsState: { savedGifs, addSavedGif, removeSavedGif },
   } = useContext(SavedContext);
 
-  const isSaved = savedGifs?.includes(gifId);
-
-  const savedItem = useLiveQuery(async () => {
-    if (!isSaved) {
-      return null;
-    }
-    return (await savedItemsdb.savedGifs.where("giphyId").equals(gifId).toArray())[0];
-  }, [gifId]);
+  const savedItem = savedGifs?.find((savedGif) => savedGif.giphyId === gifId);
 
   const updateSavedGifs = async () => {
     try {
@@ -43,7 +32,7 @@ export const SaveButton = memo(function SaveButton({
         addSavedGif?.mutate(gifId);
       }
 
-      setSnackbarMessage(!isSaved ? "Gif Saved" : "Gif Removed");
+      setSnackbarMessage(!savedItem ? "Gif Saved" : "Gif Removed");
       setShowSnackbar(true);
     } catch (error) {
       console.error(error);
@@ -63,7 +52,7 @@ export const SaveButton = memo(function SaveButton({
           transition: { duration: 1 },
         }}
       >
-        <ThumbUp color={isSaved ? "primary" : "action"}></ThumbUp>
+        <ThumbUp color={savedItem ? "primary" : "action"}></ThumbUp>
       </IconButton>
 
       <Snackbar

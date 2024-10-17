@@ -24,5 +24,7 @@
     },
     "rootDir": ".",
     "outDir": "./dist"
-  }
+  },
+  "include": ["**/*.ts", "**/*.tsx", "./vitest.setup.ts", "./vite.config.ts"],
+  "exclude": ["node_modules"]
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   Box,
   Dialog,
@@ -14,7 +14,7 @@ import styles from "./gifModal.module.scss";
 import { SaveButton } from "@app/components";
 import { GiphyGif } from "@app/models";
 
-export function GifModal({
+export const GifModal = memo(function GifModal({
   open,
   gifData,
   handleClose,
@@ -50,4 +50,4 @@ export function GifModal({
       </Box>
     </Dialog>
   );
-}
+})

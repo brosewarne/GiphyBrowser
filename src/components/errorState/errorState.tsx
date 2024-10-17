@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 import styles from "./errorState.module.scss";
 

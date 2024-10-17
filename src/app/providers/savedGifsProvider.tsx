@@ -1,11 +1,11 @@
 import React, { ReactNode, createContext, useState } from "react";
 
 import { useSavedGifIds } from "./useSavedGifIds";
-import { savedItemsdb } from "@app/utils";
+import { SavedGiphyGif, savedItemsdb } from "@app/utils";
 import { useMutation, UseMutationResult } from "@tanstack/react-query";
 
 interface SavedGifsState {
-  savedGifs: string[] | undefined;
+  savedGifs: SavedGiphyGif[] | undefined;
   savedGifsLoaded: boolean | undefined;
   addSavedGif: UseMutationResult<number, Error, string, unknown> | null;
   removeSavedGif: UseMutationResult<void, Error, number, unknown> | null;

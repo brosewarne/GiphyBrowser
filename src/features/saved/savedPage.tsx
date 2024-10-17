@@ -22,7 +22,7 @@ export const SavedPage = memo(function SavedPage() {
   const { savedGifs, savedGifsLoaded } = savedGifsState;
   const { data, isFetchingNextPage, fetchNextPage, hasNextPage } = useSavedGifs(
     {
-      gifIds: savedGifs ?? [],
+      savedGifs: savedGifs ?? [],
     },
   );
 
