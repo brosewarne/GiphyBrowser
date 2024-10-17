@@ -10,7 +10,7 @@ import {
 } from "@tanstack/react-query";
 
 import { SearchPage } from "./searchPage";
-import { useSearchGifs, useAutoComplete } from "./hooks";
+import { useSearchGifs } from "./hooks";
 import { PagedQueryResult } from "@app/models";
 
 import {
@@ -21,7 +21,6 @@ import {
 } from "@app/test";
 
 vi.mock("./hooks/useSearchGifs");
-vi.mock("./hooks/useAutoComplete");
 
 const setMockUseSearchGifs = ({
   status,
@@ -50,10 +49,6 @@ const setMockUseSearchGifs = ({
     error,
     status,
   } as UseSuspenseInfiniteQueryResult<PagedQueryResult>);
-
-  vi.mocked(useAutoComplete).mockReturnValue({
-    data: ["hell", "hello"],
-  } as unknown as UseQueryResult<string[], Error>);
 };
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
