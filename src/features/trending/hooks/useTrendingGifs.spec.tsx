@@ -1,21 +1,14 @@
 import { renderHook, waitFor } from "@testing-library/react";
-import { vi } from "vitest";
 import { useTrendingGifs } from "./useTrendingGifs";
 
-import axios from "axios";
 import { QueryClientWrapper } from "@app/test";
-vi.mock("axios");
+
+import { mockHttpServer } from "@app/test";
+
+mockHttpServer.listen();
 
 describe("useTrendingGifs", () => {
   it("should search gifs based on the searchTerm", async () => {
-    vi.spyOn(axios, "get").mockResolvedValue({
-      data: {
-        data: [{ id: "1234" }, { id: "5678" }],
-        pagination: { total_count: 2, count: 2, offset: 0 },
-        meta: { response_id: "1234" },
-      },
-    });
-
     const { result } = renderHook(useTrendingGifs, {
       initialProps: {},
       wrapper: QueryClientWrapper,

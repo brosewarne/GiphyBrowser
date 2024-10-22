@@ -9,8 +9,6 @@ import { PagedQueryResult } from "@app/models";
 import { getMockGifData } from "@app/test";
 
 vi.mock("./hooks/useSavedGifs");
-vi.mock("./hooks/useAutoComplete");
-
 vi.mock("dexie-react-hooks");
 const dexie = await import("dexie-react-hooks");
 dexie.useLiveQuery = vi.fn().mockReturnValue([["1234", "5678"], true]);

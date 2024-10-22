@@ -2,7 +2,10 @@ import * as React from "react";
 import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 import { vi } from "vitest";
-import { DefaultError, UseSuspenseInfiniteQueryResult } from "@tanstack/react-query";
+import {
+  DefaultError,
+  UseSuspenseInfiniteQueryResult,
+} from "@tanstack/react-query";
 
 import { TrendingPage } from "./trendingPage";
 import { useTrendingGifs } from "./hooks";

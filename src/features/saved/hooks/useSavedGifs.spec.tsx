@@ -1,22 +1,13 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { useSavedGifs } from "./useSavedGifs";
-import { vi } from "vitest";
-import axios from "axios";
 
 import { QueryClientWrapper } from "@app/test";
-vi.mock("axios");
+import { mockHttpServer } from "@app/test";
+mockHttpServer.listen();
 
 describe("useSavedGifs", () => {
   describe("when gifIds are provided", () => {
     it("should call Giphy for the saved gifs", async () => {
-      vi.spyOn(axios, "get").mockResolvedValue({
-        data: {
-          data: [{ id: "1234" }, { id: "5678" }],
-          pagination: { total_count: 2, count: 2 },
-          meta: { response_id: "1234" },
-        },
-      });
-
       const { result } = renderHook(useSavedGifs, {
         initialProps: {
           savedGifs: [
