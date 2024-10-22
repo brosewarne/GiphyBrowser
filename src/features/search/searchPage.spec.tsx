@@ -5,7 +5,6 @@ import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import {
   DefaultError,
-  UseQueryResult,
   UseSuspenseInfiniteQueryResult,
 } from "@tanstack/react-query";
 

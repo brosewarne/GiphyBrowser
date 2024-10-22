@@ -11,8 +11,6 @@ import {
   SearchBar,
 } from "@app/components";
 
-import styles from "./search.module.scss";
-
 /**
  * The Search Gifs page. Shows a search bar and any search results in a Gif Grid
  */
@@ -33,7 +31,7 @@ export const SearchPage = memo(function SearchPage() {
 
   const allItems = pages.map((p) => p.data).flat();
   return (
-    <Box className={styles["page-container"]}>
+    <Box display="flex" alignItems="center" flexDirection="column">
       {/* include the searchTerm in the key so the SearchBar is recreated when the searchTerm changes, 
             allowing it to reflect the searchTerm if it was set from a different component */}
       <SearchBar key={`searchPageSearchBar-${searchTerm}`}></SearchBar>

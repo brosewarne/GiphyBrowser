@@ -18,7 +18,12 @@ describe("useSavedGifs", () => {
       });
 
       const { result } = renderHook(useSavedGifs, {
-        initialProps: { gifIds: ["1234", "5678"] },
+        initialProps: {
+          savedGifs: [
+            { giphyId: "1234", id: 0 },
+            { giphyId: "5678", id: 0 },
+          ],
+        },
         wrapper: QueryClientWrapper,
       });
       await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
@@ -44,7 +49,7 @@ describe("useSavedGifs", () => {
   describe("when gifIds are not provided", () => {
     test("should return default data", async () => {
       const { result } = renderHook(useSavedGifs, {
-        initialProps: { gifIds: [] },
+        initialProps: { savedGifs: [] },
         wrapper: QueryClientWrapper,
       });
       await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
